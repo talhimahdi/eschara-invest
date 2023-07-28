@@ -33,7 +33,7 @@ function UserInfo({ formData }) {
             color: colors.escharaThemePrimary.main,
           }}
         >
-          Let's start with the basic information
+          Let&apos;s start with the basic information
         </MDTypography>
       </MDBox>
       <MDBox mt={1.625} px={"20%"}>

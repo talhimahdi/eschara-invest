@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
     <MaterialUIControllerProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Main children={children} />
+        <Main>{children}</Main>
       </ThemeProvider>
     </MaterialUIControllerProvider>
   );
