@@ -24,7 +24,7 @@ import MDBox from "/components/MDBox";
 import MDTypography from "/components/MDTypography";
 
 // NewUser page components
-import FormField from "/pagesComponents/pages/users/new-user/components/FormField";
+import FormField from "../FormField";
 
 function Profile({ formData }) {
   const { formField, values } = formData;

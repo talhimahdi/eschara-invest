@@ -25,9 +25,9 @@ import Socials from "./Socials";
 import Profile from "./Profile";
 
 // NewUser layout schemas for form and form feilds
-import validations from "/pagesComponents/pages/users/new-user/schemas/validations";
-import form from "/pagesComponents/pages/users/new-user/schemas/form";
-import initialValues from "/pagesComponents/pages/users/new-user/schemas/initialValues";
+import validations from "./schemas/validations";
+import form from "./schemas/form";
+import initialValues from "./schemas/initialValues";
 
 function getSteps() {
   return ["Informations", "Terms and conditions", "Signature"];

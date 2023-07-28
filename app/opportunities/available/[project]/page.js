@@ -371,6 +371,7 @@ function Project() {
                 },
                 "&:focus:not(:hover)": {
                   backgroundColor: colors.escharaThemeSecondary.main,
+                  boxShadow: "none",
                 },
               }}
             >
@@ -551,6 +552,7 @@ function Project() {
                 },
                 "&:focus:not(:hover)": {
                   backgroundColor: colors.escharaThemeSecondary.main,
+                  boxShadow: "none",
                 },
               }}
             >
@@ -906,7 +908,9 @@ function Project() {
           </Stack>
         </MDBox> */}
       </MDBox>
-      <MDBox>{/* <NewUser /> */}</MDBox>
+      <MDBox>
+        <NewUser />
+      </MDBox>
     </DashboardLayout>
   );
 }

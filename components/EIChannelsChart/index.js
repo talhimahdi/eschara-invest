@@ -29,7 +29,7 @@ function EIChannelsChart() {
           <Grid item xs={5}>
             <MDBox pr={1}>
               {channelChartData.labels.map((item, i) => (
-                <MDBox mb={1}>
+                <MDBox key={i} mb={1}>
                   <MDBadgeDot
                     color={channelChartData.datasets.backgroundColors[i].main}
                     size="sm"

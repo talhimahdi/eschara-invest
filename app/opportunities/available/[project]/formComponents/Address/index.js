@@ -26,7 +26,7 @@ import MDTypography from "/components/MDTypography";
 import MDInput from "/components/MDInput";
 
 // NewUser page components
-import FormField from "/pagesComponents/pages/users/new-user/components/FormField";
+import FormField from "../FormField";
 
 function Address({ formData }) {
   const { formField, values, errors, touched } = formData;
