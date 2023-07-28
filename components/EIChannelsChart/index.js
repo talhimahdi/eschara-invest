@@ -2,7 +2,6 @@ import colors from "/assets/theme/base/colors";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Tooltip from "@mui/material/Tooltip";
 import Icon from "@mui/material/Icon";
 import Grid from "@mui/material/Grid";
 
@@ -14,7 +13,7 @@ import MDBadgeDot from "/components/MDBadgeDot";
 import PieChart from "/examples/Charts/PieChart";
 
 // Data
-import channelChartData from "/pagesComponents/dashboards/sales/components/ChannelsChart/data";
+import channelChartData from "./data";
 
 // NextJS Material Dashboard 2 PRO contexts
 import { useMaterialUIController } from "/context";
@@ -29,34 +28,15 @@ function EIChannelsChart() {
           </Grid>
           <Grid item xs={5}>
             <MDBox pr={1}>
-              <MDBox mb={1}>
-                <MDBadgeDot
-                  color={colors.purple100.main}
-                  size="sm"
-                  badgeContent="Facebook"
-                />
-              </MDBox>
-              <MDBox mb={1}>
-                <MDBadgeDot
-                  color={colors.purple200.main}
-                  size="sm"
-                  badgeContent="Direct"
-                />
-              </MDBox>
-              <MDBox mb={1}>
-                <MDBadgeDot
-                  color={colors.purple300.main}
-                  size="sm"
-                  badgeContent="Organic"
-                />
-              </MDBox>
-              <MDBox mb={1}>
-                <MDBadgeDot
-                  color={colors.escharaThemePrimary.main}
-                  size="sm"
-                  badgeContent="Referral"
-                />
-              </MDBox>
+              {channelChartData.labels.map((item, i) => (
+                <MDBox mb={1}>
+                  <MDBadgeDot
+                    color={channelChartData.datasets.backgroundColors[i].main}
+                    size="sm"
+                    badgeContent={item}
+                  />
+                </MDBox>
+              ))}
             </MDBox>
           </Grid>
         </Grid>

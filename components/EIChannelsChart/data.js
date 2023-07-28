@@ -1,7 +1,12 @@
 import colors from "/assets/theme/base/colors";
 
 const channelChartData = {
-  labels: ["Facebook", "Direct", "Organic", "Referral"],
+  labels: [
+    "Lorem Ipsum 01",
+    "Lorem Ipsum 02",
+    "Lorem Ipsum 03",
+    "Lorem Ipsum 04",
+  ],
   datasets: {
     label: "Projects",
     backgroundColors: [
