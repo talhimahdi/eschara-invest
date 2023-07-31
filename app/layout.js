@@ -38,6 +38,7 @@ export default function RootLayout({ children }) {
 import favicon from "/assets/images/favicon.png";
 import appleIcon from "/assets/images/apple-icon.png";
 import brand from "/public/images/logo/logo-white.svg";
+import MobileNavBar from "./components/MobileNavBar";
 // import brandDark from "/assets/images/logo-ct-dark.png";
 
 function Main({ children }) {
@@ -143,6 +144,7 @@ function Main({ children }) {
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
         />
+        <MobileNavBar />
       </body>
     </html>
   );

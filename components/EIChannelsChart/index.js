@@ -1,7 +1,10 @@
-import colors from "/assets/theme/base/colors";
+"use client";
+
+import colors from "../../assets/theme/base/colors";
 
 // @mui material components
 import Card from "@mui/material/Card";
+import Tooltip from "@mui/material/Tooltip";
 import Icon from "@mui/material/Icon";
 import Grid from "@mui/material/Grid";
 
@@ -28,15 +31,32 @@ function EIChannelsChart() {
           </Grid>
           <Grid item xs={5}>
             <MDBox pr={1}>
-              {channelChartData.labels.map((item, i) => (
-                <MDBox key={i} mb={1}>
-                  <MDBadgeDot
-                    color={channelChartData.datasets.backgroundColors[i].main}
-                    size="sm"
-                    badgeContent={item}
-                  />
-                </MDBox>
-              ))}
+              {channelChartData.labels.map((item, i) => {
+                return (
+                  <MDBox key={i}>
+                    <MDBadgeDot
+                      color={
+                        colors[channelChartData.datasets.backgroundColors[i]]
+                          .main
+                      }
+                      sx={{
+                        "& i": { width: 10, height: 10 },
+                        "& .MuiTypography-root": {
+                          color:
+                            colors[
+                              channelChartData.datasets.backgroundColors[i]
+                            ].main,
+                          lineHeight: "15px",
+                        },
+
+                        // backgroundColor: "red",
+                        p: "5px",
+                      }}
+                      badgeContent={item}
+                    />
+                  </MDBox>
+                );
+              })}
             </MDBox>
           </Grid>
         </Grid>

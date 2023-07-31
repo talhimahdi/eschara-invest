@@ -111,30 +111,6 @@ function Overview() {
       location: "Barcelona",
       state: "Available",
     },
-    {
-      image: booking1,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking2,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
   ];
 
   return (

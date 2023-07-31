@@ -18,8 +18,6 @@ import {
   TableContainer,
   TableBody,
   TableHead,
-  Box,
-  Stack,
 } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
@@ -40,23 +38,10 @@ import NewUser from "./formComponents";
 function Project() {
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [tabValue, setTabValue] = useState(0);
-  const [value, setValue] = useState(0);
 
-  const handleChange = (event, value) => {
-    setValue(value);
-  };
-
-  const [currentImage, setCurrentImage] = useState(project_4_slide);
   const [imgsViewer, setImgsViewer] = useState(false);
   const [imgsViewerCurrent, setImgsViewerCurrent] = useState(0);
-
-  const handleSetCurrentImage = ({ currentTarget }) => {
-    setCurrentImage(
-      currentTarget.firstChild.src.replace("http://localhost:3000/", "/")
-    );
-
-    setImgsViewerCurrent(Number(currentTarget.id));
-  };
+  const [showAcceptForm, setShowAcceptForm] = useState(false);
 
   const openImgsViewer = () => setImgsViewer(true);
   const closeImgsViewer = () => setImgsViewer(false);
@@ -359,6 +344,7 @@ function Project() {
             }}
           >
             <MDButton
+              onClick={setShowAcceptForm}
               variant="contained"
               sx={{
                 px: 10,
@@ -540,6 +526,7 @@ function Project() {
             }}
           >
             <MDButton
+              onClick={setShowAcceptForm}
               variant="contained"
               sx={{
                 px: 10,
@@ -762,154 +749,9 @@ function Project() {
           onClickNext={imgsViewerNext}
           backdropCloseable
         />
-
-        {/* <MDBox
-          shadow="lg"
-          borderRadius="lg"
-          width="100%"
-          height="27rem"
-          // onClick={openImgsViewer}
-          overflow="hidden"
-        >
-          <Image
-            //   src={currentImage}
-            alt="Product Image"
-            width={1000}
-            height={1000}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </MDBox>
-        <MDBox mt={2} pt={1}>
-          <Stack direction="row" spacing={3}>
-            <MDBox
-              id={0}
-              position="relative"
-              borderRadius="lg"
-              shadow="md"
-              width="100%"
-              height="5rem"
-              minHeight="5rem"
-              sx={{ cursor: "pointer", objectFit: "cover" }}
-              // onClick={handleSetCurrentImage}
-              overflow="hidden"
-            >
-              <Image
-                src={image1}
-                alt="small image 1"
-                width={250}
-                height={250}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </MDBox>
-            <MDBox
-              id={1}
-              position="relative"
-              borderRadius="lg"
-              shadow="md"
-              width="100%"
-              height="5rem"
-              minHeight="5rem"
-              sx={{ cursor: "pointer", objectFit: "cover" }}
-              // onClick={handleSetCurrentImage}
-              overflow="hidden"
-            >
-              <Image
-                src={image2}
-                alt="small image 2"
-                width={250}
-                height={250}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </MDBox>
-            <MDBox
-              id={2}
-              position="relative"
-              borderRadius="lg"
-              shadow="md"
-              width="100%"
-              height="5rem"
-              minHeight="5rem"
-              sx={{ cursor: "pointer", objectFit: "cover" }}
-              // onClick={handleSetCurrentImage}
-              overflow="hidden"
-            >
-              <Image
-                src={image3}
-                alt="small image 3"
-                width={250}
-                height={250}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </MDBox>
-            <MDBox
-              id={3}
-              position="relative"
-              borderRadius="lg"
-              shadow="md"
-              width="100%"
-              height="5rem"
-              minHeight="5rem"
-              sx={{ cursor: "pointer", objectFit: "cover" }}
-              // onClick={handleSetCurrentImage}
-              overflow="hidden"
-            >
-              <Image
-                src={image4}
-                alt="small image 4"
-                width={250}
-                height={250}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </MDBox>
-            <MDBox
-              id={4}
-              position="relative"
-              borderRadius="lg"
-              shadow="md"
-              width="100%"
-              height="5rem"
-              minHeight="5rem"
-              sx={{ cursor: "pointer", objectFit: "cover" }}
-              // onClick={handleSetCurrentImage}
-              overflow="hidden"
-            >
-              <Image
-                src={image5}
-                alt="small image 5"
-                width={250}
-                height={250}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </MDBox>
-          </Stack>
-        </MDBox> */}
       </MDBox>
       <MDBox>
-        <NewUser />
+        <NewUser isOpen={showAcceptForm} setIsOpen={setShowAcceptForm} />
       </MDBox>
     </DashboardLayout>
   );

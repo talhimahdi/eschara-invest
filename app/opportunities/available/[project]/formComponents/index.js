@@ -22,12 +22,12 @@ import MDButton from "/components/MDButton";
 import UserInfo from "./UserInfo";
 import Address from "./Address";
 import Socials from "./Socials";
-import Profile from "./Profile";
 
 // NewUser layout schemas for form and form feilds
 import validations from "./schemas/validations";
 import form from "./schemas/form";
 import initialValues from "./schemas/initialValues";
+import CloseIcon from "@mui/icons-material/Close";
 
 function getSteps() {
   return ["Informations", "Terms and conditions", "Signature"];
@@ -46,12 +46,16 @@ function getStepContent(stepIndex, formData) {
   }
 }
 
-function NewUser() {
+function NewUser({ isOpen, setIsOpen }) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const { formId, formField } = form;
   const currentValidation = validations[activeStep];
   const isLastStep = activeStep === steps.length - 1;
+
+  const closeForm = () => {
+    setIsOpen(false);
+  };
 
   const sleep = (ms) =>
     new Promise((resolve) => {
@@ -72,14 +76,13 @@ function NewUser() {
   };
 
   const handleSubmit = (values, actions) => {
-    console.log("test");
-    if (isLastStep) {
-      submitForm(values, actions);
-    } else {
-      setActiveStep(activeStep + 1);
-      actions.setTouched({});
-      actions.setSubmitting(false);
-    }
+    // if (isLastStep) {
+    //   submitForm(values, actions);
+    // } else {
+    //   setActiveStep(activeStep + 1);
+    //   actions.setTouched({});
+    //   actions.setSubmitting(false);
+    // }
   };
 
   return (
@@ -87,6 +90,7 @@ function NewUser() {
       // py={3}
       // mb={20}
       sx={{
+        display: () => (isOpen ? "block" : "none"),
         zIndex: 10,
         height: "100vh",
         width: "100%",
@@ -107,7 +111,20 @@ function NewUser() {
         alignItems="center"
         sx={{ height: "100%" /*mt: 8*/ }}
       >
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} lg={8} gap={2}>
+          <MDBox
+            onClick={closeForm}
+            sx={{
+              display: "flex",
+              mb: 3,
+              justifyContent: "end",
+              fontSize: 30,
+              color: "#000",
+              cursor: "pointer",
+            }}
+          >
+            <CloseIcon />
+          </MDBox>
           <Formik
             initialValues={initialValues}
             validationSchema={currentValidation}

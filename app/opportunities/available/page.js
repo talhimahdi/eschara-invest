@@ -18,7 +18,7 @@ import booking2 from "/assets/images/projects/project-2-min.png";
 import booking3 from "/assets/images/projects/project-3-min.png";
 import booking4 from "/assets/images/projects/project-4-min.png";
 
-import EIProjectCardWitte from "../../../components/EIProjectCardWhite";
+import EIProjectCardWhite from "../../../components/EIProjectCardWhite";
 import MDButton from "../../../components/MDButton";
 import MDTypography from "../../../components/MDTypography";
 
@@ -341,62 +341,6 @@ function Available() {
                 >
                   VIEW
                 </MDButton>
-                {/* <MDButton
-                  disableElevation
-                  disableRipple
-                  variant="contained"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                    },
-
-                    "&:focus:not(:hover)": {
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                    },
-                    backgroundColor: colors.escharaThemeSecondary.main,
-                    color: colors.white.main,
-                    px: 5,
-                  }}
-                >
-                  SEE MORE
-                  <Icon
-                    fontSize="medium"
-                    color="inherit"
-                    sx={{
-                      ml: 1,
-                    }}
-                  >
-                    east
-                  </Icon>
-                </MDButton>
-                <MDButton
-                  disableElevation
-                  disableRipple
-                  variant="outlined"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                    },
-
-                    "&:focus:not(:hover)": {
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                    },
-                    backgroundColor: colors.escharaThemeSecondary.main,
-                    color: colors.white.main,
-                    px: 5,
-                  }}
-                >
-                  SEE MORE
-                  <Icon
-                    fontSize="medium"
-                    color="inherit"
-                    sx={{
-                      ml: 1,
-                    }}
-                  >
-                    east
-                  </Icon>
-                </MDButton> */}
               </MDBox>
             </MDBox>
           )}
@@ -449,130 +393,13 @@ function Available() {
           </MDBox>
         </Grid>
       </Grid>
-      {/* <MDBox mb={5}>
-        <MDBox
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          md={12}
-        >
-          <MDBox display="flex" py={3} gap={2}>
-            <MDTypography
-              fontWeight="bold"
-              textTransform="capitalize"
-              variant="h5"
-              color={"dark"}
-              noWrap
-            >
-              Available opportunities
-            </MDTypography>
-          </MDBox>
-          <MDBox display="flex" py={3} gap={2}>
-            <Autocomplete
-              options={selectData.countries}
-              sx={{
-                width: { sm: 150 },
-                "& .MuiOutlinedInput-root": {
-                  pb: 0,
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  border: "1px solid #10123F",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Country" />
-              )}
-            />
-            <Autocomplete
-              options={selectData.typologies}
-              sx={{
-                width: { sm: 150 },
-                "& .MuiOutlinedInput-root": {
-                  pb: 0,
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  border: "1px solid #10123F",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Country"
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "#FFFFFF" },
-                    }}
-                  />
-              )}
-            />
-            <Autocomplete
-              options={selectData.surfaces}
-              sx={{
-                width: { sm: 150 },
-                "& .MuiOutlinedInput-root": {
-                  pb: 0,
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  border: "1px solid #10123F",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Surface area" />
-              )}
-            />
-          </MDBox>
-        </MDBox>
-        <MDBox>
-          <Autocomplete
-            options={selectData.countries}
-            sx={{
-              width: { sm: 150 },
-              "& .MuiOutlinedInput-root": {
-                pb: 0,
-              },
-              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                border: "1px solid #10123F",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} label="Country" />}
-          />
-          <Autocomplete
-            options={selectData.typologies}
-            sx={{
-              width: { xs: 150 },
-              "& .MuiOutlinedInput-root": {
-                pb: 0,
-              },
-              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                border: "1px solid #10123F",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} label="Typology" />}
-          />
-          <Autocomplete
-            options={selectData.surfaces}
-            sx={{
-              width: { sm: 150 },
-              "& .MuiOutlinedInput-root": {
-                pb: 0,
-              },
-              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                border: "1px solid #10123F",
-              },
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Surface area" />
-            )}
-          />
-        </MDBox>
-      </MDBox> */}
 
       <MDBox>
         <Grid container spacing={3}>
           {projects.map((project, key) => (
             <Grid key={key} item xs={12} md={6} lg={4}>
-              <MDBox onClick={() => redirect("/opportunities/available/azert")}>
-                <EIProjectCardWitte
+              <MDBox>
+                <EIProjectCardWhite
                   image={project.image}
                   title={project.title}
                   details={project.details}
@@ -580,13 +407,6 @@ function Available() {
                   location={project.location}
                   state={project.state}
                 />
-                {/* <ComplexProjectCard
-              image={logoSlack}
-              title="slack bot"
-              description="If everything I did failed - which it doesn't, I think that it actually succeeds."
-              dateTime="02.03.22"
-              members={[team1, team2, team3, team4, team5]}
-            /> */}
               </MDBox>
             </Grid>
           ))}

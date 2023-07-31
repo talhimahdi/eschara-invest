@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -13,6 +16,8 @@ import MDTypography from "/components/MDTypography";
 import { Grid, Icon, Card, Divider } from "@mui/material";
 
 function EIProjectCardWhite({ image, title, location, details, tags, state }) {
+  const router = useRouter();
+
   return (
     <Card
       sx={{
@@ -21,7 +26,13 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
         backgroundColor: colors.white.main,
       }}
     >
-      <MDBox position="relative" className="card-header">
+      <MDBox
+        position="relative"
+        className="card-header"
+        onClick={() => {
+          router.push("/opportunities/available/azertyu");
+        }}
+      >
         <Grid container position="absolute">
           <Grid item xs={5}>
             <MDBox
@@ -105,46 +116,22 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
           {title}
         </MDTypography>
         <MDBox display="flex" mt={1}>
-          <MDTypography
-            borderRadius={0.5}
-            px={1}
-            mr={2}
-            fontWeight="light"
-            sx={{
-              fontSize: 12,
-              backgroundColor: colors.grey[100],
-              color: colors.black.main,
-            }}
-          >
-            Tag 1
-          </MDTypography>
-          <MDTypography
-            borderRadius={0.5}
-            px={1}
-            mr={2}
-            fontWeight="light"
-            sx={{
-              fontSize: 12,
-              backgroundColor: colors.grey[100],
-              color: colors.black.main,
-            }}
-          >
-            Tag 2
-          </MDTypography>
-
-          <MDTypography
-            borderRadius={0.5}
-            px={1}
-            mr={2}
-            fontWeight="light"
-            sx={{
-              fontSize: 12,
-              backgroundColor: colors.grey[100],
-              color: colors.black.main,
-            }}
-          >
-            Tag 3
-          </MDTypography>
+          {tags.map((tag, i) => (
+            <MDTypography
+              key={i}
+              borderRadius={0.5}
+              px={1}
+              mr={2}
+              fontWeight="light"
+              sx={{
+                fontSize: 12,
+                backgroundColor: colors.grey[100],
+                color: colors.black.main,
+              }}
+            >
+              {tag}
+            </MDTypography>
+          ))}
         </MDBox>
         <MDBox mt={3} mb={2}>
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
@@ -163,7 +150,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
                 fontSize: 14,
               }}
             >
-              324 000€
+              {details.Income}
             </MDTypography>
           </MDBox>
           <Divider sx={{ borderStyle: "dashed" }} />
@@ -183,7 +170,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
                 fontSize: 14,
               }}
             >
-              28 000€
+              {details.Coast}
             </MDTypography>
           </MDBox>
           <Divider sx={{ borderStyle: "dashed" }} />
@@ -203,7 +190,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
                 fontSize: 14,
               }}
             >
-              296 000€
+              {details.NOI}
             </MDTypography>
           </MDBox>
         </MDBox>

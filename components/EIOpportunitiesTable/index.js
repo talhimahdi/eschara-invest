@@ -21,7 +21,7 @@ export default function EIOpportunitiesTable({ rows }) {
         bgColor={colors.escharaThemeStatusColors[statusColor]}
         color="white"
         textAlign="center"
-        sx={{ borderRadius: 1 }}
+        sx={{ paddingY: 0.5, paddingX: 1, borderRadius: 1 }}
       >
         {"status"}
       </MDBox>
@@ -44,8 +44,34 @@ export default function EIOpportunitiesTable({ rows }) {
             <TableCell sx={{ fontWeight: "bold", fontSize: 13, paddingY: 2 }}>
               Typology
             </TableCell>
-            <TableCell sx={{ fontWeight: "bold", fontSize: 13, paddingY: 2 }}>
-              Status
+            <TableCell
+              sx={{
+                fontWeight: "bold",
+                fontSize: 13,
+                p: 0,
+
+                height: "1px",
+
+                position: "sticky",
+                right: 0,
+                border: 0,
+              }}
+            >
+              <MDBox
+                sx={{
+                  boxShadow: 1,
+                  width: "100%",
+                  height: "100%",
+                  fontSize: 12,
+                  padding: 1,
+                  backgroundColor: "#FFFFFF",
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                }}
+              >
+                Status
+              </MDBox>
             </TableCell>
           </TableRow>
           {rows.map((row, key) => (
@@ -63,8 +89,29 @@ export default function EIOpportunitiesTable({ rows }) {
               <TableCell sx={{ fontSize: 12, paddingY: 3 }}>
                 {row.typology}
               </TableCell>
-              <TableCell sx={{ fontSize: 12, paddingY: 3 }}>
-                {renderStatus(row.status)}
+              <TableCell
+                sx={{
+                  height: "1px",
+                  p: 0,
+                  position: "sticky",
+                  right: 0,
+                  border: 0,
+                }}
+              >
+                <MDBox
+                  sx={{
+                    boxShadow: 1,
+                    height: "100%",
+                    fontSize: 12,
+                    padding: 1,
+                    backgroundColor: "#FFFFFF",
+                    display: "flex",
+                    justifyContent: "end",
+                    alignItems: "center",
+                  }}
+                >
+                  {renderStatus(row.status)}
+                </MDBox>
               </TableCell>
             </TableRow>
           ))}
