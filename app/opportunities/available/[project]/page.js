@@ -366,7 +366,7 @@ function Project() {
           </Grid>
         </Grid>
         <Grid item container spacing={2}>
-          <Grid item xs={12} md={7} order={{ xs: 2, md: 1 }}>
+          <Grid item xs={12} md={7} order={{ xs: 2, md: 1 }} sx={{ mb: 10 }}>
             <Card
               sx={{
                 paddingX: 3,
@@ -518,7 +518,7 @@ function Project() {
               position: "fixed",
               width: "100vw",
               zIndex: 10,
-              bottom: 25,
+              bottom: 110,
               display: { xs: "flex", md: "none" },
               // alignItems: "center",
               justifyContent: "center",
