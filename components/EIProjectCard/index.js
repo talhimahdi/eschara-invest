@@ -176,7 +176,7 @@ function EIProjectCard({ image, title, location, details, tags, state }) {
               324 000€
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed" }} />
+          <Divider sx={{ borderStyle: "dashed", height: "1px" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"

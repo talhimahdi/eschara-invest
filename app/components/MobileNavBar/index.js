@@ -22,7 +22,7 @@ function MobileNavBar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    setMiniSidenav(dispatch, true);
+    if (window.innerWidth < 500) setMiniSidenav(dispatch, true);
   }, [pathname]);
 
   return (
@@ -52,7 +52,7 @@ function MobileNavBar() {
         },
         "& .MuiBottomNavigationAction-label": {
           color: colors.white.main,
-          fontSize: 14,
+          fontSize: 12,
         },
 
         "& .Mui-selected": {

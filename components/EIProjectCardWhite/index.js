@@ -154,7 +154,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
               {details.Income}
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed" }} />
+          <Divider sx={{ borderStyle: "dashed", height: "1px" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"

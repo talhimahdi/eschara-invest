@@ -17,6 +17,7 @@ import Icon from "@mui/material/Icon";
 import {
   MaterialUIControllerProvider,
   useMaterialUIController,
+  setMiniSidenav,
 } from "../context";
 import Sidenav from "../examples/Sidenav";
 
@@ -56,20 +57,20 @@ function Main({ children }) {
   const pathname = usePathname();
 
   // Open sidenav when mouse enter on mini sidenav
-  const handleOnMouseEnter = () => {
-    if (miniSidenav && !onMouseEnter) {
-      setMiniSidenav(dispatch, false);
-      setOnMouseEnter(true);
-    }
-  };
+  // const handleOnMouseEnter = () => {
+  //   if (miniSidenav && !onMouseEnter) {
+  //     setMiniSidenav(dispatch, false);
+  //     setOnMouseEnter(true);
+  //   }
+  // };
 
   // Close sidenav when mouse leave mini sidenav
-  const handleOnMouseLeave = () => {
-    if (onMouseEnter) {
-      setMiniSidenav(dispatch, true);
-      setOnMouseEnter(false);
-    }
-  };
+  // const handleOnMouseLeave = () => {
+  //   if (onMouseEnter) {
+  //     setMiniSidenav(dispatch, true);
+  //     setOnMouseEnter(false);
+  //   }
+  // };
 
   // Change the openConfigurator state
   const handleConfiguratorOpen = () =>
@@ -141,8 +142,8 @@ function Main({ children }) {
               brand={brand}
               brandName="Eschara Invest"
               routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
+              // onMouseEnter={handleOnMouseEnter}
+              // onMouseLeave={handleOnMouseLeave}
             />
             <MDBox sx={{ pt: 10 }}>
               <MobileNavBar />
