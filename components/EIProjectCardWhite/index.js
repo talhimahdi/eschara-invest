@@ -29,6 +29,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
       <MDBox
         position="relative"
         className="card-header"
+        sx={{ cursor: "pointer" }}
         onClick={() => {
           router.push("/opportunities/available/azertyu");
         }}

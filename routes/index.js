@@ -20,7 +20,7 @@ const routes = [
       {
         name: "All",
         key: "all",
-        route: "#",
+        route: "/opportunities/available",
         // route: "/opportunities/all",
       },
       {
@@ -31,19 +31,19 @@ const routes = [
       {
         name: "Ongoing",
         key: "ongoing",
-        route: "#",
+        route: "/opportunities/available",
         // route: "/opportunities/ongoing",
       },
       {
         name: "Closed",
         key: "closed",
-        route: "#",
+        route: "/opportunities/available",
         // route: "/opportunities/closed",
       },
       {
         name: "Rejected",
         key: "rejected",
-        route: "#",
+        route: "/opportunities/available",
         // route: "/opportunities/rejected",
       },
     ],

@@ -572,7 +572,7 @@ function Project() {
                   position: "absolute",
                   zIndex: 2,
                   right: 40,
-                  marginTop: 1,
+                  marginTop: "14px",
                   fontSize: 30,
                   width: 30,
                   height: 30,
@@ -617,6 +617,7 @@ function Project() {
                     margin: 3,
                     color: "transparent",
                     border: "2px solid white",
+                    zIndex: 2,
                   },
                 }}
                 activeIndicatorIconButtonProps={{

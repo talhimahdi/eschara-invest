@@ -253,7 +253,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     >
       <MDBox pt={3} pb={10} px={4} textAlign="center">
         <MDBox
-          display={{ xs: "block", xl: "none" }}
+          display={{ xs: "block", md: "none" }}
           position="absolute"
           top={0}
           right={0}
@@ -288,11 +288,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </Link>
       </MDBox>
       <List>{renderRoutes}</List>
-      <MDBox sx={{ mt: 15 }}>
+      <MDBox sx={{ my: 15 }}>
         <MuiLink
-          href={"c/ontact-us"}
+          href={"#"}
           key={"contact-us"}
-          target="_blank"
           rel="noreferrer"
           sx={{ textDecoration: "none" }}
         >
@@ -303,9 +302,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           />
         </MuiLink>
         <MuiLink
-          href={"/log-out"}
+          href={"#"}
           key={"log-out"}
-          target="_blank"
           rel="noreferrer"
           sx={{ textDecoration: "none" }}
         >

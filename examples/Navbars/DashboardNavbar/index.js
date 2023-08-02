@@ -55,6 +55,7 @@ function DashboardNavbar({
   isMini = false,
   pageTitle = null,
 }) {
+  const router = useRouter();
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -148,7 +149,12 @@ function DashboardNavbar({
     <>
       {/* Mobile */}
       <MDBox
-        display={{ xs: "flex", md: "none", flexDirection: "column" }}
+        display={{
+          marginBottom: 10,
+          xs: "flex",
+          md: "none",
+          flexDirection: "column",
+        }}
         gap={3}
       >
         <Grid
@@ -157,14 +163,14 @@ function DashboardNavbar({
             alignItems: "center",
           }}
         >
-          <Grid item xs={1}>
+          {/* <Grid item xs={1}>
             <IconButton onClick={handleMiniSidenav} size="small" sx={{ p: 0 }}>
               <Icon fontSize="medium" sx={iconsStyle}>
                 {miniSidenav ? "menu_open" : "menu"}
               </Icon>
             </IconButton>
-          </Grid>
-          <Grid item xs={8}>
+          </Grid> */}
+          <Grid item xs={9}>
             <MDBox display="flex">
               <MDBox component="img" src={logo.src} alt={"logo"} width="85%" />
             </MDBox>
@@ -181,11 +187,17 @@ function DashboardNavbar({
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <MDBadge badgeContent={9} color="error" size="xs" circular>
-                  <Icon sx={iconsStyle}>notifications</Icon>
+                <MDBadge badgeContent={3} color="error" size="xs" circular>
+                  <Icon sx={{ color: colors.escharaThemeSecondary.main }}>
+                    notifications
+                  </Icon>
                 </MDBadge>
               </IconButton>
-              <MDBox display="flex" alignItems={"center"}>
+              <MDBox
+                display="flex"
+                alignItems={"center"}
+                onClick={() => router.push("/settings")}
+              >
                 <MDAvatar
                   sx={{
                     bgcolor: colors.escharaThemePrimary.main,
@@ -199,7 +211,7 @@ function DashboardNavbar({
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox>
+        {/* <MDBox>
           <MDInput
             label="Search here"
             sx={{
@@ -212,7 +224,7 @@ function DashboardNavbar({
               },
             }}
           />
-        </MDBox>
+        </MDBox> */}
         <MDBox color="inherit">
           <Breadcrumbs
             icon="home"
@@ -265,9 +277,9 @@ function DashboardNavbar({
                 </MDBox>
               </Grid>
               <Grid item xs={6} md={5}>
-                <MDBox pr={1} display="flex">
+                {/* <MDBox pr={1} display="flex">
                   <MDInput label="Search here" sx={{ width: "100%" }} />
-                </MDBox>
+                </MDBox> */}
               </Grid>
               <Grid container item xs={6} md={3} justifyContent={"end"}>
                 <MDBox>
@@ -283,15 +295,22 @@ function DashboardNavbar({
                       onClick={handleOpenMenu}
                     >
                       <MDBadge
-                        badgeContent={9}
+                        badgeContent={3}
                         color="error"
                         size="xs"
                         circular
                       >
-                        <Icon sx={iconsStyle}>notifications</Icon>
+                        <Icon sx={{ color: colors.escharaThemeSecondary.main }}>
+                          notifications
+                        </Icon>
                       </MDBadge>
                     </IconButton>
-                    <MDBox display="flex" alignItems={"center"}>
+                    <MDBox
+                      display="flex"
+                      alignItems={"center"}
+                      onClick={() => router.push("/settings")}
+                      sx={{ cursor: "pointer" }}
+                    >
                       <MDTypography color={"dark"} sx={{ mx: 2, fontSize: 15 }}>
                         Matthew Parker
                       </MDTypography>

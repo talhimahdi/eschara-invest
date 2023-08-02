@@ -11,8 +11,11 @@ import MDTypography from "/components/MDTypography";
 
 // @mui material components
 import { Grid, Icon, Card, Divider } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 function EIProjectCard({ image, title, location, details, tags, state }) {
+  const router = useRouter();
+
   return (
     <Card
       sx={{
@@ -21,7 +24,14 @@ function EIProjectCard({ image, title, location, details, tags, state }) {
         backgroundColor: colors.grey[100],
       }}
     >
-      <MDBox position="relative" className="card-header">
+      <MDBox
+        position="relative"
+        className="card-header"
+        sx={{ cursor: "pointer" }}
+        onClick={() => {
+          router.push("/opportunities/available/azertyu");
+        }}
+      >
         <Grid container position="absolute">
           <Grid item zIndex={100} xs={5}>
             <MDBox

@@ -25,7 +25,7 @@ function DeleteAccount() {
   return (
     <Card id="delete-account">
       <MDBox
-        pr={3}
+        // pr={3}
         display="flex"
         justifyContent="space-between"
         alignItems={{ xs: "flex-start", sm: "center" }}
@@ -40,15 +40,21 @@ function DeleteAccount() {
             certain.
           </MDTypography>
         </MDBox>
-        <MDBox display="flex" flexDirection={{ xs: "column", sm: "row" }}>
+        <MDBox
+          p={2}
+          display="flex"
+          width="100%"
+          gap={3} /*flexDirection={{ xs: "column", sm: "row" }}*/
+          justifyContent={{ xs: "center", md: "end" }}
+          // alignItems="center"
+          // justifyItems="center"
+        >
           <MDButton variant="outlined" color="secondary">
             deactivate
           </MDButton>
-          <MDBox ml={{ xs: 0, sm: 1 }} mt={{ xs: 1, sm: 0 }}>
-            <MDButton variant="gradient" color="error" sx={{ height: "100%" }}>
-              delete account
-            </MDButton>
-          </MDBox>
+          <MDButton variant="gradient" color="error">
+            delete account
+          </MDButton>
         </MDBox>
       </MDBox>
     </Card>

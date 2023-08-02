@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 // NextJS Material Dashboard 2 PRO components
 import MDInput from "/components/MDInput";
 
-function FormField({ label, ...rest }) {
+function FormField({ label = "", ...rest }) {
   return (
     <MDInput
       variant="standard"
@@ -32,9 +32,9 @@ function FormField({ label, ...rest }) {
 }
 
 // Setting default values for the props of FormField
-FormField.defaultProps = {
-  label: " ",
-};
+// FormField.defaultProps = {
+//   label: " ",
+// };
 
 // Typechecking props for FormField
 FormField.propTypes = {

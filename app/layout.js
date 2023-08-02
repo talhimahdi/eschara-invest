@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import theme from "/assets/theme";
 
@@ -14,14 +14,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
-// import "./globals.css";
-import { Inter } from "next/font/google";
 import {
   MaterialUIControllerProvider,
   useMaterialUIController,
 } from "../context";
 import Sidenav from "../examples/Sidenav";
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
@@ -55,8 +52,8 @@ function Main({ children }) {
   } = controller;
 
   const [onMouseEnter, setOnMouseEnter] = useState(false);
-  const [rtlCache, setRtlCache] = useState(null);
-  const { pathname } = useRouter();
+  // const { pathname } = useRouter();
+  const pathname = usePathname();
 
   // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
@@ -136,15 +133,22 @@ function Main({ children }) {
         style={{ backgroundColor: "#F1F2F5" }}
       >
         {children}
-        <Sidenav
-          color={sidenavColor}
-          brand={brand}
-          brandName="Eschara Invest"
-          routes={routes}
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        />
-        <MobileNavBar />
+
+        {pathname != "/login" && (
+          <>
+            <Sidenav
+              color={sidenavColor}
+              brand={brand}
+              brandName="Eschara Invest"
+              routes={routes}
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            />
+            <MDBox sx={{ pt: 10 }}>
+              <MobileNavBar />
+            </MDBox>
+          </>
+        )}
       </body>
     </html>
   );

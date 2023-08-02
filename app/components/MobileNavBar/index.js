@@ -1,39 +1,29 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import colors from "../../../assets/theme/base/colors";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 
-import {
-  Dashboard,
-  Article,
-  Assessment,
-  Add,
-  Remove,
-} from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 
-import {
-  useMaterialUIController,
-  setTransparentNavbar,
-  setMiniSidenav,
-  setOpenConfigurator,
-} from "../../../context";
+import { useMaterialUIController, setMiniSidenav } from "../../../context";
 
 import mobileRoutes from "../../../routes/mobileRoutes";
-import { useRouter } from "next/navigation";
 
 function MobileNavBar() {
   const router = useRouter();
   const [controller, dispatch] = useMaterialUIController();
-  const {
-    miniSidenav,
-    transparentNavbar,
-    fixedNavbar,
-    openConfigurator,
-    darkMode,
-  } = controller;
+  const { miniSidenav } = controller;
 
   const [value, setValue] = useState(0);
-
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setMiniSidenav(dispatch, true);
+  }, [pathname]);
 
   return (
     <BottomNavigation
@@ -45,6 +35,7 @@ function MobileNavBar() {
       showLabels
       sx={{
         display: { xs: "flex", md: "none" },
+        zIndex: 1201,
         p: 1,
         gap: 1,
         height: 80,
@@ -52,6 +43,8 @@ function MobileNavBar() {
         position: "fixed",
         bottom: 0,
         backgroundColor: colors.escharaThemePrimary.main,
+
+        boxShadow: "0px 1px 5px #FFFFFF",
 
         "& .MuiBottomNavigationAction-root": {
           color: colors.white.main,

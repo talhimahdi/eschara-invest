@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -32,6 +33,8 @@ import Carousel from "react-material-ui-carousel";
 // import RandomIcon from "@mui/icons-material/Random";
 
 function Overview() {
+  const router = useRouter();
+
   const opportunities = [
     {
       id: "56748",
@@ -175,6 +178,7 @@ function Overview() {
                     color: colors.white.main,
                     px: 5,
                   }}
+                  onClick={() => router.push("/opportunities/available")}
                 >
                   SEE MORE
                   <Icon
@@ -267,17 +271,9 @@ function Overview() {
                   color: colors.white.main,
                   px: 5,
                 }}
+                onClick={() => router.push("/opportunities/available")}
               >
                 SEE MORE
-                <Icon
-                  fontSize="medium"
-                  color="inherit"
-                  sx={{
-                    ml: 1,
-                  }}
-                >
-                  east
-                </Icon>
               </MDButton>
             </MDBox>
           </Card>
