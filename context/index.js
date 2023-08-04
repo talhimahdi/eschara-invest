@@ -53,7 +53,8 @@ function reducer(state, action) {
 // NextJS Material Dashboard 2 PRO context provider
 function MaterialUIControllerProvider({ children }) {
   const initialState = {
-    miniSidenav: window?.innerWidth < 500 && true,
+    miniSidenav:
+      typeof window !== "undefined" && window.innerWidth < 500 && true,
     transparentSidenav: false,
     whiteSidenav: false,
     sidenavColor: "dark",
