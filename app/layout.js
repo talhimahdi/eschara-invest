@@ -135,7 +135,7 @@ function Main({ children }) {
       >
         {children}
 
-        {pathname != "/login" && (
+        {pathname != "/login" && pathname != "/reset-password" && (
           <>
             <Sidenav
               color={sidenavColor}

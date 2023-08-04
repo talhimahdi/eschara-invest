@@ -39,10 +39,40 @@ function Login() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
 
         backgroundColor: colors.escharaThemePrimary.main,
+
+        gap: 10,
       }}
     >
+      <MDBox width={400} sx={{ textAlign: "center" }}>
+        <MDTypography
+          variant="button"
+          fontWeight="medium"
+          sx={{
+            textAlign: "center",
+            color: colors.white.main,
+            fontSize: 30,
+            // fontStyle: 'italic',
+          }}
+        >
+          Reset password
+        </MDTypography>
+        <br />
+        <MDTypography
+          variant="button"
+          fontWeight="medium"
+          sx={{
+            textAlign: "center",
+            color: colors.white.main,
+            fontSize: 14,
+            // fontStyle: 'italic',
+          }}
+        >
+          You will receive an e-mail in maximum 60 seconds
+        </MDTypography>
+      </MDBox>
       <Card sx={{ borderRadius: 1 }}>
         <MDBox p={5}>
           <Image
@@ -58,25 +88,6 @@ function Login() {
             <MDBox>
               <MDInput type="email" fullWidth placeholder="Email" />
             </MDBox>
-            <MDBox>
-              <MDInput type="password" placeholder="Password" fullWidth />
-            </MDBox>
-          </MDBox>
-
-          <MDBox textAlign="end">
-            <MDTypography variant="button" fontWeight="medium">
-              <Link
-                href="/reset-password"
-                style={{
-                  // textDecoration: 'none',
-                  color: colors.escharaThemeSecondary.main,
-                  // fontSize: 30,
-                  // fontStyle: 'italic',
-                }}
-              >
-                Forgot your password?
-              </Link>
-            </MDTypography>
           </MDBox>
 
           <MDBox mt={4} mb={1}>
@@ -90,9 +101,9 @@ function Login() {
                 },
               }}
               fullWidth
-              onClick={() => router.push("/overview")}
+              onClick={() => router.push("/login")}
             >
-              Login
+              Reset
             </MDButton>
           </MDBox>
         </MDBox>
