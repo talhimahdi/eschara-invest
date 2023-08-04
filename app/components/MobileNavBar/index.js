@@ -22,7 +22,7 @@ function MobileNavBar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (window.innerWidth < 500) setMiniSidenav(dispatch, true);
+    if (window?.innerWidth < 500) setMiniSidenav(dispatch, true);
   }, [pathname]);
 
   return (
