@@ -24,16 +24,13 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
         borderRadius: 1,
         boxShadow: 2,
         backgroundColor: colors.white.main,
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        router.push("/opportunities/available/azertyu");
       }}
     >
-      <MDBox
-        position="relative"
-        className="card-header"
-        sx={{ cursor: "pointer" }}
-        onClick={() => {
-          router.push("/opportunities/available/azertyu");
-        }}
-      >
+      <MDBox position="relative" className="card-header">
         <Grid container position="absolute">
           <Grid item xs={5}>
             <MDBox
@@ -154,7 +151,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
               {details.Income}
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed", height: "1px" }} />
+          <Divider sx={{ border: "1px dashed #000;" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"
@@ -174,7 +171,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
               {details.Coast}
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed" }} />
+          <Divider sx={{ border: "1px dashed #000;" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"

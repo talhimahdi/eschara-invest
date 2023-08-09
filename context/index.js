@@ -1,5 +1,7 @@
 "use client";
 
+import { isMobile } from "react-device-detect";
+
 import { createContext, useContext, useMemo, useReducer } from "react";
 
 // prop-types is a library for typechecking of props
@@ -53,8 +55,8 @@ function reducer(state, action) {
 // NextJS Material Dashboard 2 PRO context provider
 function MaterialUIControllerProvider({ children }) {
   const initialState = {
-    miniSidenav:
-      typeof window !== "undefined" && window.innerWidth < 500 && true,
+    // miniSidenav: typeof window !== "undefined" && window.innerWidth < 500 && true,
+    miniSidenav: isMobile && true,
     transparentSidenav: false,
     whiteSidenav: false,
     sidenavColor: "dark",

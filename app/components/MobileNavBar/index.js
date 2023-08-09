@@ -60,6 +60,7 @@ function MobileNavBar() {
           color: colors.white.main + "!important",
           backgroundColor: "#434461",
           borderRadius: 2,
+          fontSize: "12px !important",
         },
 
         "& svg": {

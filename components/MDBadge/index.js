@@ -34,7 +34,7 @@ const MDBadge = forwardRef(
       children,
       ...rest
     },
-    ref,
+    ref
   ) => (
     <MDBadgeRoot
       {...rest}
@@ -53,7 +53,7 @@ const MDBadge = forwardRef(
     >
       {children}
     </MDBadgeRoot>
-  ),
+  )
 );
 
 // Setting default values for the props of MDBadge
@@ -70,16 +70,16 @@ MDBadge.defaultProps = {
 
 // Typechecking props of the MDBadge
 MDBadge.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
-  ]),
+  // color: PropTypes.oneOf([
+  //   "primary",
+  //   "secondary",
+  //   "info",
+  //   "success",
+  //   "warning",
+  //   "error",
+  //   "light",
+  //   "dark",
+  // ]),
   variant: PropTypes.oneOf(["gradient", "contained"]),
   size: PropTypes.oneOf(["xs", "sm", "md", "lg"]),
   circular: PropTypes.bool,

@@ -198,7 +198,7 @@ function Overview() {
               <MDBox display={{ xs: "block", sm: "none" }}>
                 <Carousel
                   autoPlay={false}
-                  cycleNavigation={false}
+                  cycleNavigation={true}
                   navButtonsAlwaysVisible={true}
                   indicators={false}
                   animation="slide"
@@ -215,11 +215,13 @@ function Overview() {
                       color: colors.escharaThemePrimary.main,
                     },
                   }}
-                  PrevIcon={<Icon>arrow_back_ios_outlined</Icon>}
-                  NextIcon={<Icon>arrow_forward_ios</Icon>}
+                  PrevIcon={
+                    <Icon sx={{ ml: "-6px" }}>arrow_back_ios_outlined</Icon>
+                  }
+                  NextIcon={<Icon sx={{ mr: "-6px" }}>arrow_forward_ios</Icon>}
                 >
                   {projects.map((project, i) => (
-                    <MDBox key={i} mx={3}>
+                    <MDBox key={i} mx={4}>
                       <EIProjectCard
                         image={project.image}
                         title={project.title}

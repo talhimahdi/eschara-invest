@@ -187,10 +187,13 @@ function DashboardNavbar({
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <MDBadge badgeContent={3} color="error" size="xs" circular>
-                  <Icon sx={{ color: colors.escharaThemeSecondary.main }}>
-                    notifications
-                  </Icon>
+                <MDBadge
+                  badgeContent={3}
+                  size="xs"
+                  circular
+                  color={colors.escharaThemeSecondary.main}
+                >
+                  <Icon sx={{ color: colors.grey[500] }}>notifications</Icon>
                 </MDBadge>
               </IconButton>
               <MDBox
@@ -296,11 +299,11 @@ function DashboardNavbar({
                     >
                       <MDBadge
                         badgeContent={3}
-                        color="error"
+                        color={colors.escharaThemeSecondary.main}
                         size="xs"
                         circular
                       >
-                        <Icon sx={{ color: colors.escharaThemeSecondary.main }}>
+                        <Icon sx={{ color: colors.grey[500] }}>
                           notifications
                         </Icon>
                       </MDBadge>

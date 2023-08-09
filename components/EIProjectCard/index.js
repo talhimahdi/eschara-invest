@@ -22,16 +22,13 @@ function EIProjectCard({ image, title, location, details, tags, state }) {
         borderRadius: 1,
         boxShadow: 0,
         backgroundColor: colors.grey[100],
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        router.push("/opportunities/available/azertyu");
       }}
     >
-      <MDBox
-        position="relative"
-        className="card-header"
-        sx={{ cursor: "pointer" }}
-        onClick={() => {
-          router.push("/opportunities/available/azertyu");
-        }}
-      >
+      <MDBox position="relative" className="card-header">
         <Grid container position="absolute">
           <Grid item zIndex={100} xs={5}>
             <MDBox
@@ -176,7 +173,7 @@ function EIProjectCard({ image, title, location, details, tags, state }) {
               324 000€
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed", height: "1px" }} />
+          <Divider sx={{ border: "1px dashed #000;" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"
@@ -196,7 +193,7 @@ function EIProjectCard({ image, title, location, details, tags, state }) {
               28 000€
             </MDTypography>
           </MDBox>
-          <Divider sx={{ borderStyle: "dashed" }} />
+          <Divider sx={{ border: "1px dashed #000;" }} />
           <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
             <MDTypography
               align="left"
