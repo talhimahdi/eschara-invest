@@ -87,7 +87,7 @@ function Project() {
 
           <MDBox
             sx={{
-              gap: 2,
+              gap: 1,
               display: "flex",
               flexWrap: { xs: "wrap", md: "nowrap" },
               maxWidth: "70%",

@@ -195,7 +195,7 @@ function Overview() {
             </MDBox>
             <MDBox my={3}>
               {/* Mobile */}
-              <MDBox display={{ xs: "block", sm: "none" }}>
+              <MDBox display={{ xs: "block", sm: "none" }} sx={{ mx: -2 }}>
                 <Carousel
                   autoPlay={false}
                   cycleNavigation={true}

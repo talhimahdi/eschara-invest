@@ -170,6 +170,9 @@ function Available() {
               variant="h5"
               color={"dark"}
               noWrap
+              sx={{
+                fontSize: 18,
+              }}
             >
               Available opportunities
             </MDTypography>
