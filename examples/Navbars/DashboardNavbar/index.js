@@ -191,7 +191,7 @@ function DashboardNavbar({
                   badgeContent={3}
                   size="xs"
                   circular
-                  color={colors.escharaThemeSecondary.main}
+                  color={"escharaThemeSecondary"}
                 >
                   <Icon sx={{ color: colors.grey[500] }}>notifications</Icon>
                 </MDBadge>
@@ -299,7 +299,7 @@ function DashboardNavbar({
                     >
                       <MDBadge
                         badgeContent={3}
-                        color={colors.escharaThemeSecondary.main}
+                        color={"escharaThemeSecondary"}
                         size="xs"
                         circular
                       >
