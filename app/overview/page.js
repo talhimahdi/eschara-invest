@@ -29,8 +29,7 @@ import EIChannelsChart from "../../components/EIChannelsChart";
 import EIOpportunitiesTable from "../../components/EIOpportunitiesTable";
 
 import Carousel from "react-material-ui-carousel";
-
-// import RandomIcon from "@mui/icons-material/Random";
+import { useEffect } from "react";
 
 function Overview() {
   const router = useRouter();
@@ -154,14 +153,22 @@ function Overview() {
                     New opportunities
                   </MDTypography>
                   <MDTypography
+                    noWrap
                     variant="paragraph"
-                    sx={{ mt: 0.5, mb: 1, ml: 2, fontSize: "medium" }}
+                    sx={{
+                      mt: 0.5,
+                      mb: 1,
+                      ml: 2,
+                      fontSize: "medium",
+                      display: "block",
+                      width: 210,
+                    }}
                   >
                     Discover the latest opportunities
                   </MDTypography>
                 </MDBox>
               </MDBox>
-              <MDBox mt={2} display={{ xs: "none", sm: "block" }}>
+              <MDBox mt={2} display={{ xs: "none", md: "block" }}>
                 <MDButton
                   disableElevation
                   disableRipple
@@ -195,7 +202,7 @@ function Overview() {
             </MDBox>
             <MDBox my={3}>
               {/* Mobile */}
-              <MDBox display={{ xs: "block", sm: "none" }} sx={{ mx: -2 }}>
+              <MDBox display={{ xs: "block", md: "none" }} sx={{ mx: -2 }}>
                 <Carousel
                   autoPlay={false}
                   cycleNavigation={true}
@@ -235,7 +242,7 @@ function Overview() {
                 </Carousel>
               </MDBox>
               {/* Desktop */}
-              <Grid container spacing={3} display={{ xs: "none", sm: "flex" }}>
+              <Grid container spacing={3} display={{ xs: "none", md: "flex" }}>
                 {projects.map((project, key) => (
                   <Grid key={key} item xs={12} md={6} lg={3}>
                     <MDBox mt={3}>
@@ -252,11 +259,7 @@ function Overview() {
                 ))}
               </Grid>
             </MDBox>
-            <MDBox
-              mt={2}
-              display={{ xs: "block", sm: "none" }}
-              textAlign="center"
-            >
+            <MDBox display={{ xs: "block", md: "none" }} textAlign="center">
               <MDButton
                 disableElevation
                 disableRipple
@@ -284,8 +287,8 @@ function Overview() {
         {/* ------------------------------------------------------------------------------------ */}
 
         <MDBox my={5}>
-          <Grid container spacing={{ xs: 5, sm: 3 }}>
-            <Grid item xs={12} sm={6} lg={5}>
+          <Grid container spacing={{ xs: 5, md: 3 }}>
+            <Grid item xs={12} md={6} lg={5}>
               <Card
                 sx={{
                   width: "100%",
@@ -317,9 +320,23 @@ function Overview() {
                       <MDTypography variant="h6" sx={{ mt: 2, ml: 2 }}>
                         Distribution of my investments
                       </MDTypography>
-                      <MDTypography
+                      {/* <MDTypography
                         variant="paragraph"
                         sx={{ mb: 1, ml: 2, fontSize: "small" }}
+                      >
+                        Analytics Insights
+                      </MDTypography> */}
+                      <MDTypography
+                        noWrap
+                        variant="paragraph"
+                        sx={{
+                          mt: 0.5,
+                          mb: 1,
+                          ml: 2,
+                          fontSize: "medium",
+                          display: "block",
+                          width: 210,
+                        }}
                       >
                         Analytics Insights
                       </MDTypography>
@@ -329,7 +346,7 @@ function Overview() {
                 <EIChannelsChart />
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} lg={7}>
+            <Grid item xs={12} md={6} lg={7}>
               <Card
                 sx={{
                   width: "100%",
@@ -362,15 +379,29 @@ function Overview() {
                       <MDTypography variant="h6" sx={{ mt: 2, ml: 2 }}>
                         Status of my opportunities
                       </MDTypography>
-                      <MDTypography
+                      {/* <MDTypography
                         variant="paragraph"
                         sx={{ mb: 1, ml: 2, fontSize: "small" }}
+                      >
+                        Overview table
+                      </MDTypography> */}
+                      <MDTypography
+                        noWrap
+                        variant="paragraph"
+                        sx={{
+                          mt: 0.5,
+                          mb: 1,
+                          ml: 2,
+                          fontSize: "medium",
+                          display: "block",
+                          width: 210,
+                        }}
                       >
                         Overview table
                       </MDTypography>
                     </MDBox>
                   </MDBox>
-                  <MDBox mt={2} display={{ xs: "none", sm: "block" }}>
+                  <MDBox mt={2} display={{ xs: "none", md: "block" }}>
                     <MDButton
                       disableElevation
                       disableRipple

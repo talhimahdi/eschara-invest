@@ -1,17 +1,4 @@
-/**
-=========================================================
-* NextJS Material Dashboard 2 PRO - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+"use client";
 
 import { forwardRef } from "react";
 
@@ -36,7 +23,7 @@ const MDTypography = forwardRef(
       children,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const [controller] = useMaterialUIController();
     const { darkMode } = controller;
@@ -58,7 +45,7 @@ const MDTypography = forwardRef(
         {children}
       </MDTypographyRoot>
     );
-  },
+  }
 );
 
 // Setting default values for the props of MDTypography

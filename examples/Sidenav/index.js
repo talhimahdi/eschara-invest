@@ -37,6 +37,7 @@ import {
 } from "/context";
 
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState(false);
@@ -51,6 +52,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const items = pathname?.split("/").slice(1);
   const itemParentName = items[1];
   const itemName = items[items.length - 1];
+
+  const { data: session } = useSession();
 
   let textColor = "white";
 
@@ -288,6 +291,38 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </Link>
       </MDBox>
       <List>{renderRoutes}</List>
+      {session && session.user.role == "admin" && (
+        <MDBox>
+          <Link
+            href={"/admin/users"}
+            key={"admin-users"}
+            rel="noreferrer"
+            sx={{ textDecoration: "none" }}
+          >
+            <SidenavCollapse
+              name={"Admin Panel"}
+              icon={<Icon fontSize="medium">admin_panel_settings</Icon>}
+              noCollapse={true}
+            />
+          </Link>
+        </MDBox>
+      )}
+      {session && session.user.role == "manager" && (
+        <MDBox>
+          <Link
+            href={"/admin/opportunities"}
+            key={"admin-opportunities"}
+            rel="noreferrer"
+            sx={{ textDecoration: "none" }}
+          >
+            <SidenavCollapse
+              name={"Admin Panel"}
+              icon={<Icon fontSize="medium">admin_panel_settings</Icon>}
+              noCollapse={true}
+            />
+          </Link>
+        </MDBox>
+      )}
       <MDBox sx={{ my: 15 }}>
         <MuiLink
           href={"#"}
@@ -302,10 +337,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           />
         </MuiLink>
         <MuiLink
-          href={"#"}
           key={"log-out"}
           rel="noreferrer"
           sx={{ textDecoration: "none" }}
+          onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
         >
           <SidenavCollapse
             name={"Log out"}

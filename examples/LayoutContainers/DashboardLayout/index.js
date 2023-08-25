@@ -12,10 +12,15 @@ import MDBox from "/components/MDBox";
 
 // NextJS Material Dashboard 2 PRO context
 import { useMaterialUIController, setLayout } from "/context";
+import Sidenav from "../../Sidenav";
+import MobileNavBar from "@/components/MobileNavBar";
+
+import brand from "/public/images/logo/logo-white.svg";
+import routes from "../../../routes";
 
 function DashboardLayout({ children = PropTypes.node.isRequired }) {
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav } = controller;
+  const { miniSidenav, sidenavColor } = controller;
   const { pathname } = useRouter();
 
   useEffect(() => {
@@ -23,22 +28,36 @@ function DashboardLayout({ children = PropTypes.node.isRequired }) {
   }, [dispatch, pathname]);
 
   return (
-    <MDBox
-      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-        p: 3,
-        position: "relative",
+    <>
+      <MDBox
+        sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+          p: 3,
+          position: "relative",
 
-        [breakpoints.up("xl")]: {
-          marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
-          transition: transitions.create(["margin-left", "margin-right"], {
-            easing: transitions.easing.easeInOut,
-            duration: transitions.duration.standard,
-          }),
-        },
-      })}
-    >
-      {children}
-    </MDBox>
+          [breakpoints.up("xl")]: {
+            marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
+            transition: transitions.create(["margin-left", "margin-right"], {
+              easing: transitions.easing.easeInOut,
+              duration: transitions.duration.standard,
+            }),
+          },
+        })}
+      >
+        {children}
+      </MDBox>
+
+      <Sidenav
+        color={sidenavColor}
+        brand={brand}
+        brandName="Eschara Invest"
+        routes={routes}
+        // onMouseEnter={handleOnMouseEnter}
+        // onMouseLeave={handleOnMouseLeave}
+      />
+      <MDBox sx={{ pt: 10 }}>
+        <MobileNavBar />
+      </MDBox>
+    </>
   );
 }
 

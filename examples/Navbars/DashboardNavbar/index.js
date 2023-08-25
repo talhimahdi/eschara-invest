@@ -48,6 +48,7 @@ import {
 import MDTypography from "../../../components/MDTypography";
 import { Grid } from "@mui/material";
 import MDAvatar from "../../../components/MDAvatar";
+import { useSession } from "next-auth/react";
 
 function DashboardNavbar({
   absolute = false,
@@ -55,6 +56,7 @@ function DashboardNavbar({
   isMini = false,
   pageTitle = null,
 }) {
+  const { data: session } = useSession();
   const router = useRouter();
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
@@ -207,7 +209,14 @@ function DashboardNavbar({
                   }}
                   size="sm"
                 >
-                  MP
+                  {session?.user ? (
+                    <>
+                      {session.user.first_name.charAt(0) +
+                        session.user.last_name.charAt(0)}
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </MDAvatar>
               </MDBox>
               {/* {renderMenu()} */}
@@ -315,7 +324,15 @@ function DashboardNavbar({
                       sx={{ cursor: "pointer" }}
                     >
                       <MDTypography color={"dark"} sx={{ mx: 2, fontSize: 15 }}>
-                        Matthew Parker
+                        {session?.user ? (
+                          <>
+                            {session.user.first_name +
+                              " " +
+                              session.user.last_name}
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </MDTypography>
                       <MDAvatar
                         sx={{
@@ -323,7 +340,12 @@ function DashboardNavbar({
                         }}
                         size="sm"
                       >
-                        MP
+                        {session?.user && (
+                          <>
+                            {session.user.first_name.charAt(0) +
+                              session.user.last_name.charAt(0)}
+                          </>
+                        )}
                       </MDAvatar>
                     </MDBox>
                     {/* {renderMenu()} */}
