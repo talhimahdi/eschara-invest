@@ -248,6 +248,75 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     }
   );
 
+  const managerRoutes = [
+    {
+      name: "Opportunities",
+      key: "opportunities",
+      route: "/admin/opportunities",
+    },
+  ];
+  const adminRoutes = [
+    {
+      name: "Users",
+      key: "users",
+      route: "/admin/users",
+    },
+    {
+      name: "Opportunities",
+      key: "opportunities",
+      route: "/admin/opportunities",
+    },
+  ];
+  // (session && session?.user.role == "admin") ||
+  // (session?.user.role == "manager" && {
+  //   type: "collapse",
+  //   name: "Admin Panel",
+  //   key: "admin",
+  //   icon: <Icon fontSize="medium">admin_panel_settings</Icon>,
+  //   collapse:
+  //     session && session?.user.role == "admin"
+  //       ? [
+  //           {
+  //             name: "Users",
+  //             key: "users",
+  //             route: "/admin/users",
+  //           },
+  //           {
+  //             name: "Opportunities",
+  //             key: "opportunities",
+  //             route: "/admin/opportunities",
+  //           },
+  //         ]
+  //       : [
+  //           {
+  //             name: "Opportunities",
+  //             key: "opportunities",
+  //             route: "/admin/opportunities",
+  //           },
+  //         ],
+  // });
+  // console.log(adminRoutes.collapse);
+  const renderAdminMenu = (
+    <MDBox sx={{ mb: 3 }}>
+      <SidenavCollapse
+        name={"Admin Panel"}
+        icon={<Icon fontSize="medium">admin_panel_settings</Icon>}
+        active={"admin" === collapseName}
+        open={openCollapse === "admin"}
+        onClick={() =>
+          openCollapse === "admin"
+            ? setOpenCollapse(false)
+            : setOpenCollapse("admin")
+        }
+      >
+        {session?.user.role === "admin" ? renderCollapse(adminRoutes) : null}
+        {session?.user.role === "manager"
+          ? renderCollapse(managerRoutes)
+          : null}
+      </SidenavCollapse>
+    </MDBox>
+  );
+
   return (
     <SidenavRoot
       {...rest}
@@ -290,8 +359,17 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDBox>
         </Link>
       </MDBox>
-      <List>{renderRoutes}</List>
-      {session && session.user.role == "admin" && (
+      <List>
+        <>
+          {renderRoutes}
+
+          {((session && session?.user.role == "admin") ||
+            (session && session?.user.role == "admin")) &&
+            renderAdminMenu}
+        </>
+      </List>
+
+      {/* {session && session.user.role == "admin" && (
         <MDBox>
           <Link
             href={"/admin/users"}
@@ -322,7 +400,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             />
           </Link>
         </MDBox>
-      )}
+      )} */}
       <MDBox sx={{ my: 15 }}>
         <MuiLink
           href={"#"}

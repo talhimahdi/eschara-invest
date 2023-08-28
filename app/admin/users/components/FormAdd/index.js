@@ -324,6 +324,10 @@ function FormAdd({ roles }) {
                     backgroundColor: colors.grey[300],
                     color: colors.grey[700],
                   },
+                  "&:focus:not(:hover)": {
+                    backgroundColor: colors.grey[300],
+                    color: colors.grey[700],
+                  },
                 }}
               >
                 Cancel

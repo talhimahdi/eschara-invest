@@ -3,7 +3,7 @@ import { Alert, Button, Card } from "@mui/material";
 import { useState, useEffect, useRef, useTransition } from "react";
 import MDBox from "/components/MDBox";
 import MDTypography from "/components/MDTypography";
-import DataTable from "@/admin/components/DataTable";
+import DataTable from "@/admin/components/UsersDataTable";
 import MDButton from "../../../../../components/MDButton";
 import colors from "../../../../../assets/theme/base/colors";
 import { Add } from "@mui/icons-material";

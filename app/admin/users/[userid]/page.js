@@ -18,7 +18,11 @@ const getRolesData = async () => {
 };
 const getUserData = async (id) => {
   const userData = await getUserById(id);
-  return userData;
+
+  if (userData.status && userData.user) {
+    return userData.user;
+  }
+  redirect("/404");
 };
 export default async function EditUser({ params }) {
   const session = await getServerSession(authOptions);
@@ -38,7 +42,7 @@ export default async function EditUser({ params }) {
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mt={0} mb={9}>
-        <FormEdit roles={roles} user={userData.user} />
+        <FormEdit roles={roles} user={userData} />
       </MDBox>
     </DashboardLayout>
   );

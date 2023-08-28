@@ -22,7 +22,7 @@ function FormEdit({ roles, user }) {
   });
   const [formValues, setFormValues] = useState({
     ...user,
-    status: user.status === "1" ? "Active" : "Inactive",
+    status: user.status ? "Active" : "Inactive",
   });
 
   const onSubmit = async () => {
@@ -303,13 +303,17 @@ function FormEdit({ roles, user }) {
 
             <MDBox m={2} gap={2} display="flex">
               <Button
-                onClick={() => router.back()}
+                onClick={() => router.push("/admin/users")}
                 variant="contained"
                 endIcon={<Cancel />}
                 sx={{
                   backgroundColor: colors.grey[300],
                   color: colors.grey[700],
                   "&:hover": {
+                    backgroundColor: colors.grey[300],
+                    color: colors.grey[700],
+                  },
+                  "&:focus:not(:hover)": {
                     backgroundColor: colors.grey[300],
                     color: colors.grey[700],
                   },

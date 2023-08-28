@@ -17,16 +17,17 @@ const getUsers = async () => {
   }
 
   const users = await getUsersAction();
+
   return {
     columns: [
-      { Header: "id", accessor: "id" },
-      { Header: "email", accessor: "email" },
-      { Header: "role", accessor: "role" },
-      { Header: "status", accessor: "status" },
-      { Header: "first name", accessor: "first_name" },
-      { Header: "last name", accessor: "last_name" },
-      { Header: "town", accessor: "town" },
-      { Header: "country", accessor: "country" },
+      { Header: "ID", accessor: "id" },
+      { Header: "Email", accessor: "email" },
+      { Header: "Role", accessor: "role" },
+      { Header: "Status", accessor: "status" },
+      { Header: "First name", accessor: "first_name" },
+      { Header: "Last name", accessor: "last_name" },
+      { Header: "Town", accessor: "town" },
+      { Header: "Country", accessor: "country" },
     ],
     rows: users
       ? users.map((user) => ({
