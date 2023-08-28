@@ -243,7 +243,7 @@ function DataTable({
                       align={cell.column.align ? cell.column.align : "left"}
                       {...cell.getCellProps()}
                     >
-                      {cell.column.Header === "status" ? (
+                      {cell.column.Header.toLowerCase() === "status" ? (
                         <MDBox
                           display="flex"
                           direction="row"
@@ -256,7 +256,6 @@ function DataTable({
                           >
                             Inactive
                           </MDTypography>
-
                           <Switch
                             checked={parseInt(cell.value)}
                             onChange={() => handleChangeStatus(cell)}
