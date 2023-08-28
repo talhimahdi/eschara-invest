@@ -364,7 +364,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           {renderRoutes}
 
           {((session && session?.user.role == "admin") ||
-            (session && session?.user.role == "admin")) &&
+            (session && session?.user.role == "manager")) &&
             renderAdminMenu}
         </>
       </List>

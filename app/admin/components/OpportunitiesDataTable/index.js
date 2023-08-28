@@ -205,39 +205,62 @@ function OpportunitiesDataTable({
       ) : null}
       <Table {...getTableProps()}>
         <MDBox component="thead">
-          {headerGroups.map((headerGroup, key) => (
-            <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, key) => (
-                <DataTableHeadCell
-                  key={key}
-                  {...column.getHeaderProps(
+          {headerGroups.map((headerGroup, key) => {
+            const cellProps = headerGroup.getHeaderGroupProps();
+
+            const cellKey = cellProps.key;
+
+            delete cellProps.key;
+
+            return (
+              <TableRow key={cellKey} {...cellProps}>
+                {headerGroup.headers.map((column, key) => {
+                  const cellProps = column.getHeaderProps(
                     isSorted && column.getSortByToggleProps()
-                  )}
-                  width={column.width ? column.width : "auto"}
-                  align={column.align ? column.align : "left"}
-                  sorted={setSortedValue(column)}
-                >
-                  {column.render("Header")}
-                </DataTableHeadCell>
-              ))}
-            </TableRow>
-          ))}
+                  );
+
+                  const cellKey = cellProps.key;
+
+                  delete cellProps.key;
+                  return (
+                    <DataTableHeadCell
+                      key={cellKey}
+                      {...cellProps}
+                      width={column.width ? column.width : "auto"}
+                      align={column.align ? column.align : "left"}
+                      sorted={setSortedValue(column)}
+                    >
+                      {column.render("Header")}
+                    </DataTableHeadCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
         </MDBox>
         <TableBody {...getTableBodyProps()}>
           {page.map((row, key) => {
             prepareRow(row);
             return (
               <TableRow key={key} {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <DataTableBodyCell
-                    key={key}
-                    noBorder={noEndBorder && rows.length - 1 === key}
-                    align={cell.column.align ? cell.column.align : "left"}
-                    {...cell.getCellProps()}
-                  >
-                    {cell.render("Cell")}
-                  </DataTableBodyCell>
-                ))}
+                {row.cells.map((cell) => {
+                  const cellProps = cell.getCellProps();
+
+                  const cellKey = cellProps.key;
+
+                  delete cellProps.key;
+
+                  return (
+                    <DataTableBodyCell
+                      key={cellKey}
+                      noBorder={noEndBorder && rows.length - 1 === key}
+                      align={cell.column.align ? cell.column.align : "left"}
+                      {...cellProps}
+                    >
+                      {cell.render("Cell")}
+                    </DataTableBodyCell>
+                  );
+                })}
               </TableRow>
             );
           })}
