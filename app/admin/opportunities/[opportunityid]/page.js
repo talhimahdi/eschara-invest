@@ -57,19 +57,28 @@ const getOpportunityData = async (id) => {
 };
 export default async function EditOpportunity({ params }) {
   const session = await getServerSession(authOptions);
+
+  // console.log(session.user.role);
+  // if (!session || session.user.role != "admin") {
+  //   redirect("/");
+  // }
   if (
     !session ||
     (session.user.role != "admin" && session.user.role != "manager")
   ) {
-    redirect("/");
+    // redirect("/");
+    console.log("session.user.role");
   }
 
   const opportunityId = parseInt(Number(params.opportunityId));
 
   if (opportunityId != params.opportunityId) {
-    redirect("/");
+    // redirect("/");
+    console.log("not int");
   }
   const opportunityData = await getOpportunityData(opportunityId);
+
+  console.log(opportunityData);
 
   return (
     <DashboardLayout>
