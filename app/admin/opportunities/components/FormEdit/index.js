@@ -423,7 +423,7 @@ function FormEdit({ roles, opportunity }) {
 
             <MDBox m={2} gap={2} display="flex">
               <Button
-                onClick={() => router.push("/admin/oppotunities")}
+                onClick={() => router.push("/admin/opportunities")}
                 variant="contained"
                 endIcon={<Cancel />}
                 sx={{
