@@ -50,28 +50,31 @@ import FormEdit from "../components/FormEdit";
 const getOpportunityData = async (id) => {
   const opportunityData = await getOpportunityById(id);
 
+  console.log(opportunityData);
   if (opportunityData.status && opportunityData.opportunity) {
     return opportunityData.opportunity;
   }
-  redirect("/404");
+  // redirect("/404");
+
+  return false;
 };
 export default async function EditOpportunity({ params }) {
   const session = await getServerSession(authOptions);
 
-  if (
-    !session ||
-    (session.user.role != "admin" && session.user.role != "manager")
-  ) {
-    redirect("/");
-  }
+  // if (
+  //   !session ||
+  //   (session.user.role != "admin" && session.user.role != "manager")
+  // ) {
+  //   redirect("/");
+  // }
+
+  // if (opportunityId != params.opportunityId) {
+  //   redirect("/");
+  // }
 
   const opportunityId = parseInt(Number(params.opportunityId));
-
-  if (opportunityId != params.opportunityId) {
-    redirect("/");
-  }
   const opportunityData = await getOpportunityData(opportunityId);
-
+  console.log(opportunityData);
   return (
     <DashboardLayout>
       <DashboardNavbar />
