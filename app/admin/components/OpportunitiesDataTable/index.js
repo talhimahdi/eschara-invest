@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, useTransition } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -47,6 +47,10 @@ import MDPagination from "/components/MDPagination";
 // NextJS Material Dashboard 2 PRO examples
 import DataTableHeadCell from "./DataTableHeadCell";
 import DataTableBodyCell from "./DataTableBodyCell";
+import { Fab } from "@mui/material";
+import colors from "../../../../assets/theme/base/colors";
+import EILoader from "../../../../components/EILoader";
+import { useRouter } from "next/navigation";
 
 function OpportunitiesDataTable({
   entriesPerPage = { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
@@ -56,7 +60,12 @@ function OpportunitiesDataTable({
   isSorted = true,
   noEndBorder = false,
   table,
+
+  OnDeleteOpportunity = null,
 }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const defaultValue = entriesPerPage.defaultValue
     ? entriesPerPage.defaultValue
     : 10;
@@ -161,164 +170,220 @@ function OpportunitiesDataTable({
   }
 
   return (
-    <TableContainer sx={{ boxShadow: "none" }}>
-      {entriesPerPage || canSearch ? (
+    <>
+      <EILoader open={isPending} />
+      <TableContainer sx={{ boxShadow: "none" }}>
+        {entriesPerPage || canSearch ? (
+          <MDBox
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            p={3}
+          >
+            {entriesPerPage && (
+              <MDBox display="flex" alignItems="center">
+                <Autocomplete
+                  disableClearable
+                  value={pageSize.toString()}
+                  options={entries}
+                  onChange={(event, newValue) => {
+                    setEntriesPerPage(parseInt(newValue, 10));
+                  }}
+                  size="small"
+                  sx={{ width: "5rem" }}
+                  renderInput={(params) => <MDInput {...params} />}
+                />
+                <MDTypography variant="caption" color="secondary">
+                  &nbsp;&nbsp;entries per page
+                </MDTypography>
+              </MDBox>
+            )}
+            {canSearch && (
+              <MDBox width="12rem" ml="auto">
+                <MDInput
+                  placeholder="Search..."
+                  value={search}
+                  size="small"
+                  fullWidth
+                  onChange={({ currentTarget }) => {
+                    setSearch(search);
+                    onSearchChange(currentTarget.value);
+                  }}
+                />
+              </MDBox>
+            )}
+          </MDBox>
+        ) : null}
+        <Table {...getTableProps()}>
+          <MDBox component="thead">
+            {headerGroups.map((headerGroup, key) => {
+              const cellProps = headerGroup.getHeaderGroupProps();
+
+              const cellKey = cellProps.key;
+
+              delete cellProps.key;
+
+              return (
+                <TableRow key={cellKey} {...cellProps}>
+                  {headerGroup.headers.map((column, key) => {
+                    const cellProps = column.getHeaderProps(
+                      isSorted && column.getSortByToggleProps()
+                    );
+
+                    const cellKey = cellProps.key;
+
+                    delete cellProps.key;
+                    return (
+                      <DataTableHeadCell
+                        key={cellKey}
+                        {...cellProps}
+                        width={column.width ? column.width : "auto"}
+                        align={column.align ? column.align : "left"}
+                        sorted={setSortedValue(column)}
+                      >
+                        {column.render("Header")}
+                      </DataTableHeadCell>
+                    );
+                  })}
+                  <DataTableHeadCell key={"actions-key"} sorted={false}>
+                    {"Actions"}
+                  </DataTableHeadCell>
+                </TableRow>
+              );
+            })}
+          </MDBox>
+          <TableBody {...getTableBodyProps()}>
+            {page.map((row, key) => {
+              prepareRow(row);
+
+              const cellProps = row.getRowProps();
+
+              const cellKey = cellProps.key;
+
+              delete cellProps.key;
+
+              return (
+                <TableRow key={cellKey} {...cellProps}>
+                  {row.cells.map((cell) => {
+                    const cellProps = cell.getCellProps();
+
+                    const cellKey = cellProps.key;
+
+                    delete cellProps.key;
+
+                    return (
+                      <DataTableBodyCell
+                        key={cellKey}
+                        noBorder={noEndBorder && rows.length - 1 === key}
+                        align={cell.column.align ? cell.column.align : "left"}
+                        {...cellProps}
+                      >
+                        {cell.render("Cell")}
+                      </DataTableBodyCell>
+                    );
+                  })}
+                  <DataTableBodyCell key={"actionsCell-key"}>
+                    <MDBox sx={{ display: "flex", gap: 1 }}>
+                      <Fab
+                        size="small"
+                        aria-label="edit"
+                        sx={{
+                          backgroundColor: colors.escharaThemePrimary.main,
+                          "&:hover": {
+                            backgroundColor: colors.escharaThemePrimary.main,
+                          },
+                        }}
+                        onClick={() =>
+                          startTransition(() => {
+                            router.push(
+                              `/admin/opportunities/${row.original.id}`
+                            );
+                          })
+                        }
+                      >
+                        <Icon sx={{ fontWeight: "bold", color: "#FFFFFF" }}>
+                          edit
+                        </Icon>
+                      </Fab>
+                      <Fab
+                        size="small"
+                        aria-label="delete"
+                        // href={row.original.actions.delete}
+                        sx={{
+                          backgroundColor: colors.error.main,
+                          "&:hover": {
+                            backgroundColor: colors.error.main,
+                          },
+                        }}
+                        onClick={() => OnDeleteOpportunity(row.original.id)}
+                      >
+                        <Icon sx={{ fontWeight: "bold", color: "#FFFFFF" }}>
+                          delete
+                        </Icon>
+                      </Fab>
+                    </MDBox>
+                  </DataTableBodyCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+
         <MDBox
           display="flex"
+          flexDirection={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
-          alignItems="center"
-          p={3}
+          alignItems={{ xs: "flex-start", sm: "center" }}
+          p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
         >
-          {entriesPerPage && (
-            <MDBox display="flex" alignItems="center">
-              <Autocomplete
-                disableClearable
-                value={pageSize.toString()}
-                options={entries}
-                onChange={(event, newValue) => {
-                  setEntriesPerPage(parseInt(newValue, 10));
-                }}
-                size="small"
-                sx={{ width: "5rem" }}
-                renderInput={(params) => <MDInput {...params} />}
-              />
-              <MDTypography variant="caption" color="secondary">
-                &nbsp;&nbsp;entries per page
+          {showTotalEntries && (
+            <MDBox mb={{ xs: 3, sm: 0 }}>
+              <MDTypography
+                variant="button"
+                color="secondary"
+                fontWeight="regular"
+              >
+                Showing {entriesStart} to {entriesEnd} of {rows.length} entries
               </MDTypography>
             </MDBox>
           )}
-          {canSearch && (
-            <MDBox width="12rem" ml="auto">
-              <MDInput
-                placeholder="Search..."
-                value={search}
-                size="small"
-                fullWidth
-                onChange={({ currentTarget }) => {
-                  setSearch(search);
-                  onSearchChange(currentTarget.value);
-                }}
-              />
-            </MDBox>
+          {pageOptions.length > 1 && (
+            <MDPagination
+              variant={pagination.variant ? pagination.variant : "gradient"}
+              color={pagination.color ? pagination.color : "dark"}
+            >
+              {canPreviousPage && (
+                <MDPagination item onClick={() => previousPage()}>
+                  <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
+                </MDPagination>
+              )}
+              {renderPagination.length > 6 ? (
+                <MDBox width="5rem" mx={1}>
+                  <MDInput
+                    inputProps={{
+                      type: "number",
+                      min: 1,
+                      max: customizedPageOptions.length,
+                    }}
+                    value={customizedPageOptions[pageIndex]}
+                    onChange={
+                      (handleInputPagination, handleInputPaginationValue)
+                    }
+                  />
+                </MDBox>
+              ) : (
+                renderPagination
+              )}
+              {canNextPage && (
+                <MDPagination item onClick={() => nextPage()}>
+                  <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+                </MDPagination>
+              )}
+            </MDPagination>
           )}
         </MDBox>
-      ) : null}
-      <Table {...getTableProps()}>
-        <MDBox component="thead">
-          {headerGroups.map((headerGroup, key) => {
-            const cellProps = headerGroup.getHeaderGroupProps();
-
-            const cellKey = cellProps.key;
-
-            delete cellProps.key;
-
-            return (
-              <TableRow key={cellKey} {...cellProps}>
-                {headerGroup.headers.map((column, key) => {
-                  const cellProps = column.getHeaderProps(
-                    isSorted && column.getSortByToggleProps()
-                  );
-
-                  const cellKey = cellProps.key;
-
-                  delete cellProps.key;
-                  return (
-                    <DataTableHeadCell
-                      key={cellKey}
-                      {...cellProps}
-                      width={column.width ? column.width : "auto"}
-                      align={column.align ? column.align : "left"}
-                      sorted={setSortedValue(column)}
-                    >
-                      {column.render("Header")}
-                    </DataTableHeadCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-        </MDBox>
-        <TableBody {...getTableBodyProps()}>
-          {page.map((row, key) => {
-            prepareRow(row);
-            return (
-              <TableRow key={key} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  const cellProps = cell.getCellProps();
-
-                  const cellKey = cellProps.key;
-
-                  delete cellProps.key;
-
-                  return (
-                    <DataTableBodyCell
-                      key={cellKey}
-                      noBorder={noEndBorder && rows.length - 1 === key}
-                      align={cell.column.align ? cell.column.align : "left"}
-                      {...cellProps}
-                    >
-                      {cell.render("Cell")}
-                    </DataTableBodyCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-
-      <MDBox
-        display="flex"
-        flexDirection={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", sm: "center" }}
-        p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
-      >
-        {showTotalEntries && (
-          <MDBox mb={{ xs: 3, sm: 0 }}>
-            <MDTypography
-              variant="button"
-              color="secondary"
-              fontWeight="regular"
-            >
-              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
-            </MDTypography>
-          </MDBox>
-        )}
-        {pageOptions.length > 1 && (
-          <MDPagination
-            variant={pagination.variant ? pagination.variant : "gradient"}
-            color={pagination.color ? pagination.color : "dark"}
-          >
-            {canPreviousPage && (
-              <MDPagination item onClick={() => previousPage()}>
-                <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
-              </MDPagination>
-            )}
-            {renderPagination.length > 6 ? (
-              <MDBox width="5rem" mx={1}>
-                <MDInput
-                  inputProps={{
-                    type: "number",
-                    min: 1,
-                    max: customizedPageOptions.length,
-                  }}
-                  value={customizedPageOptions[pageIndex]}
-                  onChange={(handleInputPagination, handleInputPaginationValue)}
-                />
-              </MDBox>
-            ) : (
-              renderPagination
-            )}
-            {canNextPage && (
-              <MDPagination item onClick={() => nextPage()}>
-                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
-              </MDPagination>
-            )}
-          </MDPagination>
-        )}
-      </MDBox>
-    </TableContainer>
+      </TableContainer>
+    </>
   );
 }
 

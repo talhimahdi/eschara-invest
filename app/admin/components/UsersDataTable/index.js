@@ -210,71 +210,100 @@ function DataTable({
         ) : null}
         <Table {...getTableProps()}>
           <MDBox component="thead">
-            {headerGroups.map((headerGroup, key) => (
-              <TableRow key={key} {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column, key) => (
-                  <DataTableHeadCell
-                    key={key}
-                    {...column.getHeaderProps(
+            {headerGroups.map((headerGroup, key) => {
+              const cellProps = headerGroup.getHeaderGroupProps();
+
+              const cellKey = cellProps.key;
+
+              delete cellProps.key;
+              return (
+                <TableRow key={cellKey} {...cellProps}>
+                  {headerGroup.headers.map((column, key) => {
+                    const cellProps = column.getHeaderProps(
                       isSorted && column.getSortByToggleProps()
-                    )}
-                    width={column.width ? column.width : "auto"}
-                    align={column.align ? column.align : "left"}
-                    sorted={setSortedValue(column)}
-                  >
-                    {column.render("Header")}
+                    );
+
+                    const cellKey = cellProps.key;
+
+                    delete cellProps.key;
+
+                    return (
+                      <DataTableHeadCell
+                        key={cellKey}
+                        {...cellProps}
+                        width={column.width ? column.width : "auto"}
+                        align={column.align ? column.align : "left"}
+                        sorted={setSortedValue(column)}
+                      >
+                        {column.render("Header")}
+                      </DataTableHeadCell>
+                    );
+                  })}
+                  <DataTableHeadCell key={"actions-key"} sorted={false}>
+                    {"Actions"}
                   </DataTableHeadCell>
-                ))}
-                <DataTableHeadCell key={"actions-key"} sorted={false}>
-                  {"Actions"}
-                </DataTableHeadCell>
-              </TableRow>
-            ))}
+                </TableRow>
+              );
+            })}
           </MDBox>
           <TableBody {...getTableBodyProps()}>
             {page.map((row, key) => {
               prepareRow(row);
+
+              const cellProps = row.getRowProps();
+
+              const cellKey = cellProps.key;
+
+              delete cellProps.key;
+
               return (
-                <TableRow key={key} {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <DataTableBodyCell
-                      key={key}
-                      noBorder={noEndBorder && rows.length - 1 === key}
-                      align={cell.column.align ? cell.column.align : "left"}
-                      {...cell.getCellProps()}
-                    >
-                      {cell.column.Header.toLowerCase() === "status" ? (
-                        <MDBox
-                          display="flex"
-                          direction="row"
-                          alignItems="center"
-                        >
-                          <MDTypography
-                            sx={{
-                              fontSize: 10,
-                            }}
+                <TableRow key={cellKey} {...cellProps}>
+                  {row.cells.map((cell) => {
+                    const cellProps = cell.getCellProps();
+
+                    const cellKey = cellProps.key;
+
+                    delete cellProps.key;
+                    return (
+                      <DataTableBodyCell
+                        key={cellKey}
+                        noBorder={noEndBorder && rows.length - 1 === key}
+                        align={cell.column.align ? cell.column.align : "left"}
+                        {...cellProps}
+                      >
+                        {cell.column.Header.toLowerCase() === "status" ? (
+                          <MDBox
+                            display="flex"
+                            direction="row"
+                            alignItems="center"
                           >
-                            Inactive
-                          </MDTypography>
-                          <Switch
-                            checked={parseInt(cell.value)}
-                            onChange={() => handleChangeStatus(cell)}
-                            color="primary"
-                            value="dynamic-class-name"
-                          />
-                          <MDTypography
-                            sx={{
-                              fontSize: 10,
-                            }}
-                          >
-                            Active
-                          </MDTypography>
-                        </MDBox>
-                      ) : (
-                        cell.render("Cell")
-                      )}
-                    </DataTableBodyCell>
-                  ))}
+                            <MDTypography
+                              sx={{
+                                fontSize: 10,
+                              }}
+                            >
+                              Inactive
+                            </MDTypography>
+                            <Switch
+                              checked={parseInt(cell.value)}
+                              onChange={() => handleChangeStatus(cell)}
+                              color="primary"
+                              value="dynamic-class-name"
+                            />
+                            <MDTypography
+                              sx={{
+                                fontSize: 10,
+                              }}
+                            >
+                              Active
+                            </MDTypography>
+                          </MDBox>
+                        ) : (
+                          cell.render("Cell")
+                        )}
+                      </DataTableBodyCell>
+                    );
+                  })}
                   <DataTableBodyCell key={"actionsCell-key"}>
                     {row.original.actions && (
                       <MDBox sx={{ display: "flex", gap: 1 }}>
@@ -309,11 +338,7 @@ function DataTable({
                               backgroundColor: colors.error.main,
                             },
                           }}
-                          onClick={() =>
-                            startTransition(() => {
-                              OnDeleteUser(row.original.id);
-                            })
-                          }
+                          onClick={() => OnDeleteUser(row.original.id)}
                         >
                           <Icon sx={{ fontWeight: "bold", color: "#FFFFFF" }}>
                             delete

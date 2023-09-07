@@ -1,5 +1,5 @@
 "use client";
-import { Alert, Button, Card } from "@mui/material";
+import { Alert, Button, Card, Chip } from "@mui/material";
 import { useState, useEffect, useRef, useTransition } from "react";
 import MDBox from "/components/MDBox";
 import MDTypography from "/components/MDTypography";
@@ -7,6 +7,7 @@ import OpportunitiesDataTable from "@/admin/components/OpportunitiesDataTable";
 import colors from "../../../../../assets/theme/base/colors";
 import { Add } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import deleteOpportunity from "../../serverActions/deleteOpportunity";
 import EILoader from "../../../../../components/EILoader";
 
 export default function OpportunitiesList({ opportunities }) {
@@ -21,6 +22,13 @@ export default function OpportunitiesList({ opportunities }) {
   const tableData = {
     columns: [
       { Header: "ID", accessor: "id", width: "10px" },
+      {
+        Header: "Image",
+        accessor: "gallery",
+        Cell: ({ value, row }) => {
+          return <img width={120} height={80} src={value[0]} />;
+        },
+      },
       {
         Header: "Title",
         accessor: "title",
@@ -41,30 +49,61 @@ export default function OpportunitiesList({ opportunities }) {
             >
               {value}
             </MDTypography>
-
-            // <MDTypography
-            //   paragraph
-            //   variant="paragraph"
-            //   sx={{
-            //     mt: 0.5,
-            //     mb: 1,
-            //     ml: 2,
-            //     fontSize: "medium",
-            //     display: "block",
-            //   }}
-            //   style={{ wordWrap: "break-word" }}
-            // >
-            //   {value}
-            // </MDTypography>
           );
         },
       },
       { Header: "Manager", accessor: "manager.full_name" },
-      { Header: "Status", accessor: "status" },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ value, row }) => {
+          const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
+            (color) => color === value.toLowerCase()
+          );
+
+          return (
+            <MDBox
+              bgColor={colors.escharaThemeStatusColors[statusColor]}
+              color="white"
+              textAlign="center"
+              sx={{ paddingY: 0.5, paddingX: 1, borderRadius: 1 }}
+            >
+              {value}
+            </MDBox>
+          );
+        },
+      },
       { Header: "Commitment", accessor: "commitment" },
       { Header: "soft commitment", accessor: "soft_commitment" },
       { Header: "google map", accessor: "google_map" },
-      { Header: "Tags", accessor: "tags" },
+      {
+        Header: "Tags",
+        accessor: "tags",
+        width: "10%",
+        Cell: ({ value, row }) => {
+          return (
+            <MDBox width={300}>
+              {value &&
+                Array.isArray(value) &&
+                value.map((tag, index) => {
+                  return (
+                    <Chip
+                      key={index}
+                      label={tag}
+                      size="small"
+                      // onDelete={handleTagDelete}
+                      // onDelete={(e) => handleTagDelete(e, tag)}
+                      sx={{
+                        mr: 0.8,
+                        my: 0.5,
+                      }}
+                    />
+                  );
+                })}
+            </MDBox>
+          );
+        },
+      },
       {
         Header: "Description",
         accessor: "description",
@@ -159,11 +198,35 @@ export default function OpportunitiesList({ opportunities }) {
       },
     ],
     rows: opportunities,
-    // ? opportunities.map((opportunity) => ({
-    //     ...opportunity,
-    //     title: opportunity.title.substring(0, 60) + "...",
-    //   }))
-    // : [],
+  };
+
+  const handleDeleteOpportunity = async (OpportunityId) => {
+    const confirmResponse = confirm(
+      "do you really want to delete this Opportunity ?"
+    );
+
+    confirmResponse &&
+      startTransition(async () => {
+        const response = await deleteOpportunity(OpportunityId);
+
+        if (response.status) {
+          setAlert({
+            isVisible: true,
+            message: response.message,
+            severity: "success",
+          });
+        }
+
+        if (response.error) {
+          setAlert({
+            isVisible: true,
+            message: response.error.message.message,
+            severity: "error",
+          });
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
   };
 
   return (
@@ -199,17 +262,20 @@ export default function OpportunitiesList({ opportunities }) {
               variant="contained"
               startIcon={<Add />}
               sx={{ bgcolor: colors.escharaThemePrimary.main, color: "#FFF" }}
-              // onClick={() =>
-              //   startTransition(() => {
-              //     router.push("/admin/users/add-user");
-              //   })
-              // }
+              onClick={() =>
+                startTransition(() => {
+                  router.push("/admin/opportunities/add-opportunity");
+                })
+              }
             >
               Add new opportunity
             </Button>
           </MDBox>
         </MDBox>
-        <OpportunitiesDataTable table={tableData} />
+        <OpportunitiesDataTable
+          table={tableData}
+          OnDeleteOpportunity={handleDeleteOpportunity}
+        />
       </Card>
     </>
   );

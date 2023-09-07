@@ -6,7 +6,6 @@ import MDTypography from "../../../../../components/MDTypography";
 import MDBox from "../../../../../components/MDBox";
 
 import FormField from "../../../../../components/FormField";
-import MDButton from "../../../../../components/MDButton";
 import addUser from "../../serverActions/addUser";
 import { redirect, useRouter } from "next/navigation";
 import { Cancel, Send } from "@mui/icons-material";
@@ -38,8 +37,6 @@ function FormAdd({ roles }) {
 
   const onSubmit = async () => {
     startTransition(async () => {
-      //   console.log(formValues);
-
       const addUserResponse = await addUser(formValues);
 
       if (addUserResponse.errors) {

@@ -11,5 +11,6 @@ module.exports = nextConfig;
 module.exports = {
   experimental: {
     serverActions: true,
+    serverActionsBodySizeLimit: "20mb",
   },
 };

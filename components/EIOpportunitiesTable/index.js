@@ -23,7 +23,7 @@ export default function EIOpportunitiesTable({ rows }) {
         textAlign="center"
         sx={{ paddingY: 0.5, paddingX: 1, borderRadius: 1 }}
       >
-        {"status"}
+        {status}
       </MDBox>
     );
   };

@@ -49,27 +49,30 @@ export default function UsersList({ data }) {
   };
 
   const deleteUserHandlre = async (userId) => {
-    startTransition(async () => {
-      const response = await deleteUser(userId);
+    const confirmResponse = confirm("do you really want to delete this User ?");
 
-      if (response.status) {
-        setAlert({
-          isVisible: true,
-          message: response.message,
-          severity: "success",
-        });
-      }
+    confirmResponse &&
+      startTransition(async () => {
+        const response = await deleteUser(userId);
 
-      if (response.error) {
-        setAlert({
-          isVisible: true,
-          message: response.error.message.message,
-          severity: "error",
-        });
-      }
+        if (response.status) {
+          setAlert({
+            isVisible: true,
+            message: response.message,
+            severity: "success",
+          });
+        }
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+        if (response.error) {
+          setAlert({
+            isVisible: true,
+            message: response.error.message.message,
+            severity: "error",
+          });
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
   };
 
   return (

@@ -23,7 +23,10 @@ const colors = {
   escharaThemeStatusColors: {
     won: "#03C07C",
     lost: "#FF4F4F",
-    ongoing: "#FF9C09",
+    ongoing: "#2DCCFF",
+    available: "#56F000",
+    closed: "#FFB302",
+    rejected: "#FF3838",
   },
 
   escharaThemePrimary: {

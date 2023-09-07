@@ -36,7 +36,15 @@ const callGetOpportunities = async () => {
   // "google_map": "57.636495,165.464402",
   // "gallery": "[\"https://picsum.photos/500/300?random=1\", \"https://picsum.photos/500/300?random=2\", \"https://picsum.photos/500/300?random=3\", \"https://picsum.photos/500/300?random=4\"]",
   // "created_at": "2023-08-17T23:48:27+00:00"
-  return opportunities;
+
+  // PROVISOIR
+  const result = opportunities.map((op) => {
+    return {
+      ...op,
+      manager: op.manager_id,
+    };
+  });
+  return result;
 };
 
 export default async function Opportunities() {

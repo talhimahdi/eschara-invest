@@ -21,8 +21,6 @@ export default async function editUser(user) {
     country,
   } = user;
 
-  console.log(user);
-
   if (session) {
     const editUserReq = await fetch(
       `${process.env.BACKEND_API_URL}/admin/users/${user.id}`,
