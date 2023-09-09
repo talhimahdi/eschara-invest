@@ -73,13 +73,13 @@ export default async function EditOpportunity({ params }) {
   // }
 
   const opportunityId = parseInt(Number(params.opportunityId));
-  const opportunityData = await getOpportunityData(opportunityId);
-  console.log(opportunityData);
+  // const opportunityData = await getOpportunityData(opportunityId);
+  console.log(opportunityId);
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mt={0} mb={9}>
-        <FormEdit opportunity={opportunityData} />
+        {/* <FormEdit opportunity={opportunityData} /> */}
       </MDBox>
     </DashboardLayout>
   );
