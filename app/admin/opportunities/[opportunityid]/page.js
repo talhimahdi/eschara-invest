@@ -73,8 +73,8 @@ export default async function EditOpportunity({ params }) {
   // }
 
   const opportunityId = parseInt(Number(params.opportunityId));
-  // const opportunityData = await getOpportunityData(opportunityId);
-  console.log(opportunityId);
+  const opportunityData = await getOpportunityData(opportunityId);
+  console.log(opportunityData);
   return (
     <DashboardLayout>
       <DashboardNavbar />
