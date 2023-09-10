@@ -47,6 +47,8 @@ import DashboardNavbar from "../../../../examples/Navbars/DashboardNavbar";
 import MDBox from "../../../../components/MDBox";
 import FormEdit from "../components/FormEdit";
 
+console.log("init");
+
 const getOpportunityData = async (id) => {
   const opportunityData = await getOpportunityById(id);
 
@@ -60,26 +62,26 @@ const getOpportunityData = async (id) => {
 };
 export default async function EditOpportunity({ params }) {
   const session = await getServerSession(authOptions);
-
-  // if (
-  //   !session ||
-  //   (session.user.role != "admin" && session.user.role != "manager")
-  // ) {
-  //   redirect("/");
-  // }
-
-  // if (opportunityId != params.opportunityId) {
-  //   redirect("/");
-  // }
-
   const opportunityId = parseInt(Number(params.opportunityId));
+
+  if (
+    !session ||
+    (session.user.role != "admin" && session.user.role != "manager")
+  ) {
+    redirect("/");
+  }
+
+  if (opportunityId != params.opportunityId) {
+    redirect("/");
+  }
+
   const opportunityData = await getOpportunityData(opportunityId);
   console.log(opportunityData);
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mt={0} mb={9}>
-        {/* <FormEdit opportunity={opportunityData} /> */}
+        <FormEdit opportunity={opportunityData} />
       </MDBox>
     </DashboardLayout>
   );
