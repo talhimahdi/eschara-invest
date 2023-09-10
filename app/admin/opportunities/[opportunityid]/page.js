@@ -10,12 +10,10 @@ import DashboardNavbar from "../../../../examples/Navbars/DashboardNavbar";
 import MDBox from "../../../../components/MDBox";
 import FormEdit from "../components/FormEdit";
 
-console.log("init");
-
 const getOpportunityData = async (id) => {
   const opportunityData = await getOpportunityById(id);
 
-  console.log(opportunityData);
+  console.log("id " + id);
   if (opportunityData.status && opportunityData.opportunity) {
     return opportunityData.opportunity;
   }
@@ -25,12 +23,15 @@ const getOpportunityData = async (id) => {
 };
 export default async function EditOpportunity({ params }) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user.role != "admin") {
+  const opportunityId = parseInt(Number(params.opportunityid));
+
+  if (
+    !session ||
+    (session.user.role != "admin" && session.user.role != "manager")
+  ) {
     console.log("role " + session.user.role);
     // redirect("/");
   }
-
-  const opportunityId = parseInt(Number(params.opportunityid));
 
   if (opportunityId != params.opportunityid) {
     console.log("param " + params.opportunityid);
@@ -38,22 +39,6 @@ export default async function EditOpportunity({ params }) {
   }
 
   const opportunityData = await getOpportunityData(opportunityId);
-  console.log(opportunityData);
-
-  // // if (
-  // //   !session ||
-  // //   (session.user.role != "admin" && session.user.role != "manager")
-  // // ) {
-  // //   console.log(session.user.role);
-  // //   redirect("/");
-  // // }
-  // // console.log("good" + "  " + opportunityId);
-  // // console.log("good" + "  " + params.opportunityId);
-
-  // // // if (opportunityId != params.opportunityId) {
-  // // //   console.log(params.opportunityId + "  " + opportunityId);
-  // // //   // redirect("/");
-  // // // }
 
   return (
     <DashboardLayout>
