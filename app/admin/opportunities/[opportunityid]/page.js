@@ -69,13 +69,14 @@ export default async function EditOpportunity({ params }) {
     (session.user.role != "admin" && session.user.role != "manager")
   ) {
     console.log(session.user.role);
-    // redirect("/");
+    redirect("/");
   }
+  console.log("good" + "  " + opportunityId);
 
-  if (opportunityId != params.opportunityId) {
-    console.log(params.opportunityId + "  " + opportunityId);
-    // redirect("/");
-  }
+  // if (opportunityId != params.opportunityId) {
+  //   console.log(params.opportunityId + "  " + opportunityId);
+  //   // redirect("/");
+  // }
 
   // const opportunityData = await getOpportunityData(opportunityId);
   // console.log(opportunityData);
