@@ -87,6 +87,20 @@ function FormAdd() {
   const handleFiles = async (e) => {
     var files = Array.from(e.target.files);
 
+    setPreviewImages([]);
+    setAlert({
+      severity: "",
+      message: "",
+    });
+    if (parseInt(files.length) > 5) {
+      setAlert({
+        severity: "error",
+        message: "You can only upload a maximum of 5 images",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     const imagesObj = Promise.all(
       files.map(async (file) => {
         setPreviewImages((state) => [...state, URL.createObjectURL(file)]);
