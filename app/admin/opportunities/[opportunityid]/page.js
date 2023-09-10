@@ -72,6 +72,7 @@ export default async function EditOpportunity({ params }) {
     redirect("/");
   }
   console.log("good" + "  " + opportunityId);
+  console.log("good" + "  " + params.opportunityId);
 
   // if (opportunityId != params.opportunityId) {
   //   console.log(params.opportunityId + "  " + opportunityId);
