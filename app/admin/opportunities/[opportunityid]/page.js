@@ -13,13 +13,10 @@ import FormEdit from "../components/FormEdit";
 const getOpportunityData = async (id) => {
   const opportunityData = await getOpportunityById(id);
 
-  console.log("id " + id);
   if (opportunityData.status && opportunityData.opportunity) {
     return opportunityData.opportunity;
   }
-  // redirect("/404");
-
-  return false;
+  redirect("/");
 };
 export default async function EditOpportunity({ params }) {
   const session = await getServerSession(authOptions);
@@ -30,12 +27,12 @@ export default async function EditOpportunity({ params }) {
     (session.user.role != "admin" && session.user.role != "manager")
   ) {
     console.log("role " + session.user.role);
-    // redirect("/");
+    redirect("/");
   }
 
   if (opportunityId != params.opportunityid) {
     console.log("param " + params.opportunityid);
-    // redirect("/");
+    redirect("/");
   }
 
   const opportunityData = await getOpportunityData(opportunityId);
