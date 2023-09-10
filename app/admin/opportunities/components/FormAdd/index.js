@@ -130,7 +130,7 @@ function FormAdd() {
               </MDTypography>
               <MDBox mt={2}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <MDBox my={3}>
                       <Button
                         variant="contained"
@@ -154,7 +154,7 @@ function FormAdd() {
                           onChange={handleFiles}
                         />
                       </Button>
-                      <MDBox sx={{ display: "flex", mt: 3 }}>
+                      <MDBox sx={{ display: "flex", flexWrap: "wrap", mt: 3 }}>
                         {previewImages.map((prv) => (
                           <MDBox
                             key={prv}
