@@ -225,6 +225,9 @@ function OpportunitiesDataTable({
 
               return (
                 <TableRow key={cellKey} {...cellProps}>
+                  <DataTableHeadCell key={"actions-key"} sorted={false}>
+                    {"Actions"}
+                  </DataTableHeadCell>
                   {headerGroup.headers.map((column, key) => {
                     const cellProps = column.getHeaderProps(
                       isSorted && column.getSortByToggleProps()
@@ -245,9 +248,6 @@ function OpportunitiesDataTable({
                       </DataTableHeadCell>
                     );
                   })}
-                  <DataTableHeadCell key={"actions-key"} sorted={false}>
-                    {"Actions"}
-                  </DataTableHeadCell>
                 </TableRow>
               );
             })}
@@ -264,24 +264,6 @@ function OpportunitiesDataTable({
 
               return (
                 <TableRow key={cellKey} {...cellProps}>
-                  {row.cells.map((cell) => {
-                    const cellProps = cell.getCellProps();
-
-                    const cellKey = cellProps.key;
-
-                    delete cellProps.key;
-
-                    return (
-                      <DataTableBodyCell
-                        key={cellKey}
-                        noBorder={noEndBorder && rows.length - 1 === key}
-                        align={cell.column.align ? cell.column.align : "left"}
-                        {...cellProps}
-                      >
-                        {cell.render("Cell")}
-                      </DataTableBodyCell>
-                    );
-                  })}
                   <DataTableBodyCell key={"actionsCell-key"}>
                     <MDBox sx={{ display: "flex", gap: 1 }}>
                       <Fab
@@ -323,6 +305,24 @@ function OpportunitiesDataTable({
                       </Fab>
                     </MDBox>
                   </DataTableBodyCell>
+                  {row.cells.map((cell) => {
+                    const cellProps = cell.getCellProps();
+
+                    const cellKey = cellProps.key;
+
+                    delete cellProps.key;
+
+                    return (
+                      <DataTableBodyCell
+                        key={cellKey}
+                        noBorder={noEndBorder && rows.length - 1 === key}
+                        align={cell.column.align ? cell.column.align : "left"}
+                        {...cellProps}
+                      >
+                        {cell.render("Cell")}
+                      </DataTableBodyCell>
+                    );
+                  })}
                 </TableRow>
               );
             })}

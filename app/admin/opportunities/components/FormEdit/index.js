@@ -13,10 +13,16 @@ import { Cancel, Send } from "@mui/icons-material";
 import colors from "../../../../../assets/theme/base/colors";
 import EILoader from "../../../../../components/EILoader";
 
-function FormEdit({ roles, opportunity }) {
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+
+function FormEdit({ opportunity, managers }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [previewImages, setPreviewImages] = useState([]);
+  const [gelleryImages, setGelleryImages] = useState(opportunity.gallery);
+  const [managerValue, setManagerValue] = useState(opportunity.manager);
   const [alert, setAlert] = useState({
     severity: "",
     message: "",
@@ -28,6 +34,10 @@ function FormEdit({ roles, opportunity }) {
   const status = ["Available", "Ongoing", "Closed", "Rejected"];
 
   const onSubmit = async () => {
+    formValues.manager = managerValue.id;
+    // console.log(formValues);
+    // console.log(managerValue);
+    // return;
     startTransition(async () => {
       const editOpportunityResponse = await editOpportunity(formValues);
 
@@ -59,6 +69,17 @@ function FormEdit({ roles, opportunity }) {
     });
   };
 
+  const handlePropertyDescriptionDelete = (e, value) => {
+    setFormValues({
+      ...formValues,
+      property_description: [
+        ...formValues.property_description.filter(
+          (property) => property != value
+        ),
+      ],
+    });
+  };
+
   async function convert2DataUrl(blobOrFile) {
     let reader = new FileReader();
     reader.readAsDataURL(blobOrFile);
@@ -69,11 +90,20 @@ function FormEdit({ roles, opportunity }) {
   const handleFiles = async (e) => {
     var files = Array.from(e.target.files);
 
-    setPreviewImages([]);
-    setAlert({
-      severity: "",
-      message: "",
+    var imagesSize = 0;
+    files.map((file) => {
+      imagesSize = imagesSize + file.size;
     });
+
+    if ((imagesSize / 1024 / 1024).toFixed(4) > 10) {
+      setAlert({
+        severity: "error",
+        message: "Max size is 10 MB",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     if (parseInt(files.length) > 5) {
       setAlert({
         severity: "error",
@@ -82,6 +112,12 @@ function FormEdit({ roles, opportunity }) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
+
+    setPreviewImages([]);
+    setAlert({
+      severity: "",
+      message: "",
+    });
 
     const imagesObj = Promise.all(
       files.map(async (file) => {
@@ -98,7 +134,7 @@ function FormEdit({ roles, opportunity }) {
 
     const images = await imagesObj;
 
-    setFormValues({ ...formValues, gallery: images });
+    setFormValues({ ...formValues, newGallery: images });
   };
 
   return (
@@ -108,12 +144,12 @@ function FormEdit({ roles, opportunity }) {
         <Grid item xs={12} lg={10}>
           <MDBox mt={6} mb={8} textAlign="center">
             <MDBox mb={1}>
-              <MDTypography variant="h3" fontWeight="bold">
-                Edit Opportunity informations
+              <MDTypography variant="h4" fontWeight="bold">
+                {formValues.title}
               </MDTypography>
             </MDBox>
             <MDTypography variant="h5" fontWeight="regular" color="secondary">
-              This information will describe more about the Opportunity.
+              #{formValues.id}
             </MDTypography>
           </MDBox>
           <Card>
@@ -121,13 +157,29 @@ function FormEdit({ roles, opportunity }) {
               <Alert severity={alert.severity}>{alert.message}</Alert>
             )}
             <MDBox mt={3} mb={3} mx={2} spacing={20}>
-              <MDTypography variant="h5" mb={5}>
-                Opportunity Information
-              </MDTypography>
               <MDBox mt={2}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={12}>
-                    <MDBox my={3}>
+                    <MDBox mb={3} sx={{ display: "flex", flexWrap: "wrap" }}>
+                      {gelleryImages.map((image) => (
+                        <MDBox
+                          key={image}
+                          color="white"
+                          textAlign="center"
+                          sx={{
+                            pr: 1,
+                          }}
+                        >
+                          <img
+                            src={image}
+                            width={100}
+                            height={80}
+                            style={{ borderRadius: 5 }}
+                          />
+                        </MDBox>
+                      ))}
+                    </MDBox>
+                    <MDBox mb={3}>
                       <Button
                         variant="contained"
                         component="label"
@@ -241,32 +293,54 @@ function FormEdit({ roles, opportunity }) {
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <FormField
-                      value={formValues.commitment}
+                      value={formValues.total_value}
                       onChange={(e) => {
                         setFormValues({
                           ...formValues,
-                          commitment: e.target.value,
+                          total_value: e.target.value,
                         });
                       }}
-                      type="number"
-                      label="Commitment"
+                      type="total_value"
+                      label="Total value"
                       placeholder="0.00"
                       variant="outlined"
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <FormField
-                      value={formValues.soft_commitment}
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          soft_commitment: e.target.value,
-                        });
+                    <Autocomplete
+                      renderOption={(props, option) => {
+                        return (
+                          <li {...props} key={option.id}>
+                            {option.full_name}
+                          </li>
+                        );
                       }}
-                      type="soft_commitment"
-                      label="Soft Commitment"
-                      placeholder="0.00"
-                      variant="outlined"
+                      renderTags={(tagValue, getTagProps) => {
+                        return tagValue.map((option, index) => (
+                          <Chip
+                            {...getTagProps({ index })}
+                            key={option}
+                            label={option}
+                          />
+                        ));
+                      }}
+                      value={managerValue}
+                      options={managers}
+                      getOptionLabel={(option) => option.full_name}
+                      onChange={(event, newValue) => {
+                        setManagerValue(newValue);
+                        // setFormValues({
+                        //   ...formValues,
+                        //   manager: newValue.id,
+                        // });
+                      }}
+                      renderInput={(params) => (
+                        <FormField
+                          {...params}
+                          variant="outlined"
+                          label="Manager"
+                        />
+                      )}
                     />
                   </Grid>
                 </Grid>
@@ -274,8 +348,9 @@ function FormEdit({ roles, opportunity }) {
 
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12}>
                     <MDBox mb={3}>
+                      {/* <MDEditor value={editorValue} onChange={setEditorValue} /> */}
                       <FormField
                         value={formValues.description}
                         onChange={(e) => {
@@ -288,70 +363,101 @@ function FormEdit({ roles, opportunity }) {
                         variant="outlined"
                         fullWidth
                         multiline
-                        minRows={3}
-                        maxRows={6}
-                      />
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <MDBox mb={3}>
-                      <FormField
-                        value={formValues.analysis}
-                        onChange={(e) => {
-                          setFormValues({
-                            ...formValues,
-                            analysis: e.target.value,
-                          });
-                        }}
-                        label="Analysis"
-                        variant="outlined"
-                        fullWidth
-                        multiline
-                        minRows={3}
-                        maxRows={6}
+                        minRows={8}
                       />
                     </MDBox>
                   </Grid>
                 </Grid>
               </MDBox>
 
-              <MDBox mt={5}>
-                <Grid container spacing={3}>
+              <MDBox mt={2}>
+                <Grid container spacing={3} alignItems={"center"}>
                   <Grid item xs={12} sm={6}>
-                    <MDBox mb={3}>
-                      <FormField
-                        value={formValues.financial_parameters}
-                        onChange={(e) => {
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Expiration date"
+                        value={dayjs(formValues.expiration_date)}
+                        format="DD/MM/YYYY"
+                        onChange={(newValue) =>
                           setFormValues({
                             ...formValues,
-                            financial_parameters: e.target.value,
-                          });
-                        }}
-                        label="Financial parameters"
-                        variant="outlined"
-                        fullWidth
-                        multiline
-                        minRows={3}
-                        maxRows={6}
+                            expiration_date: dayjs(newValue.$d).format(
+                              "YYYY-MM-DD"
+                            ),
+                          })
+                        }
                       />
-                    </MDBox>
+                    </LocalizationProvider>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
+                      <MDBox mb={3}>
+                        {formValues.property_description.length === 0 ? (
+                          <MDTypography
+                            mb={5}
+                            sx={{
+                              fontSize: 12,
+                              color: colors.grey[500],
+                            }}
+                          >
+                            No Property selected.
+                          </MDTypography>
+                        ) : (
+                          formValues.property_description.map(
+                            (property, index) => {
+                              return (
+                                <Chip
+                                  key={index}
+                                  label={property.key + " : " + property.value}
+                                  size="small"
+                                  onDelete={(e) =>
+                                    handlePropertyDescriptionDelete(e, property)
+                                  }
+                                  sx={{
+                                    mr: 0.8,
+                                  }}
+                                />
+                              );
+                            }
+                          )
+                        )}
+                      </MDBox>
                       <FormField
-                        value={formValues.terms_conditions}
-                        onChange={(e) => {
-                          setFormValues({
-                            ...formValues,
-                            terms_conditions: e.target.value,
-                          });
+                        helperText={`Tap enter to add new Property.\n key and value must separated by : \n ex key:value`}
+                        onKeyDown={(e) => {
+                          if (e.keyCode == 13) {
+                            const property = e.target.value.split(":");
+                            const key = property[0] ? property[0] : "";
+                            const value = property[1] ? property[1] : "";
+                            if (
+                              !formValues.property_description.find(
+                                (propert) =>
+                                  propert.key.toLowerCase() ===
+                                    key.toLowerCase() &&
+                                  propert.value.toLowerCase() ===
+                                    value.toLowerCase()
+                              ) &&
+                              e.target.value != ""
+                            ) {
+                              setFormValues({
+                                ...formValues,
+                                property_description: [
+                                  ...formValues.property_description,
+                                  {
+                                    key,
+                                    value,
+                                  },
+                                ],
+                              });
+
+                              e.target.value = "";
+                            }
+                          }
                         }}
-                        label="Terms & conditions"
+                        onChange={() => {}}
+                        type="text"
+                        label="Property description"
                         variant="outlined"
-                        fullWidth
-                        multiline
-                        minRows={3}
-                        maxRows={6}
                       />
                     </MDBox>
                   </Grid>

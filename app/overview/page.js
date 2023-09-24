@@ -320,12 +320,6 @@ function Overview() {
                       <MDTypography variant="h6" sx={{ mt: 2, ml: 2 }}>
                         Distribution of my investments
                       </MDTypography>
-                      {/* <MDTypography
-                        variant="paragraph"
-                        sx={{ mb: 1, ml: 2, fontSize: "small" }}
-                      >
-                        Analytics Insights
-                      </MDTypography> */}
                       <MDTypography
                         noWrap
                         variant="paragraph"

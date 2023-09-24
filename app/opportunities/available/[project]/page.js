@@ -48,6 +48,18 @@ function Project() {
   const imgsViewerNext = () => setImgsViewerCurrent(imgsViewerCurrent + 1);
   const imgsViewerPrev = () => setImgsViewerCurrent(imgsViewerCurrent - 1);
 
+  function scrollTo(hash) {
+    // location.hash = "#" + hash;
+    // document.getElementById(hash).scrollIntoView();
+
+    const yOffset = -130;
+    const element = document.getElementById(hash);
+    const y =
+      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -203,7 +215,7 @@ function Project() {
           <Grid
             item
             xs={12}
-            md={8}
+            md={4}
             sx={{
               "& .MuiTabs-root": {
                 padding: 0,
@@ -227,6 +239,7 @@ function Project() {
               }}
               sx={{
                 backgroundColor: "inherit",
+                width: "fit-content",
                 "& .MuiTabs-flexContainer": {
                   flexWrap: "wrap",
                 },
@@ -266,6 +279,7 @@ function Project() {
                   display: "flex",
                   flexDirection: { xs: "column", md: "row" },
                   py: 1.5,
+                  px: 3,
                   fontSize: { xs: 12, md: 16 },
                 }}
                 icon={
@@ -273,56 +287,16 @@ function Project() {
                     help_outline
                   </Icon>
                 }
+                onClick={() => scrollTo("__description_block")}
               />
-              <Tab
-                label="Analysis"
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                  py: 1.5,
-                  fontSize: { xs: 12, md: 16 },
-                }}
-                icon={
-                  <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                    bar_chart
-                  </Icon>
-                }
-              />
-              <Tab
-                label={"Financial parameters"}
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  flexDirection: { xs: "column", md: "row" },
-                  py: 1.5,
-                  fontSize: { xs: 12, md: 16 },
-                }}
-                icon={
-                  <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                    currency_exchange_outlined
-                  </Icon>
-                }
-              />
-              <Tab
-                label={"Finance"}
-                sx={{
-                  display: { xs: "flex", md: "none" },
-                  flexDirection: { xs: "column", md: "row" },
-                  py: 1.5,
-                  fontSize: { xs: 12, md: 16 },
-                }}
-                icon={
-                  <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                    currency_exchange_outlined
-                  </Icon>
-                }
-              />
+
               <Tab
                 label="Documents"
                 sx={{
                   display: "flex",
                   flexDirection: { xs: "column", md: "row" },
-                  p: 0,
                   py: 1.5,
+                  px: 3,
                   fontSize: { xs: 12, md: 16 },
                 }}
                 icon={
@@ -330,6 +304,7 @@ function Project() {
                     article_outlined
                   </Icon>
                 }
+                onClick={() => scrollTo("__documents_block")}
               />
             </Tabs>
           </Grid>
@@ -337,12 +312,44 @@ function Project() {
             container
             item
             xs={0}
-            md={4}
+            md={8}
             sx={{
               display: { xs: "none", md: "flex" },
               justifyContent: "end",
             }}
           >
+            <MDBox
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                py: 1.5,
+                px: 3,
+                fontSize: { xs: 12, md: 16 },
+                color: "#ffffff",
+              }}
+            >
+              <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                calendar_month
+              </Icon>
+              Expiration date : 20/01/2025
+            </MDBox>
+            <MDBox
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                py: 1.5,
+                px: 3,
+                fontSize: { xs: 12, md: 16 },
+                color: "#ffffff",
+              }}
+            >
+              <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                paid
+              </Icon>
+              63 000
+            </MDBox>
             <MDButton
               onClick={setShowAcceptForm}
               variant="contained"
@@ -375,15 +382,15 @@ function Project() {
                 boxShadow: 2,
               }}
             >
-              <MDTypography
-                fontWeight="bold"
-                textTransform="capitalize"
-                variant="h6"
-                color={"dark"}
-              >
-                Property description
-              </MDTypography>
-              <MDBox>
+              <MDBox id="__description_block" sx={{ mb: 3 }}>
+                <MDTypography
+                  fontWeight="bold"
+                  textTransform="capitalize"
+                  variant="h6"
+                  color={"dark"}
+                >
+                  Property description
+                </MDTypography>
                 <TableContainer sx={{ boxShadow: 0 }}>
                   <Table
                     sx={{
@@ -394,11 +401,6 @@ function Project() {
                       },
                     }}
                   >
-                    <TableHead sx={{ padding: 0, fontWeight: 500 }}>
-                      <TableRow>
-                        <TableCell sx={{ fontWeight: 500 }}>Active</TableCell>
-                      </TableRow>
-                    </TableHead>
                     <TableBody>
                       <TableRow>
                         <TableCell align="left">Adress</TableCell>
@@ -445,71 +447,66 @@ function Project() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <TableContainer sx={{ boxShadow: 0 }}>
-                  <Table
+              </MDBox>
+              <MDBox id="__documents_block">
+                <MDTypography
+                  fontWeight="bold"
+                  textTransform="capitalize"
+                  variant="h6"
+                  color={"dark"}
+                >
+                  Documents
+                </MDTypography>
+                <MDBox sx={{ mt: 2 }}>
+                  <MDBox
                     sx={{
-                      mt: 3,
-                      "& .MuiTableCell-root": {
-                        px: 0,
-                        fontSize: 15,
-                      },
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      pb: 1,
                     }}
                   >
-                    <TableHead sx={{ padding: 0, fontWeight: 500 }}>
-                      <TableRow>
-                        <TableCell sx={{ fontWeight: 500 }}>Contract</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="left">Income</TableCell>
-                        <TableCell align="right">324 000 €</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">Expenses</TableCell>
-                        <TableCell align="right">28 000 €</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">NOI</TableCell>
-                        <TableCell align="right">296 000 €</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">Rent / m2 / month</TableCell>
-                        <TableCell align="right">5.0 €</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">
-                          Market rent / m2 / month
-                        </TableCell>
-                        <TableCell align="right">6.0 €</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">
-                          Income vs. Market Income
-                        </TableCell>
-                        <TableCell align="right">-17%</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">End of contract</TableCell>
-                        <TableCell align="right">Jan-21</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">Next break</TableCell>
-                        <TableCell align="right">Jan-26</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">
-                          Expiration of the contract
-                        </TableCell>
-                        <TableCell align="right">Jan-36</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="left">Contract structure</TableCell>
-                        <TableCell align="right">5+5+5</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                    <Icon fontSize="small">description</Icon>
+                    <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                      first_file.pdf
+                    </MDTypography>
+                    <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                      2.18 MB
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      pb: 1,
+                    }}
+                  >
+                    <Icon fontSize="small">description</Icon>
+                    <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                      second_file.pdf
+                    </MDTypography>
+                    <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                      3.18 MB
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      pb: 1,
+                    }}
+                  >
+                    <Icon fontSize="small">description</Icon>
+                    <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                      third_file.pdf
+                    </MDTypography>
+                    <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                      4.18 MB
+                    </MDTypography>
+                  </MDBox>
+                </MDBox>
               </MDBox>
             </Card>
           </Grid>

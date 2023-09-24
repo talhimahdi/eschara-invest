@@ -73,9 +73,8 @@ export default function OpportunitiesList({ opportunities }) {
           );
         },
       },
-      { Header: "Commitment", accessor: "commitment" },
-      { Header: "soft commitment", accessor: "soft_commitment" },
       { Header: "google map", accessor: "google_map" },
+
       {
         Header: "Tags",
         accessor: "tags",
@@ -128,74 +127,56 @@ export default function OpportunitiesList({ opportunities }) {
         },
       },
       {
-        Header: "terms & conditions",
-        accessor: "terms_conditions",
+        Header: "Property description",
+        accessor: "property_description",
+        width: "10%",
         Cell: ({ value, row }) => {
           return (
-            <MDTypography
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-                width: 300,
-
-                fontSize: "inherit",
-                color: "inherit",
-              }}
-            >
-              {value}
-            </MDTypography>
+            <MDBox width={300}>
+              {value &&
+                Array.isArray(value) &&
+                value.map((property, index) => {
+                  return (
+                    <Chip
+                      key={index}
+                      label={property.key + " : " + property.value}
+                      size="small"
+                      // onDelete={handleTagDelete}
+                      // onDelete={(e) => handleTagDelete(e, tag)}
+                      sx={{
+                        mr: 0.8,
+                        my: 0.5,
+                      }}
+                    />
+                  );
+                })}
+            </MDBox>
           );
         },
       },
       {
-        Header: "analysis",
-        accessor: "analysis",
+        Header: "Total value",
+        accessor: "total_value",
         Cell: ({ value, row }) => {
           return (
-            <MDTypography
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-                width: 300,
-
-                fontSize: "inherit",
-                color: "inherit",
-              }}
-            >
-              {value}
-            </MDTypography>
+            <MDBox width={300}>
+              {value && (
+                <Chip
+                  label={value}
+                  size="small"
+                  // onDelete={handleTagDelete}
+                  // onDelete={(e) => handleTagDelete(e, tag)}
+                  sx={{
+                    mr: 0.8,
+                    my: 0.5,
+                  }}
+                />
+              )}
+            </MDBox>
           );
         },
       },
-      {
-        Header: "financial parameters",
-        accessor: "financial_parameters",
-        Cell: ({ value, row }) => {
-          return (
-            <MDTypography
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-                width: 300,
-
-                fontSize: "inherit",
-                color: "inherit",
-              }}
-            >
-              {value}
-            </MDTypography>
-          );
-        },
-      },
+      { Header: "Expiration date", accessor: "expiration_date" },
     ],
     rows: opportunities,
   };

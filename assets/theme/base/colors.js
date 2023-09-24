@@ -24,9 +24,9 @@ const colors = {
     won: "#03C07C",
     lost: "#FF4F4F",
     ongoing: "#2DCCFF",
-    available: "#56F000",
-    closed: "#FFB302",
-    rejected: "#FF3838",
+    available: "#ff7f00",
+    closed: "#03C07C",
+    rejected: "#FF4F4F",
   },
 
   escharaThemePrimary: {

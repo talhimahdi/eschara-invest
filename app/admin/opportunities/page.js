@@ -41,7 +41,6 @@ const callGetOpportunities = async () => {
   const result = opportunities.map((op) => {
     return {
       ...op,
-      manager: op.manager_id,
     };
   });
   return result;

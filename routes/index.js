@@ -49,14 +49,14 @@ const routes = [
     ],
   },
 
-  {
-    type: "collapse",
-    name: "Reporting",
-    key: "reporting",
-    icon: <Icon fontSize="medium">assessment</Icon>,
-    route: "/reporting",
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Reporting",
+  //   key: "reporting",
+  //   icon: <Icon fontSize="medium">assessment</Icon>,
+  //   route: "/reporting",
+  //   noCollapse: true,
+  // },
   { type: "divider", key: "divider-0" },
   {
     type: "collapse",

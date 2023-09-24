@@ -15,12 +15,12 @@ const mobileRoutes = [
     route: "/opportunities/available",
   },
 
-  {
-    name: "Reporting",
-    key: "reporting-mobile",
-    icon: <Icon fontSize="medium">assessment</Icon>,
-    route: "/reporting",
-  },
+  // {
+  //   name: "Reporting",
+  //   key: "reporting-mobile",
+  //   icon: <Icon fontSize="medium">assessment</Icon>,
+  //   route: "/reporting",
+  // },
 ];
 
 export default mobileRoutes;

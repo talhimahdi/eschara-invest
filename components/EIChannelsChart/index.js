@@ -74,7 +74,7 @@ function EIChannelsChart() {
           mt={{ xs: 2, sm: "auto" }}
         >
           <MDBox mt={2}>
-            <MDButton
+            {/* <MDButton
               sx={{
                 "&:hover": {
                   backgroundColor: colors.escharaThemeSecondary.main,
@@ -88,7 +88,7 @@ function EIChannelsChart() {
                 px: 5,
               }}
             >
-              SEE MORE
+              SEE MORE AA
               <Icon
                 fontSize="medium"
                 color="inherit"
@@ -98,7 +98,7 @@ function EIChannelsChart() {
               >
                 east
               </Icon>
-            </MDButton>
+            </MDButton> */}
           </MDBox>
         </MDBox>
       </MDBox>

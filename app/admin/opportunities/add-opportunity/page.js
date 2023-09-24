@@ -3,6 +3,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import getManagers from "../serverActions/getManagers";
 
 import FormAdd from "../components/FormAdd";
 import DashboardLayout from "../../../../examples/LayoutContainers/DashboardLayout";
@@ -21,11 +22,13 @@ const getRolesData = async () => {
 };
 
 export default async function AddOpportunity() {
+  const managers = await getManagers();
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mt={0} mb={9}>
-        <FormAdd />
+        <FormAdd managers={managers} />
       </MDBox>
     </DashboardLayout>
   );
