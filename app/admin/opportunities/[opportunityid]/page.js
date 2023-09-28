@@ -27,12 +27,10 @@ export default async function EditOpportunity({ params }) {
     !session ||
     (session.user.role != "admin" && session.user.role != "manager")
   ) {
-    console.log("role " + session.user.role);
     redirect("/");
   }
 
   if (opportunityId != params.opportunityid) {
-    console.log("param " + params.opportunityid);
     redirect("/");
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import DashboardLayout from "../../../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../../../examples/Navbars/DashboardNavbar";
 import {
@@ -34,8 +34,35 @@ import ImgsViewer from "react-images-viewer";
 // Form Component
 
 import NewUser from "./formComponents";
+import getOpportunityById from "@/admin/opportunities/serverActions/getOpportunityByIdForInvestor";
+import { useRouter } from "next/navigation";
+import EILoader from "../../../../components/EILoader";
 
-function Project() {
+function Project({ params }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const opportunityId = parseInt(Number(params.project));
+
+  if (opportunityId != params.project) {
+    router.push("/overview");
+  }
+  const [opportunityData, setOpportunityData] = useState({});
+  useEffect(() => {
+    async function getOpportunityData() {
+      const opportunityData = await getOpportunityById(opportunityId);
+
+      if (opportunityData.status && opportunityData.opportunity) {
+        setOpportunityData(opportunityData.opportunity);
+      } else {
+        router.push("/overview");
+      }
+    }
+    startTransition(async () => {
+      getOpportunityData();
+    });
+  }, []);
+
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
   const [tabValue, setTabValue] = useState(0);
 
@@ -63,6 +90,7 @@ function Project() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <EILoader open={isPending} />
       <Grid container my={3} gap={2} direction={"column"}>
         <Grid item container direction={"column"} gap={3}>
           <MDBox>
@@ -72,7 +100,8 @@ function Project() {
               variant="h5"
               color={"dark"}
             >
-              Lorem Ipsum #56879
+              {/* Lorem Ipsum #56879 */}
+              {opportunityData.title}
             </MDTypography>
           </MDBox>
 

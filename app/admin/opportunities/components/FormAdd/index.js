@@ -1,24 +1,17 @@
 "use client";
-import React, { useMemo, useState, useTransition } from "react";
-import {
-  Alert,
-  Autocomplete,
-  Button,
-  Chip,
-  Stack,
-  Typography,
-} from "@mui/material";
+import React, { useState, useTransition } from "react";
+import { Alert, Autocomplete, Button, Icon, Chip } from "@mui/material";
 import { Card, Grid } from "@mui/material";
 import MDTypography from "../../../../../components/MDTypography";
 import MDBox from "../../../../../components/MDBox";
 
 import FormField from "../../../../../components/FormField";
+import MDButton from "../../../../../components/MDButton";
 import addOpportunity from "../../serverActions/addOpportunity";
 import { useRouter } from "next/navigation";
 import { Cancel, Send } from "@mui/icons-material";
 import colors from "../../../../../assets/theme/base/colors";
 import EILoader from "../../../../../components/EILoader";
-import MDDropzone from "../../../../../components/MDDropzone";
 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -28,11 +21,19 @@ function FormAdd({ managers }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [previewImages, setPreviewImages] = useState([]);
+  const [previewFiles, setPreviewFiles] = useState([]);
   const [managerValue, setManagerValue] = useState(managers[0]);
   const [alert, setAlert] = useState({
     severity: "",
     message: "",
   });
+
+  const [propertyDescription, setPropertyDescription] = useState({
+    key: "",
+    value: "",
+  });
+
+  const [newTag, setNewTag] = useState("");
   const [formValues, setFormValues] = useState({
     title:
       "Cat remarked. 'Don't be impertinent,' said the Dormouse turned out, and, by the Hatter, with an important air, 'are you all ready? This is the capital of Paris, and Paris is the same thing,' said.",
@@ -67,11 +68,12 @@ function FormAdd({ managers }) {
 
   const onSubmit = async () => {
     formValues.manager = managerValue.id;
-    // console.log(formValues);
-    // return;
-    const addOpportunityResponse = await addOpportunity(formValues);
 
-    console.log(addOpportunityResponse);
+    // console.log(formValues);
+
+    // return;
+
+    const addOpportunityResponse = await addOpportunity(formValues);
 
     if (addOpportunityResponse.errors) {
       setAlert({
@@ -100,6 +102,30 @@ function FormAdd({ managers }) {
     });
   };
 
+  const handleImageDelete = (e, value) => {
+    setPreviewImages([
+      ...previewImages.filter(
+        (image) => image.name != value.name && image.url != value.url
+      ),
+    ]);
+
+    setFormValues({
+      ...formValues,
+      gallery: [
+        ...formValues.gallery.filter((image) => image.name != value.name),
+      ],
+    });
+  };
+
+  const handleFileDelete = (e, value) => {
+    setPreviewFiles([...previewFiles.filter((file) => file != value)]);
+
+    setFormValues({
+      ...formValues,
+      documents: [...formValues.documents.filter((file) => file != value)],
+    });
+  };
+
   const handlePropertyDescriptionDelete = (e, value) => {
     setFormValues({
       ...formValues,
@@ -118,7 +144,7 @@ function FormAdd({ managers }) {
     return reader.result;
   }
 
-  const handleFiles = async (e) => {
+  const handleImages = async (e) => {
     var files = Array.from(e.target.files);
 
     var imagesSize = 0;
@@ -138,7 +164,7 @@ function FormAdd({ managers }) {
     if (parseInt(files.length) > 5) {
       setAlert({
         severity: "error",
-        message: "You can only upload a maximum of 5 images",
+        message: "You can upload 5 images maximum.",
       });
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
@@ -151,7 +177,10 @@ function FormAdd({ managers }) {
 
     const imagesObj = Promise.all(
       files.map(async (file) => {
-        setPreviewImages((state) => [...state, URL.createObjectURL(file)]);
+        setPreviewImages((state) => [
+          ...state,
+          { url: URL.createObjectURL(file), name: file.name },
+        ]);
         const base64 = await convert2DataUrl(file);
         return {
           name: file.name,
@@ -165,6 +194,61 @@ function FormAdd({ managers }) {
     const images = await imagesObj;
 
     setFormValues({ ...formValues, gallery: images });
+    e.target.value = null;
+  };
+
+  const handleFiles = async (e) => {
+    var files = Array.from(e.target.files);
+
+    var filesSize = 0;
+    files.map((file) => {
+      filesSize = filesSize + file.size;
+    });
+
+    if ((filesSize / 1024 / 1024).toFixed(4) > 10) {
+      setAlert({
+        severity: "error",
+        message: "Max size is 10 MB",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (parseInt(files.length) > 5) {
+      setAlert({
+        severity: "error",
+        message: "You can only upload a maximum of 5 files",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    setPreviewFiles([]);
+    setAlert({
+      severity: "",
+      message: "",
+    });
+
+    const filesObj = Promise.all(
+      files.map(async (file) => {
+        setPreviewFiles((state) => [
+          ...state,
+          { name: file.name, size: (file.size / 1024 / 1024).toFixed(2) },
+        ]);
+        const base64 = await convert2DataUrl(file);
+        return {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          data: base64,
+        };
+      })
+    );
+
+    const documents = await filesObj;
+
+    setFormValues({ ...formValues, documents: documents });
+    e.target.value = null;
   };
 
   return (
@@ -188,8 +272,8 @@ function FormAdd({ managers }) {
             )}
             <MDBox mt={3} mb={3} mx={2} spacing={20}>
               <MDBox>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={12}>
+                <Grid container spacing={3} mb={5}>
+                  <Grid item xs={12} sm={6}>
                     <MDBox my={3}>
                       <Button
                         variant="contained"
@@ -210,27 +294,43 @@ function FormAdd({ managers }) {
                           multiple
                           type="file"
                           name="gallery"
-                          onChange={handleFiles}
+                          onChange={handleImages}
                         />
                       </Button>
                       <MDBox sx={{ display: "flex", flexWrap: "wrap", mt: 3 }}>
-                        {previewImages.map((prv) => (
-                          <MDBox
-                            key={prv}
-                            color="white"
-                            textAlign="center"
-                            sx={{
-                              pr: 1,
-                            }}
-                          >
-                            <img
-                              src={prv}
-                              width={100}
-                              height={80}
-                              style={{ borderRadius: 5 }}
-                            />
-                          </MDBox>
-                        ))}
+                        {previewImages.length > 0 ? (
+                          previewImages.map((prv) => (
+                            <MDBox
+                              key={prv.url + prv.name}
+                              color="white"
+                              textAlign="center"
+                              sx={{
+                                pr: 1,
+                              }}
+                            >
+                              <img
+                                src={prv.url}
+                                width={100}
+                                height={80}
+                                style={{ borderRadius: 5 }}
+                              />
+                              <Icon
+                                sx={{
+                                  fontSize: "small",
+                                  color: "#ff0000",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => handleImageDelete(e, prv)}
+                              >
+                                delete_outline
+                              </Icon>
+                            </MDBox>
+                          ))
+                        ) : (
+                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                            No image selected!
+                          </MDTypography>
+                        )}
                       </MDBox>
                     </MDBox>
                     {/* <MDBox my={3}>
@@ -261,6 +361,79 @@ function FormAdd({ managers }) {
                         []
                       )}
                     </MDBox> */}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox my={3}>
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          color: colors.white.main,
+                          "&:hover": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                          },
+                        }}
+                      >
+                        Documents
+                        <input
+                          hidden
+                          accept=".pdf"
+                          multiple
+                          type="file"
+                          name="documents"
+                          onChange={handleFiles}
+                        />
+                      </Button>
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          mt: 3,
+                          gap: 2,
+                        }}
+                      >
+                        {previewFiles.length > 0 ? (
+                          previewFiles.map((file) => (
+                            <MDBox
+                              key={file.name + file.size}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 1,
+                                p: 1,
+                                backgroundColor: "#eee",
+                                borderRadius: 2,
+                              }}
+                            >
+                              <Icon fontSize="small">description</Icon>
+                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                                {file.name}
+                              </MDTypography>
+                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                                {file.size} MB
+                              </MDTypography>
+                              <Icon
+                                sx={{
+                                  fontSize: "small",
+                                  color: "#ff0000",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => handleFileDelete(e, file)}
+                              >
+                                delete_outline
+                              </Icon>
+                            </MDBox>
+                          ))
+                        ) : (
+                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                            No file selected!
+                          </MDTypography>
+                        )}
+                      </MDBox>
+                    </MDBox>
                   </Grid>
                 </Grid>
                 <Grid container spacing={3}>
@@ -433,43 +606,76 @@ function FormAdd({ managers }) {
                           )
                         )}
                       </MDBox>
-                      <FormField
-                        helperText={`Tap enter to add new Property.\n key and value must separated by : \n ex key:value`}
-                        onKeyDown={(e) => {
-                          if (e.keyCode == 13) {
-                            const property = e.target.value.split(":");
-                            const key = property[0] ? property[0] : "";
-                            const value = property[1] ? property[1] : "";
+
+                      <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
+                        <FormField
+                          value={propertyDescription.key}
+                          onChange={(e) =>
+                            setPropertyDescription({
+                              ...propertyDescription,
+                              key: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Name"
+                          variant="outlined"
+                        />
+                        <FormField
+                          value={propertyDescription.value}
+                          onChange={(e) =>
+                            setPropertyDescription({
+                              ...propertyDescription,
+                              value: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Value"
+                          variant="outlined"
+                        />
+                        <MDButton
+                          sx={{
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                            "&:hover": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                          }}
+                          onClick={() => {
                             if (
                               !formValues.property_description.find(
                                 (propert) =>
                                   propert.key.toLowerCase() ===
-                                    key.toLowerCase() &&
+                                    propertyDescription.key.toLowerCase() &&
                                   propert.value.toLowerCase() ===
-                                    value.toLowerCase()
+                                    propertyDescription.value.toLowerCase()
                               ) &&
-                              e.target.value != ""
+                              propertyDescription.value != ""
                             ) {
                               setFormValues({
                                 ...formValues,
                                 property_description: [
                                   ...formValues.property_description,
                                   {
-                                    key,
-                                    value,
+                                    key: propertyDescription.key,
+                                    value: propertyDescription.value,
                                   },
                                 ],
                               });
 
-                              e.target.value = "";
+                              setPropertyDescription({ key: "", value: "" });
                             }
-                          }
-                        }}
-                        onChange={() => {}}
-                        type="text"
-                        label="Property description"
-                        variant="outlined"
-                      />
+                          }}
+                        >
+                          Add
+                        </MDButton>
+                      </MDBox>
                     </MDBox>
                   </Grid>
                 </Grid>
@@ -520,32 +726,49 @@ function FormAdd({ managers }) {
                           })
                         )}
                       </MDBox>
-                      <FormField
-                        helperText="Tap enter to add new TAG."
-                        onKeyDown={(e) => {
-                          if (e.keyCode == 13) {
+                      <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
+                        <FormField
+                          value={newTag}
+                          onChange={(e) => setNewTag(e.target.value)}
+                          type="text"
+                          label="Tag"
+                          variant="outlined"
+                        />
+                        <MDButton
+                          sx={{
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                            "&:hover": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                          }}
+                          onClick={() => {
                             if (
                               !formValues.tags.find(
                                 (tag) =>
-                                  tag.toLowerCase() ===
-                                  e.target.value.toLowerCase()
+                                  tag.toLowerCase() === newTag.toLowerCase()
                               ) &&
-                              e.target.value != ""
+                              newTag != ""
                             ) {
                               setFormValues({
                                 ...formValues,
-                                tags: [...formValues.tags, e.target.value],
+                                tags: [...formValues.tags, newTag],
                               });
 
-                              e.target.value = "";
+                              setNewTag("");
                             }
-                          }
-                        }}
-                        onChange={() => {}}
-                        type="text"
-                        label="Tags"
-                        variant="outlined"
-                      />
+                          }}
+                        >
+                          Add
+                        </MDButton>
+                      </MDBox>
                     </MDBox>
                   </Grid>
                 </Grid>
