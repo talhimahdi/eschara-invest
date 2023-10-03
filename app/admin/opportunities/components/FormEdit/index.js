@@ -339,6 +339,7 @@ function FormEdit({ opportunity, managers }) {
                         {previewImages.length > 0 ? (
                           previewImages.map((prv) => (
                             <MDBox
+                              key={prv.url + prv.name}
                               sx={{
                                 m: "5px",
                                 pt: 1,
@@ -351,7 +352,6 @@ function FormEdit({ opportunity, managers }) {
                               }}
                             >
                               <MDBox
-                                key={prv.url + prv.name}
                                 color="white"
                                 textAlign="center"
                                 sx={{
