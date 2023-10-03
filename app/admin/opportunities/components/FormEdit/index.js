@@ -285,6 +285,7 @@ function FormEdit({ opportunity, managers }) {
                     <MDBox my={3} sx={{ display: "flex", flexWrap: "wrap" }}>
                       {gelleryImages.map((image) => (
                         <MDBox
+                          key={image}
                           sx={{
                             m: "5px",
                             pt: 1,
@@ -297,7 +298,6 @@ function FormEdit({ opportunity, managers }) {
                           }}
                         >
                           <MDBox
-                            key={image}
                             color="white"
                             textAlign="center"
                             sx={{

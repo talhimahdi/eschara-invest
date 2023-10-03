@@ -327,6 +327,7 @@ function FormAdd({ managers }) {
                         {previewImages.length > 0 ? (
                           previewImages.map((prv) => (
                             <MDBox
+                              key={prv.url + prv.name}
                               sx={{
                                 m: "5px",
                                 pt: 1,
@@ -339,7 +340,6 @@ function FormAdd({ managers }) {
                               }}
                             >
                               <MDBox
-                                key={prv.url + prv.name}
                                 color="white"
                                 textAlign="center"
                                 sx={{
