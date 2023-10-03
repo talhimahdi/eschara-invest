@@ -161,7 +161,10 @@ function Overview() {
                       ml: 2,
                       fontSize: "medium",
                       display: "block",
-                      width: 210,
+                      width: {
+                        xs: 210,
+                        sm: 1,
+                      },
                     }}
                   >
                     Discover the latest opportunities

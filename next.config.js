@@ -13,4 +13,8 @@ module.exports = {
     serverActions: true,
     serverActionsBodySizeLimit: "20mb",
   },
+  images: {
+    domains: ["127.0.0.1", "eschara.alwaysdata.net"],
+    // formats: ["image/png", "image/jpg", "image/jpeg"],
+  },
 };

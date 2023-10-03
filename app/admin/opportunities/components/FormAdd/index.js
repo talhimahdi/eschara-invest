@@ -1,6 +1,13 @@
 "use client";
 import React, { useState, useTransition } from "react";
-import { Alert, Autocomplete, Button, Icon, Chip } from "@mui/material";
+import {
+  Alert,
+  Autocomplete,
+  Button,
+  Icon,
+  Chip,
+  Divider,
+} from "@mui/material";
 import { Card, Grid } from "@mui/material";
 import MDTypography from "../../../../../components/MDTypography";
 import MDBox from "../../../../../components/MDBox";
@@ -16,8 +23,25 @@ import EILoader from "../../../../../components/EILoader";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import EIDragableTable from "../../../../../components/EIDragableTable";
 
 function FormAdd({ managers }) {
+  const [properties, setProperties] = useState([
+    {
+      key: "nulla tortor at imperdiet",
+      value: "eros facilisi ac nunc auctor facilisis",
+    },
+    {
+      key: "Lorem ipsum dolor sit amet",
+      value:
+        "consectetur adipiscing elit morbi, fringilla praesent nisi, tempus.",
+    },
+    {
+      key: "Key 3",
+      value: "Value 3",
+    },
+  ]);
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [previewImages, setPreviewImages] = useState([]);
@@ -45,20 +69,7 @@ function FormAdd({ managers }) {
     google_map: "7317 Tremblay Walks\nEast Norene, AR 72800",
     gallery: [],
     documents: [],
-    property_description: [
-      {
-        key: "Key 1",
-        value: "Value 1",
-      },
-      {
-        key: "Key 2",
-        value: "Value 2",
-      },
-      {
-        key: "Key 3",
-        value: "Value 3",
-      },
-    ],
+    property_description: [],
     expiration_date: "2024-10-29",
     created_at: "2023-09-22T01:12:19+00:00",
     total_value: 61541.72,
@@ -68,27 +79,26 @@ function FormAdd({ managers }) {
 
   const onSubmit = async () => {
     formValues.manager = managerValue.id;
+    formValues.property_description = properties;
 
-    // console.log(formValues);
+    startTransition(async () => {
+      const addOpportunityResponse = await addOpportunity(formValues);
 
-    // return;
+      if (addOpportunityResponse.errors) {
+        setAlert({
+          severity: "error",
+          message: Object.values(addOpportunityResponse.errors)[0],
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        setAlert({
+          severity: "success",
+          message: addOpportunityResponse.message,
+        });
 
-    const addOpportunityResponse = await addOpportunity(formValues);
-
-    if (addOpportunityResponse.errors) {
-      setAlert({
-        severity: "error",
-        message: Object.values(addOpportunityResponse.errors)[0],
-      });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      setAlert({
-        severity: "success",
-        message: addOpportunityResponse.message,
-      });
-
-      router.push("/admin/opportunities");
-    }
+        router.push("/admin/opportunities");
+      }
+    });
   };
 
   const handleTagDelete = (e, value) => {
@@ -126,15 +136,26 @@ function FormAdd({ managers }) {
     });
   };
 
-  const handlePropertyDescriptionDelete = (e, value) => {
-    setFormValues({
-      ...formValues,
-      property_description: [
-        ...formValues.property_description.filter(
-          (property) => property != value
-        ),
-      ],
-    });
+  const handleAddPropertyDescription = () => {
+    if (
+      !properties.find(
+        (propert) =>
+          propert.key.toLowerCase() === propertyDescription.key.toLowerCase() &&
+          propert.value.toLowerCase() ===
+            propertyDescription.value.toLowerCase()
+      ) &&
+      propertyDescription.value != ""
+    ) {
+      setProperties([
+        ...properties,
+        {
+          key: propertyDescription.key,
+          value: propertyDescription.value,
+        },
+      ]);
+
+      setPropertyDescription({ key: "", value: "" });
+    }
   };
 
   async function convert2DataUrl(blobOrFile) {
@@ -274,6 +295,11 @@ function FormAdd({ managers }) {
               <MDBox>
                 <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} sm={6}>
+                    <MDBox>
+                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                        Images
+                      </MDTypography>
+                    </MDBox>
                     <MDBox my={3}>
                       <Button
                         variant="contained"
@@ -287,7 +313,7 @@ function FormAdd({ managers }) {
                           },
                         }}
                       >
-                        gallery
+                        Add images
                         <input
                           hidden
                           accept=".jpg,.png"
@@ -301,24 +327,38 @@ function FormAdd({ managers }) {
                         {previewImages.length > 0 ? (
                           previewImages.map((prv) => (
                             <MDBox
-                              key={prv.url + prv.name}
-                              color="white"
-                              textAlign="center"
                               sx={{
-                                pr: 1,
+                                m: "5px",
+                                pt: 1,
+                                pb: 3,
+                                px: 1,
+                                backgroundColor: colors.grey[300],
+                                boxShadow: "0px 1px 2px rgb(0 0 0 / 50%)",
+                                borderRadius: 1,
+                                position: "relative",
                               }}
                             >
-                              <img
-                                src={prv.url}
-                                width={100}
-                                height={80}
-                                style={{ borderRadius: 5 }}
-                              />
+                              <MDBox
+                                key={prv.url + prv.name}
+                                color="white"
+                                textAlign="center"
+                                sx={{
+                                  backgroundImage: `url(${prv.url})`,
+                                  backgroundSize: "contain",
+                                  backgroundPosition: "center",
+                                  backgroundRepeat: "no-repeat",
+                                  width: 120,
+                                  height: 100,
+                                }}
+                              ></MDBox>
                               <Icon
                                 sx={{
                                   fontSize: "small",
                                   color: "#ff0000",
                                   cursor: "pointer",
+                                  position: "absolute",
+                                  right: 0,
+                                  bottom: 0,
                                 }}
                                 onClick={(e) => handleImageDelete(e, prv)}
                               >
@@ -333,36 +373,13 @@ function FormAdd({ managers }) {
                         )}
                       </MDBox>
                     </MDBox>
-                    {/* <MDBox my={3}>
-                      <MDBox
-                        mb={1}
-                        ml={0.5}
-                        lineHeight={0}
-                        display="inline-block"
-                      >
-                        <MDTypography
-                          component="label"
-                          variant="button"
-                          fontWeight="regular"
-                          color="text"
-                        >
-                          Images gallery
-                        </MDTypography>
-                      </MDBox>
-                      {useMemo(
-                        () => (
-                          <MDDropzone
-                            options={{ addRemoveLinks: true }}
-                            onDrop={(acceptedFiles) =>
-                              console.log(acceptedFiles)
-                            }
-                          />
-                        ),
-                        []
-                      )}
-                    </MDBox> */}
                   </Grid>
                   <Grid item xs={12} sm={6}>
+                    <MDBox>
+                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                        Documents
+                      </MDTypography>
+                    </MDBox>
                     <MDBox my={3}>
                       <Button
                         variant="contained"
@@ -376,7 +393,7 @@ function FormAdd({ managers }) {
                           },
                         }}
                       >
-                        Documents
+                        Add Documents
                         <input
                           hidden
                           accept=".pdf"
@@ -436,7 +453,8 @@ function FormAdd({ managers }) {
                     </MDBox>
                   </Grid>
                 </Grid>
-                <Grid container spacing={3}>
+                <Divider style={{ backgroundColor: "#b3b1b1", height: 2 }} />
+                <Grid container spacing={3} mt={3}>
                   <Grid item xs={12} sm={6}>
                     <FormField
                       value={formValues.title}
@@ -575,38 +593,11 @@ function FormAdd({ managers }) {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
-                      <MDBox mb={3}>
-                        {formValues.property_description.length === 0 ? (
-                          <MDTypography
-                            mb={5}
-                            sx={{
-                              fontSize: 12,
-                              color: colors.grey[500],
-                            }}
-                          >
-                            No Property selected.
-                          </MDTypography>
-                        ) : (
-                          formValues.property_description.map(
-                            (property, index) => {
-                              return (
-                                <Chip
-                                  key={index}
-                                  label={property.key + " : " + property.value}
-                                  size="small"
-                                  onDelete={(e) =>
-                                    handlePropertyDescriptionDelete(e, property)
-                                  }
-                                  sx={{
-                                    mr: 0.8,
-                                  }}
-                                />
-                              );
-                            }
-                          )
-                        )}
+                      <MDBox>
+                        <MDTypography sx={{ fontSize: 15 }}>
+                          Specifications
+                        </MDTypography>
                       </MDBox>
-
                       <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
                         <FormField
                           value={propertyDescription.key}
@@ -647,34 +638,16 @@ function FormAdd({ managers }) {
                               color: colors.white.main,
                             },
                           }}
-                          onClick={() => {
-                            if (
-                              !formValues.property_description.find(
-                                (propert) =>
-                                  propert.key.toLowerCase() ===
-                                    propertyDescription.key.toLowerCase() &&
-                                  propert.value.toLowerCase() ===
-                                    propertyDescription.value.toLowerCase()
-                              ) &&
-                              propertyDescription.value != ""
-                            ) {
-                              setFormValues({
-                                ...formValues,
-                                property_description: [
-                                  ...formValues.property_description,
-                                  {
-                                    key: propertyDescription.key,
-                                    value: propertyDescription.value,
-                                  },
-                                ],
-                              });
-
-                              setPropertyDescription({ key: "", value: "" });
-                            }
-                          }}
+                          onClick={handleAddPropertyDescription}
                         >
                           Add
                         </MDButton>
+                      </MDBox>
+                      <MDBox sx={{ mt: 1 }}>
+                        <EIDragableTable
+                          properties={properties}
+                          setProperties={setProperties}
+                        />
                       </MDBox>
                     </MDBox>
                   </Grid>
@@ -695,6 +668,8 @@ function FormAdd({ managers }) {
                       type="text"
                       label="Google map"
                       variant="outlined"
+                      multiline
+                      minRows={4}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -796,7 +771,7 @@ function FormAdd({ managers }) {
                 Cancel
               </Button>
               <Button
-                onClick={() => startTransition(onSubmit)}
+                onClick={onSubmit}
                 disabled={isPending}
                 variant="contained"
                 endIcon={<Send />}

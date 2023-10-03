@@ -51,7 +51,7 @@ function BasicInfo() {
             <FormField
               label="Phone Number"
               placeholder="+40 735 631 620"
-              inputProps={{ type: "number" }}
+              inputProps={{ type: "tel" }}
             />
           </Grid>
         </Grid>
