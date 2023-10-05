@@ -223,7 +223,7 @@ function FormEdit({ roles, user }) {
               </MDBox>
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={4}>
+                  {/* <Grid item xs={12} sm={4}>
                     <MDBox mb={3}>
                       <FormField
                         value={parseInt(formValues.zip_code)}
@@ -239,8 +239,8 @@ function FormEdit({ roles, user }) {
                         placeholder="00000"
                       />
                     </MDBox>
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
+                  </Grid> */}
+                  <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <FormField
                         value={formValues.town}
@@ -257,7 +257,7 @@ function FormEdit({ roles, user }) {
                       />
                     </MDBox>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <FormField
                         value={formValues.country}
@@ -271,6 +271,42 @@ function FormEdit({ roles, user }) {
                         variant="outlined"
                         type="text"
                         placeholder="Your country"
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <FormField
+                        value={formValues.phone}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            phone: e.target.value,
+                          });
+                        }}
+                        label="Phone"
+                        variant="outlined"
+                        type="tel"
+                        placeholder="Your phone"
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <FormField
+                        value={formValues.zip_code}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            zip_code: e.target.value,
+                          });
+                        }}
+                        type="number"
+                        variant="outlined"
+                        label="Zip code"
+                        placeholder="00000"
                       />
                     </MDBox>
                   </Grid>

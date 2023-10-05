@@ -32,20 +32,21 @@ export default async function editUser(user) {
           Authorization: `Bearer ${session.user.apiToken}`,
         },
 
-        body: JSON.stringify({
-          first_name,
-          last_name,
-          email,
-          password,
-          address,
-          address2,
-          comment,
-          role,
-          status,
-          zip_code,
-          town,
-          country,
-        }),
+        // body: JSON.stringify({
+        //   first_name,
+        //   last_name,
+        //   email,
+        //   password,
+        //   address,
+        //   address2,
+        //   comment,
+        //   role,
+        //   status,
+        //   zip_code,
+        //   town,
+        //   country,
+        // }),
+        body: JSON.stringify(user),
       }
     );
 

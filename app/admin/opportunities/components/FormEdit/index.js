@@ -712,6 +712,8 @@ function FormEdit({ opportunity, managers }) {
                       type="text"
                       label="Google map"
                       variant="outlined"
+                      multiline
+                      minRows={4}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>

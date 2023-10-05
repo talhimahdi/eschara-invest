@@ -29,13 +29,15 @@ function FormAdd({ roles }) {
     comment:
       "Non lacinia lobortis donec neque nostra aptent venenatis quisque imperdiet nibh, curabitur nulla vulputate porta primis natoque phasellus placerat nullam vehicula porttitor",
     role: "investor",
-    status: "inactive",
+    status: false,
     zip_code: 20220,
+    phone: "+321 1516178",
     town: "Paris",
     country: "French",
   });
 
   const onSubmit = async () => {
+    formValues.status = formValues.status == "Active" ? true : false;
     startTransition(async () => {
       const addUserResponse = await addUser(formValues);
 
@@ -231,24 +233,7 @@ function FormAdd({ roles }) {
               </MDBox>
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={4}>
-                    <MDBox mb={3}>
-                      <FormField
-                        value={formValues.zip_code}
-                        onChange={(e) => {
-                          setFormValues({
-                            ...formValues,
-                            zip_code: e.target.value,
-                          });
-                        }}
-                        type="number"
-                        variant="outlined"
-                        label="Zip code"
-                        placeholder="00000"
-                      />
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <FormField
                         value={formValues.town}
@@ -265,7 +250,7 @@ function FormAdd({ roles }) {
                       />
                     </MDBox>
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <FormField
                         value={formValues.country}
@@ -279,6 +264,42 @@ function FormAdd({ roles }) {
                         variant="outlined"
                         type="text"
                         placeholder="Your country"
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <FormField
+                        value={formValues.phone}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            phone: e.target.value,
+                          });
+                        }}
+                        label="Phone"
+                        variant="outlined"
+                        type="tel"
+                        placeholder="Your phone"
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <FormField
+                        value={formValues.zip_code}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            zip_code: e.target.value,
+                          });
+                        }}
+                        type="number"
+                        variant="outlined"
+                        label="Zip code"
+                        placeholder="00000"
                       />
                     </MDBox>
                   </Grid>

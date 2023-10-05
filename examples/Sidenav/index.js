@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -38,14 +38,18 @@ import {
 
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import EILoader from "../../components/EILoader";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const [openCollapse, setOpenCollapse] = useState(false);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
     controller;
-  // const { pathname } = useRouter();
+
   const pathname = usePathname();
 
   const collapseName = pathname?.split("/").slice(1)[0];
@@ -153,9 +157,19 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <SidenavItem color={color} name={name} active={key === itemName} />
           </MuiLink>
         ) : (
-          <Link href={route} key={key} sx={{ textDecoration: "none" }}>
+          // Add onClick
+          // <Link href={route} sx={{ textDecoration: "none" }}>
+          <MDBox
+            key={key}
+            onClick={() =>
+              startTransition(() => {
+                router.push(route);
+              })
+            }
+          >
             <SidenavItem color={color} name={name} active={key === itemName} />
-          </Link>
+          </MDBox>
+          // </Link>
         );
       }
       return <SidenavList key={key}>{returnValue}</SidenavList>;
@@ -186,18 +200,27 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           );
         } else if (noCollapse && route) {
           returnValue = (
-            <Link href={route} key={key} passHref>
-              <MDBox sx={{ mb: 3 }}>
-                <SidenavCollapse
-                  name={name}
-                  icon={icon}
-                  noCollapse={noCollapse}
-                  active={key === collapseName}
-                >
-                  {collapse ? renderCollapse(collapse) : null}
-                </SidenavCollapse>
-              </MDBox>
-            </Link>
+            // Add onClick
+            // <Link href={route} key={key} passHref>
+            <MDBox
+              key={key}
+              sx={{ mb: 3 }}
+              onClick={() =>
+                startTransition(() => {
+                  router.push(route);
+                })
+              }
+            >
+              <SidenavCollapse
+                name={name}
+                icon={icon}
+                noCollapse={noCollapse}
+                active={key === collapseName}
+              >
+                {collapse ? renderCollapse(collapse) : null}
+              </SidenavCollapse>
+            </MDBox>
+            // </Link>
           );
         } else {
           returnValue = (
@@ -323,6 +346,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       variant="permanent"
       ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
     >
+      <EILoader open={isPending} />
       <MDBox pt={3} pb={10} px={4} textAlign="center">
         <MDBox
           display={{ xs: "block", md: "none" }}

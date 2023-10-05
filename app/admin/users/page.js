@@ -26,6 +26,7 @@ const getUsers = async () => {
       { Header: "Status", accessor: "status" },
       { Header: "First name", accessor: "first_name" },
       { Header: "Last name", accessor: "last_name" },
+      { Header: "Phone", accessor: "phone" },
       { Header: "Town", accessor: "town" },
       { Header: "Country", accessor: "country" },
     ],

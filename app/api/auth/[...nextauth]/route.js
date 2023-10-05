@@ -24,7 +24,8 @@ export const authOptions = {
           return { ...res.user, apiToken: res.token };
         } else
           throw new Error(
-            JSON.stringify({ error: res.error.message, status: false })
+            // JSON.stringify({ error: res.error.message, status: false })
+            JSON.stringify({ error: res.error.message, ...res })
           );
         // return null;
       },

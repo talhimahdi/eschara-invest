@@ -61,6 +61,14 @@ function Login() {
             router.push(signInResult.url);
           } else {
             const responseError = JSON.parse(signInResult.error);
+
+            if (
+              responseError.isActive != undefined &&
+              responseError.isActive == false
+            ) {
+              router.push("/waiting-page");
+              return;
+            }
             setLoginError(responseError.error);
           }
         } else {

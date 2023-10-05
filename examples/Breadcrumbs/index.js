@@ -15,6 +15,7 @@ import MDTypography from "/components/MDTypography";
 
 function Breadcrumbs({ icon, title, route, light = false }) {
   const routes = route?.slice(0, -1);
+  console.log(routes);
 
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
@@ -37,21 +38,30 @@ function Breadcrumbs({ icon, title, route, light = false }) {
             <Icon>{icon}</Icon>
           </MDTypography>
         </Link>
-        {routes?.map((el) => (
-          <Link href={`/${el}`} key={el}>
-            <MDTypography
-              component="span"
-              variant="button"
-              fontWeight="regular"
-              textTransform="capitalize"
-              color={light ? "white" : "dark"}
-              opacity={light ? 0.8 : 0.5}
-              sx={{ lineHeight: 0 }}
-            >
-              {el}
-            </MDTypography>
-          </Link>
-        ))}
+        {routes?.map((el, index) => {
+          let link = "";
+          routes.map((el2, index2) => {
+            if (index >= index2) {
+              link = link + "/" + el2;
+            }
+          });
+
+          return (
+            <Link href={`${link}`} key={el}>
+              <MDTypography
+                component="span"
+                variant="button"
+                fontWeight="regular"
+                textTransform="capitalize"
+                color={light ? "white" : "dark"}
+                opacity={light ? 0.8 : 0.5}
+                sx={{ lineHeight: 0 }}
+              >
+                {el}
+              </MDTypography>
+            </Link>
+          );
+        })}
         <MDTypography
           variant="button"
           fontWeight="regular"

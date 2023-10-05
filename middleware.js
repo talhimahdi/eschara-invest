@@ -9,7 +9,9 @@ export default withAuth({
         pathname.startsWith("/_next") ||
         pathname.startsWith("/images") ||
         pathname === "/favicon.ico" ||
-        pathname.startsWith("/login")
+        pathname.startsWith("/login") ||
+        pathname.startsWith("/signup") ||
+        pathname.startsWith("/waiting-page")
       ) {
         return true;
       }
