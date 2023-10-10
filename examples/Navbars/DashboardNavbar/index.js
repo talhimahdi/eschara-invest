@@ -165,13 +165,6 @@ function DashboardNavbar({
             alignItems: "center",
           }}
         >
-          {/* <Grid item xs={1}>
-            <IconButton onClick={handleMiniSidenav} size="small" sx={{ p: 0 }}>
-              <Icon fontSize="medium" sx={iconsStyle}>
-                {miniSidenav ? "menu_open" : "menu"}
-              </Icon>
-            </IconButton>
-          </Grid> */}
           <Grid item xs={9}>
             <MDBox display="flex">
               <MDBox component="img" src={logo.src} alt={"logo"} width="85%" />
@@ -219,47 +212,18 @@ function DashboardNavbar({
                   )}
                 </MDAvatar>
               </MDBox>
-              {/* {renderMenu()} */}
             </MDBox>
           </Grid>
         </Grid>
-        {/* <MDBox>
-          <MDInput
-            label="Search here"
-            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                pb: 0,
-              },
-              "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                border: "1px solid #10123F",
-              },
-            }}
-          />
-        </MDBox> */}
+
         <MDBox color="inherit">
           <Breadcrumbs
             icon="home"
-            title={route ? route[route.length - 1] : ""}
+            title={pageTitle ? pageTitle : route ? route[route.length - 1] : ""}
             route={route}
             light={false}
           />
         </MDBox>
-        {/* <MDBox mb={3}>
-          <MDTypography
-            fontWeight="bold"
-            textTransform="capitalize"
-            variant="h5"
-            color={light ? "white" : "dark"}
-            noWrap
-          >
-            {pageTitle
-              ? pageTitle
-              : route
-              ? route[route.length - 1].replace("-", " ")
-              : ""}
-          </MDTypography>
-        </MDBox> */}
         {renderMenu()}
       </MDBox>
 
@@ -278,22 +242,28 @@ function DashboardNavbar({
             }}
           >
             <Grid container alignItems={"center"}>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={8}>
                 <MDBox color="inherit" mb={{ xs: 1, md: 0 }}>
                   <Breadcrumbs
                     icon="home"
-                    title={route ? route[route.length - 1] : ""}
+                    title={
+                      pageTitle
+                        ? pageTitle
+                        : route
+                        ? route[route.length - 1]
+                        : ""
+                    }
                     route={route}
                     light={light}
                   />
                 </MDBox>
               </Grid>
-              <Grid item xs={6} md={5}>
-                {/* <MDBox pr={1} display="flex">
+              {/* <Grid item xs={6} md={5}>
+                <MDBox pr={1} display="flex">
                   <MDInput label="Search here" sx={{ width: "100%" }} />
-                </MDBox> */}
-              </Grid>
-              <Grid container item xs={6} md={3} justifyContent={"end"}>
+                </MDBox>
+              </Grid> */}
+              <Grid container item xs={6} md={4} justifyContent={"end"}>
                 <MDBox>
                   <MDBox display="flex">
                     <IconButton

@@ -341,59 +341,60 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   );
 
   return (
-    <SidenavRoot
-      {...rest}
-      variant="permanent"
-      ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
-    >
+    <>
       <EILoader open={isPending} />
-      <MDBox pt={3} pb={10} px={4} textAlign="center">
-        <MDBox
-          display={{ xs: "block", md: "none" }}
-          position="absolute"
-          top={0}
-          right={0}
-          p={1.625}
-          onClick={closeSidenav}
-          sx={{ cursor: "pointer" }}
-        >
-          <MDTypography variant="h6" color="secondary">
-            <Icon sx={{ fontWeight: "bold" }}>close</Icon>
-          </MDTypography>
-        </MDBox>
-        <Link href="/">
-          <MDBox display="flex" alignItems="center">
-            {brand && brand.src ? (
-              <MDBox component="img" src={brand.src} alt={brandName} />
-            ) : (
-              <MDBox
-                width={!brandName && "100%"}
-                sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
-              >
-                <MDTypography
-                  component="h6"
-                  variant="button"
-                  fontWeight="medium"
-                  color={textColor}
-                >
-                  {brandName}
-                </MDTypography>
-              </MDBox>
-            )}
+      <SidenavRoot
+        {...rest}
+        variant="permanent"
+        ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
+      >
+        <MDBox pt={3} pb={10} px={4} textAlign="center">
+          <MDBox
+            display={{ xs: "block", md: "none" }}
+            position="absolute"
+            top={0}
+            right={0}
+            p={1.625}
+            onClick={closeSidenav}
+            sx={{ cursor: "pointer" }}
+          >
+            <MDTypography variant="h6" color="secondary">
+              <Icon sx={{ fontWeight: "bold" }}>close</Icon>
+            </MDTypography>
           </MDBox>
-        </Link>
-      </MDBox>
-      <List>
-        <>
-          {renderRoutes}
+          <Link href="/">
+            <MDBox display="flex" alignItems="center">
+              {brand && brand.src ? (
+                <MDBox component="img" src={brand.src} alt={brandName} />
+              ) : (
+                <MDBox
+                  width={!brandName && "100%"}
+                  sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
+                >
+                  <MDTypography
+                    component="h6"
+                    variant="button"
+                    fontWeight="medium"
+                    color={textColor}
+                  >
+                    {brandName}
+                  </MDTypography>
+                </MDBox>
+              )}
+            </MDBox>
+          </Link>
+        </MDBox>
+        <List>
+          <>
+            {renderRoutes}
 
-          {((session && session?.user.role == "admin") ||
-            (session && session?.user.role == "manager")) &&
-            renderAdminMenu}
-        </>
-      </List>
+            {((session && session?.user.role == "admin") ||
+              (session && session?.user.role == "manager")) &&
+              renderAdminMenu}
+          </>
+        </List>
 
-      {/* {session && session.user.role == "admin" && (
+        {/* {session && session.user.role == "admin" && (
         <MDBox>
           <Link
             href={"/admin/users"}
@@ -425,33 +426,34 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </Link>
         </MDBox>
       )} */}
-      <MDBox sx={{ my: 15 }}>
-        <MuiLink
-          href={"#"}
-          key={"contact-us"}
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-        >
-          <SidenavCollapse
-            name={"Contact us"}
-            icon={<Icon fontSize="medium">mail_outline</Icon>}
-            noCollapse={true}
-          />
-        </MuiLink>
-        <MuiLink
-          key={"log-out"}
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-          onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
-        >
-          <SidenavCollapse
-            name={"Log out"}
-            icon={<Icon fontSize="medium">logout</Icon>}
-            noCollapse={true}
-          />
-        </MuiLink>
-      </MDBox>
-    </SidenavRoot>
+        <MDBox sx={{ my: 15 }}>
+          <MuiLink
+            href={"#"}
+            key={"contact-us"}
+            rel="noreferrer"
+            sx={{ textDecoration: "none" }}
+          >
+            <SidenavCollapse
+              name={"Contact us"}
+              icon={<Icon fontSize="medium">mail_outline</Icon>}
+              noCollapse={true}
+            />
+          </MuiLink>
+          <MuiLink
+            key={"log-out"}
+            rel="noreferrer"
+            sx={{ textDecoration: "none" }}
+            onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
+          >
+            <SidenavCollapse
+              name={"Log out"}
+              icon={<Icon fontSize="medium">logout</Icon>}
+              noCollapse={true}
+            />
+          </MuiLink>
+        </MDBox>
+      </SidenavRoot>
+    </>
   );
 }
 

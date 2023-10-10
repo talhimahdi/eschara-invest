@@ -39,7 +39,7 @@ export default async function EditOpportunity({ params }) {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar pageTitle={opportunityData.title} />
       <MDBox mt={0} mb={9}>
         <FormEdit opportunity={opportunityData} managers={managers} />
       </MDBox>

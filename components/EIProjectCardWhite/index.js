@@ -1,21 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import colors from "../../assets/theme/base/colors";
 
-import colors from "/assets/theme/base/colors";
-
-// NextJS Material Dashboard 2 PRO components
 import MDBox from "/components/MDBox";
 import MDTypography from "/components/MDTypography";
 
 // @mui material components
 import { Grid, Icon, Card, Divider } from "@mui/material";
 
-function EIProjectCardWhite({ image, title, location, details, tags, state }) {
+function EIProjectCardWhite({
+  id,
+  image,
+  title,
+  location,
+  property_description,
+  tags,
+  state,
+}) {
   const router = useRouter();
 
   return (
@@ -27,7 +30,7 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
         cursor: "pointer",
       }}
       onClick={() => {
-        router.push("/opportunities/available/13");
+        router.push("/opportunities/available/" + id);
       }}
     >
       <MDBox position="relative" className="card-header">
@@ -39,13 +42,13 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
               alignContent={"center"}
               color={colors.black.main}
               display="flex"
-              borderRadius={"lg"}
               px={0.5}
               py={0.3}
               mt={1}
               ml={1}
               sx={{
-                backgroundColor: "white.main",
+                backgroundColor: colors.grey[100],
+                borderRadius: 2,
               }}
               m={1}
             >
@@ -92,39 +95,40 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
           </Grid>
         </Grid>
 
-        <MDBox width="100%" zIndex={1} overflow="hidden">
-          {image.src ? (
-            <Image
-              src={image}
-              alt={title}
-              quality={100}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          ) : (
-            image
-          )}
+        <MDBox
+          width="100%"
+          height={300}
+          zIndex={1}
+          overflow="hidden"
+          sx={{ borderRadius: 1 }}
+        >
+          <img
+            src={image}
+            fill="cover"
+            alt="no-image"
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
         </MDBox>
       </MDBox>
       <MDBox pt={1} px={2}>
-        <MDTypography variant="h6" fontWeight="bold">
+        <MDTypography variant="h6" fontWeight="bold" sx={{ fontSize: 15 }}>
           {title}
         </MDTypography>
-        <MDBox display="flex" mt={1}>
+        <MDBox sx={{ display: "flex", mt: 2, gap: 1, flexWrap: "wrap" }}>
           {tags.map((tag, i) => (
             <MDTypography
               key={i}
               borderRadius={0.5}
               px={1}
-              mr={2}
-              fontWeight="light"
+              // mr={2}
               sx={{
-                fontSize: 12,
-                backgroundColor: colors.grey[100],
-                color: colors.black.main,
+                fontSize: 13,
+                fontWeight: "bold",
+                backgroundColor: colors.grey[200],
+                color: colors.grey[700],
               }}
             >
               {tag}
@@ -132,79 +136,44 @@ function EIProjectCardWhite({ image, title, location, details, tags, state }) {
           ))}
         </MDBox>
         <MDBox mt={3} mb={2}>
-          <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
-            <MDTypography
-              align="left"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              Income
-            </MDTypography>
+          {property_description?.map((property, index) => {
+            if (index < 3) {
+              return (
+                <MDBox key={index}>
+                  <MDBox
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <MDTypography
+                      align="left"
+                      sx={{
+                        fontSize: 14,
+                      }}
+                    >
+                      {property.key}
+                    </MDTypography>
 
-            <MDTypography
-              align="right"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              {details.Income}
-            </MDTypography>
-          </MDBox>
-          <Divider sx={{ border: "1px dashed #000;" }} />
-          <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
-            <MDTypography
-              align="left"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              Coasts
-            </MDTypography>
-
-            <MDTypography
-              align="right"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              {details.Coast}
-            </MDTypography>
-          </MDBox>
-          <Divider sx={{ border: "1px dashed #000;" }} />
-          <MDBox display="flex" sx={{ justifyContent: "space-between" }}>
-            <MDTypography
-              align="left"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              NOI
-            </MDTypography>
-
-            <MDTypography
-              align="right"
-              sx={{
-                fontSize: 14,
-              }}
-            >
-              {details.NOI}
-            </MDTypography>
-          </MDBox>
+                    <MDTypography
+                      sx={{
+                        fontSize: 14,
+                        textAlign: "right",
+                      }}
+                    >
+                      {property.value}
+                    </MDTypography>
+                  </MDBox>
+                  {index < 2 && <Divider sx={{ border: "1px dashed #000;" }} />}
+                </MDBox>
+              );
+            }
+          })}
         </MDBox>
       </MDBox>
     </Card>
   );
 }
-
-// Typechecking props for the BookingCard
-EIProjectCardWhite.propTypes = {
-  image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  title: PropTypes.string.isRequired,
-  location: PropTypes.node.isRequired,
-  state: PropTypes.string.isRequired,
-  details: PropTypes.PropTypes.object.isRequired,
-  tags: PropTypes.PropTypes.array.isRequired,
-};
 
 export default EIProjectCardWhite;

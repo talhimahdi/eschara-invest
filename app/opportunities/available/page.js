@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 
 import { redirect } from "next/navigation";
 
@@ -10,153 +10,69 @@ import { Autocomplete, Grid, Icon, TextField } from "@mui/material";
 import colors from "/assets/theme/base/colors";
 
 import MDBox from "../../../components/MDBox";
-import ComplexProjectCard from "../../../examples/Cards/ProjectCards/ComplexProjectCard";
-
-// Images
-import booking1 from "/assets/images/projects/project-1-min.png";
-import booking2 from "/assets/images/projects/project-2-min.png";
-import booking3 from "/assets/images/projects/project-3-min.png";
-import booking4 from "/assets/images/projects/project-4-min.png";
 
 import EIProjectCardWhite from "../../../components/EIProjectCardWhite";
 import MDButton from "../../../components/MDButton";
 import MDTypography from "../../../components/MDTypography";
+import getOpportunitiesByStatusForInvestor from "@/admin/opportunities/serverActions/getOpportunitiesByStatusForInvestor";
+import EILoader from "../../../components/EILoader";
 
-function Available() {
-  const projects = [
-    {
-      image: booking1,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking2,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking3,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking4,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking1,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking2,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking3,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-    {
-      image: booking4,
-      title: "Lorem Ipsum #56879",
-      details: {
-        Income: "324 000€",
-        Coast: "28 000€",
-        NOI: "296 000€",
-      },
-      tags: ["Industrial", "2004", "5400 m2"],
-      location: "Barcelona",
-      state: "Available",
-    },
-  ];
-
-  const selectData = {
-    countries: [
-      "Morocco",
-      "United States",
-      "Canada",
-      "United Kingdom",
-      "Germany",
-      "France",
-      "Australia",
-      "Japan",
-      "Brazil",
-      "India",
-      "South Africa",
-    ],
-    typologies: [
-      "Typology 01",
-      "Typology 02",
-      "Typology 03",
-      "Typology 04",
-      "Typology 05",
-    ],
-    surfaces: [
-      "Surface area 01",
-      "Surface area 02",
-      "Surface area 03",
-      "Surface area 04",
-      "Surface area 05",
-    ],
-  };
-
+export default function Available() {
+  const [isPending, startTransition] = useTransition();
   const [show, setShow] = useState(false);
+  const [opportunities, setOpportunities] = useState([]);
+
+  useEffect(() => {
+    async function getOpportunitiesData() {
+      const opportunitiesData = await getOpportunitiesByStatusForInvestor(
+        "Available"
+      );
+
+      if (opportunitiesData.status && opportunitiesData.opportunities) {
+        setOpportunities(opportunitiesData.opportunities);
+      } else {
+        router.push("/overview");
+      }
+    }
+    startTransition(async () => {
+      getOpportunitiesData();
+    });
+  }, []);
+
+  // const selectData = {
+  //   countries: [
+  //     "Morocco",
+  //     "United States",
+  //     "Canada",
+  //     "United Kingdom",
+  //     "Germany",
+  //     "France",
+  //     "Australia",
+  //     "Japan",
+  //     "Brazil",
+  //     "India",
+  //     "South Africa",
+  //   ],
+  //   typologies: [
+  //     "Typology 01",
+  //     "Typology 02",
+  //     "Typology 03",
+  //     "Typology 04",
+  //     "Typology 05",
+  //   ],
+  //   surfaces: [
+  //     "Surface area 01",
+  //     "Surface area 02",
+  //     "Surface area 03",
+  //     "Surface area 04",
+  //     "Surface area 05",
+  //   ],
+  // };
 
   return (
     <DashboardLayout>
       <DashboardNavbar pageTitle={"Available opportunities"} />
+      <EILoader open={isPending} />
       <Grid container my={3} gap={2} direction={"column"}>
         <Grid item>
           <MDBox
@@ -177,7 +93,9 @@ function Available() {
               Available opportunities
             </MDTypography>
 
-            <MDBox
+            {/* Mobile Filters */}
+
+            {/* <MDBox
               display={{ xs: "flex", md: "none" }}
               alignItems="center"
               gap={1}
@@ -193,11 +111,12 @@ function Available() {
                 filter_list
               </Icon>
               Filters
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </Grid>
         <Grid item>
-          {show && (
+          {/* Mobile Filters */}
+          {/* {show && (
             <MDBox
               p={3}
               position="absolute"
@@ -346,8 +265,10 @@ function Available() {
                 </MDButton>
               </MDBox>
             </MDBox>
-          )}
-          <MDBox gap={2} display={{ xs: "none", md: "flex" }}>
+          )} */}
+
+          {/* Desktop Filters */}
+          {/* <MDBox gap={2} display={{ xs: "none", md: "flex" }}>
             <Autocomplete
               options={selectData.countries}
               sx={{
@@ -393,51 +314,52 @@ function Available() {
                 <TextField {...params} label="Surface area" />
               )}
             />
-          </MDBox>
+          </MDBox> */}
         </Grid>
       </Grid>
 
-      <MDBox>
-        <Grid container spacing={3}>
-          {projects.map((project, key) => (
-            <Grid key={key} item xs={12} md={6} lg={4}>
-              <MDBox>
-                <EIProjectCardWhite
-                  image={project.image}
-                  title={project.title}
-                  details={project.details}
-                  tags={project.tags}
-                  location={project.location}
-                  state={project.state}
-                />
-              </MDBox>
-            </Grid>
-          ))}
-        </Grid>
-        <MDBox mt={5} textAlign="center">
-          <MDButton
-            disableElevation
-            disableRipple
-            variant="contained"
-            sx={{
-              "&:hover": {
-                backgroundColor: colors.escharaThemeSecondary.main,
-              },
+      {opportunities.length > 0 && (
+        <MDBox>
+          <Grid container spacing={3}>
+            {opportunities?.map((opportunity, key) => (
+              <Grid key={key} item xs={12} md={6} lg={4}>
+                <MDBox>
+                  <EIProjectCardWhite
+                    id={opportunity.id}
+                    image={opportunity.image}
+                    title={opportunity.title}
+                    property_description={opportunity.property_description}
+                    tags={opportunity.tags}
+                    location={opportunity.main_tag}
+                    state={opportunity.status}
+                  />
+                </MDBox>
+              </Grid>
+            ))}
+          </Grid>
+          <MDBox mt={5} textAlign="center">
+            <MDButton
+              disableElevation
+              disableRipple
+              variant="contained"
+              sx={{
+                "&:hover": {
+                  backgroundColor: colors.escharaThemeSecondary.main,
+                },
 
-              "&:focus:not(:hover)": {
+                "&:focus:not(:hover)": {
+                  backgroundColor: colors.escharaThemeSecondary.main,
+                },
                 backgroundColor: colors.escharaThemeSecondary.main,
-              },
-              backgroundColor: colors.escharaThemeSecondary.main,
-              color: colors.white.main,
-              px: 5,
-            }}
-          >
-            SEE MORE
-          </MDButton>
+                color: colors.white.main,
+                px: 5,
+              }}
+            >
+              SEE MORE
+            </MDButton>
+          </MDBox>
         </MDBox>
-      </MDBox>
+      )}
     </DashboardLayout>
   );
 }
-
-export default Available;

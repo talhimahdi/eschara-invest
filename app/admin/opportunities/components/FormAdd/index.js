@@ -24,6 +24,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import EIDragableTable from "../../../../../components/EIDragableTable";
+import EIDragableImages from "../../../../../components/EIDragableImages";
 
 function FormAdd({ managers }) {
   const [properties, setProperties] = useState([
@@ -80,6 +81,7 @@ function FormAdd({ managers }) {
   const onSubmit = async () => {
     formValues.manager = managerValue.id;
     formValues.property_description = properties;
+    formValues.gallery = previewImages;
 
     startTransition(async () => {
       const addOpportunityResponse = await addOpportunity(formValues);
@@ -198,11 +200,17 @@ function FormAdd({ managers }) {
 
     const imagesObj = Promise.all(
       files.map(async (file) => {
+        const base64 = await convert2DataUrl(file);
         setPreviewImages((state) => [
           ...state,
-          { url: URL.createObjectURL(file), name: file.name },
+          {
+            url: URL.createObjectURL(file),
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            data: base64,
+          },
         ]);
-        const base64 = await convert2DataUrl(file);
         return {
           name: file.name,
           size: file.size,
@@ -291,169 +299,8 @@ function FormAdd({ managers }) {
             {alert.severity != "" && alert.message != "" && (
               <Alert severity={alert.severity}>{alert.message}</Alert>
             )}
-            <MDBox mt={3} mb={3} mx={2} spacing={20}>
+            <MDBox mb={3} mx={2} spacing={20}>
               <MDBox>
-                <Grid container spacing={3} mb={5}>
-                  <Grid item xs={12} sm={6}>
-                    <MDBox>
-                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                        Images
-                      </MDTypography>
-                    </MDBox>
-                    <MDBox my={3}>
-                      <Button
-                        variant="contained"
-                        component="label"
-                        sx={{
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                          color: colors.white.main,
-                          "&:hover": {
-                            backgroundColor: colors.escharaThemeSecondary.main,
-                            color: colors.white.main,
-                          },
-                        }}
-                      >
-                        Add images
-                        <input
-                          hidden
-                          accept=".jpg,.png"
-                          multiple
-                          type="file"
-                          name="gallery"
-                          onChange={handleImages}
-                        />
-                      </Button>
-                      <MDBox sx={{ display: "flex", flexWrap: "wrap", mt: 3 }}>
-                        {previewImages.length > 0 ? (
-                          previewImages.map((prv) => (
-                            <MDBox
-                              key={prv.url + prv.name}
-                              sx={{
-                                m: "5px",
-                                pt: 1,
-                                pb: 3,
-                                px: 1,
-                                backgroundColor: colors.grey[300],
-                                boxShadow: "0px 1px 2px rgb(0 0 0 / 50%)",
-                                borderRadius: 1,
-                                position: "relative",
-                              }}
-                            >
-                              <MDBox
-                                color="white"
-                                textAlign="center"
-                                sx={{
-                                  backgroundImage: `url(${prv.url})`,
-                                  backgroundSize: "contain",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                  width: 120,
-                                  height: 100,
-                                }}
-                              ></MDBox>
-                              <Icon
-                                sx={{
-                                  fontSize: "small",
-                                  color: "#ff0000",
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  right: 0,
-                                  bottom: 0,
-                                }}
-                                onClick={(e) => handleImageDelete(e, prv)}
-                              >
-                                delete_outline
-                              </Icon>
-                            </MDBox>
-                          ))
-                        ) : (
-                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                            No image selected!
-                          </MDTypography>
-                        )}
-                      </MDBox>
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <MDBox>
-                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                        Documents
-                      </MDTypography>
-                    </MDBox>
-                    <MDBox my={3}>
-                      <Button
-                        variant="contained"
-                        component="label"
-                        sx={{
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                          color: colors.white.main,
-                          "&:hover": {
-                            backgroundColor: colors.escharaThemeSecondary.main,
-                            color: colors.white.main,
-                          },
-                        }}
-                      >
-                        Add Documents
-                        <input
-                          hidden
-                          accept=".pdf"
-                          multiple
-                          type="file"
-                          name="documents"
-                          onChange={handleFiles}
-                        />
-                      </Button>
-                      <MDBox
-                        sx={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          mt: 3,
-                          gap: 2,
-                        }}
-                      >
-                        {previewFiles.length > 0 ? (
-                          previewFiles.map((file) => (
-                            <MDBox
-                              key={file.name + file.size}
-                              sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                gap: 1,
-                                p: 1,
-                                backgroundColor: "#eee",
-                                borderRadius: 2,
-                              }}
-                            >
-                              <Icon fontSize="small">description</Icon>
-                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
-                                {file.name}
-                              </MDTypography>
-                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
-                                {file.size} MB
-                              </MDTypography>
-                              <Icon
-                                sx={{
-                                  fontSize: "small",
-                                  color: "#ff0000",
-                                  cursor: "pointer",
-                                }}
-                                onClick={(e) => handleFileDelete(e, file)}
-                              >
-                                delete_outline
-                              </Icon>
-                            </MDBox>
-                          ))
-                        ) : (
-                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                            No file selected!
-                          </MDTypography>
-                        )}
-                      </MDBox>
-                    </MDBox>
-                  </Grid>
-                </Grid>
-                <Divider style={{ backgroundColor: "#b3b1b1", height: 2 }} />
                 <Grid container spacing={3} mt={3}>
                   <Grid item xs={12} sm={6}>
                     <FormField
@@ -573,7 +420,7 @@ function FormAdd({ managers }) {
               </MDBox>
 
               <MDBox mt={2}>
-                <Grid container spacing={3} alignItems={"center"}>
+                <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
@@ -590,6 +437,104 @@ function FormAdd({ managers }) {
                         }
                       />
                     </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormField
+                      value={formValues.google_map}
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          google_map: e.target.value,
+                        });
+                      }}
+                      type="text"
+                      label="Google map"
+                      variant="outlined"
+                      multiline
+                      minRows={4}
+                    />
+                  </Grid>
+                </Grid>
+              </MDBox>
+
+              <MDBox mt={2}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <MDBox>
+                        <MDTypography sx={{ fontSize: 15 }}>Tags</MDTypography>
+                      </MDBox>
+                      <MDBox sx={{ my: 3, display: "flex", gap: 1 }}>
+                        <FormField
+                          value={newTag}
+                          onChange={(e) => setNewTag(e.target.value)}
+                          type="text"
+                          label="Tag"
+                          variant="outlined"
+                        />
+                        <MDButton
+                          sx={{
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                            "&:hover": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                          }}
+                          onClick={() => {
+                            if (
+                              !formValues.tags.find(
+                                (tag) =>
+                                  tag.toLowerCase() === newTag.toLowerCase()
+                              ) &&
+                              newTag != ""
+                            ) {
+                              setFormValues({
+                                ...formValues,
+                                tags: [...formValues.tags, newTag],
+                              });
+
+                              setNewTag("");
+                            }
+                          }}
+                        >
+                          Add
+                        </MDButton>
+                      </MDBox>
+                      <MDBox mb={3}>
+                        {formValues.tags.length === 0 ? (
+                          <MDTypography
+                            mb={5}
+                            sx={{
+                              fontSize: 12,
+                              color: colors.grey[500],
+                            }}
+                          >
+                            No tags selected.
+                          </MDTypography>
+                        ) : (
+                          formValues.tags.map((tag, index) => {
+                            return (
+                              <Chip
+                                key={index}
+                                label={tag}
+                                size="small"
+                                onDelete={(e) => handleTagDelete(e, tag)}
+                                sx={{
+                                  mr: 0.8,
+                                }}
+                              />
+                            );
+                          })
+                        )}
+                      </MDBox>
+                    </MDBox>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
@@ -653,96 +598,177 @@ function FormAdd({ managers }) {
                   </Grid>
                 </Grid>
               </MDBox>
-
+              <Divider style={{ backgroundColor: "#b3b1b1", height: 2 }} />
               <MDBox mt={2}>
-                <Grid container spacing={3} alignItems={"center"}>
+                <Grid container spacing={3} mb={5}>
                   <Grid item xs={12} sm={6}>
-                    <FormField
-                      value={formValues.google_map}
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          google_map: e.target.value,
-                        });
-                      }}
-                      type="text"
-                      label="Google map"
-                      variant="outlined"
-                      multiline
-                      minRows={4}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <MDBox mb={3}>
-                      <MDBox mb={3}>
-                        {formValues.tags.length === 0 ? (
-                          <MDTypography
-                            mb={5}
-                            sx={{
-                              fontSize: 12,
-                              color: colors.grey[500],
-                            }}
-                          >
-                            No tags selected.
-                          </MDTypography>
-                        ) : (
-                          formValues.tags.map((tag, index) => {
-                            return (
-                              <Chip
-                                key={index}
-                                label={tag}
-                                size="small"
-                                onDelete={(e) => handleTagDelete(e, tag)}
-                                sx={{
-                                  mr: 0.8,
-                                }}
-                              />
-                            );
-                          })
-                        )}
-                      </MDBox>
-                      <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
-                        <FormField
-                          value={newTag}
-                          onChange={(e) => setNewTag(e.target.value)}
-                          type="text"
-                          label="Tag"
-                          variant="outlined"
-                        />
-                        <MDButton
-                          sx={{
+                    <MDBox>
+                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                        Images
+                      </MDTypography>
+                    </MDBox>
+                    <MDBox my={3}>
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          color: colors.white.main,
+                          "&:hover": {
                             backgroundColor: colors.escharaThemeSecondary.main,
                             color: colors.white.main,
-                            "&:hover": {
-                              backgroundColor:
-                                colors.escharaThemeSecondary.main,
-                              color: colors.white.main,
-                            },
-                            "&:focus:not(:hover)": {
-                              backgroundColor:
-                                colors.escharaThemeSecondary.main,
-                              color: colors.white.main,
-                            },
-                          }}
-                          onClick={() => {
-                            if (
-                              !formValues.tags.find(
-                                (tag) =>
-                                  tag.toLowerCase() === newTag.toLowerCase()
-                              ) &&
-                              newTag != ""
-                            ) {
-                              setFormValues({
-                                ...formValues,
-                                tags: [...formValues.tags, newTag],
-                              });
-
-                              setNewTag("");
-                            }
-                          }}
-                        >
-                          Add
-                        </MDButton>
+                          },
+                        }}
+                      >
+                        Add images
+                        <input
+                          hidden
+                          accept=".jpg,.png"
+                          multiple
+                          type="file"
+                          name="gallery"
+                          onChange={handleImages}
+                        />
+                      </Button>
+                      <MDBox
+                        sx={{ display: "flex", flexWrap: "nowrap", mt: 3 }}
+                      >
+                        {previewImages.length > 0 ? (
+                          <EIDragableImages
+                            images={previewImages}
+                            setImages={setPreviewImages}
+                            onImageDelete={handleImageDelete}
+                          />
+                        ) : (
+                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                            No image selected!
+                          </MDTypography>
+                        )}
+                        {/* {previewImages.length > 0 ? (
+                          previewImages.map((prv) => (
+                            <MDBox
+                              key={prv.url + prv.name}
+                              sx={{
+                                m: "5px",
+                                pt: 1,
+                                pb: 3,
+                                px: 1,
+                                backgroundColor: colors.grey[300],
+                                boxShadow: "0px 1px 2px rgb(0 0 0 / 50%)",
+                                borderRadius: 1,
+                                position: "relative",
+                              }}
+                            >
+                              <MDBox
+                                color="white"
+                                textAlign="center"
+                                sx={{
+                                  backgroundImage: `url(${prv.url})`,
+                                  backgroundSize: "contain",
+                                  backgroundPosition: "center",
+                                  backgroundRepeat: "no-repeat",
+                                  width: 120,
+                                  height: 100,
+                                }}
+                              ></MDBox>
+                              <Icon
+                                sx={{
+                                  fontSize: "small",
+                                  color: "#ff0000",
+                                  cursor: "pointer",
+                                  position: "absolute",
+                                  right: 0,
+                                  bottom: 0,
+                                }}
+                                onClick={(e) => handleImageDelete(e, prv)}
+                              >
+                                delete_outline
+                              </Icon>
+                            </MDBox>
+                          ))
+                        ) : (
+                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                            No image selected!
+                          </MDTypography>
+                        )} */}
+                      </MDBox>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox>
+                      <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                        Documents
+                      </MDTypography>
+                    </MDBox>
+                    <MDBox my={3}>
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          color: colors.white.main,
+                          "&:hover": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                          },
+                        }}
+                      >
+                        Add Documents
+                        <input
+                          hidden
+                          accept=".pdf"
+                          multiple
+                          type="file"
+                          name="documents"
+                          onChange={handleFiles}
+                        />
+                      </Button>
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          mt: 3,
+                          gap: 2,
+                        }}
+                      >
+                        {previewFiles.length > 0 ? (
+                          previewFiles.map((file) => (
+                            <MDBox
+                              key={file.name + file.size}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 1,
+                                p: 1,
+                                backgroundColor: "#eee",
+                                borderRadius: 2,
+                              }}
+                            >
+                              <Icon fontSize="small">description</Icon>
+                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                                {file.name}
+                              </MDTypography>
+                              <MDTypography sx={{ fontSize: { xs: 12 } }}>
+                                {file.size} MB
+                              </MDTypography>
+                              <Icon
+                                sx={{
+                                  fontSize: "small",
+                                  color: "#ff0000",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => handleFileDelete(e, file)}
+                              >
+                                delete_outline
+                              </Icon>
+                            </MDBox>
+                          ))
+                        ) : (
+                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                            No file selected!
+                          </MDTypography>
+                        )}
                       </MDBox>
                     </MDBox>
                   </Grid>

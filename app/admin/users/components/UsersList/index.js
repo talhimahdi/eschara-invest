@@ -21,12 +21,7 @@ export default function UsersList({ data }) {
     severity: "",
   });
 
-  // console.log(data);
-
   const changeStatus = async (userId, newStatus) => {
-    // console.log(userId);
-    // console.log(newStatus);
-
     startTransition(async () => {
       const response = await changeUserStatus(userId, newStatus);
 

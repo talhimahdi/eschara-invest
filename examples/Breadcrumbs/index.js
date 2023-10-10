@@ -15,7 +15,6 @@ import MDTypography from "/components/MDTypography";
 
 function Breadcrumbs({ icon, title, route, light = false }) {
   const routes = route?.slice(0, -1);
-  console.log(routes);
 
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
@@ -62,12 +61,32 @@ function Breadcrumbs({ icon, title, route, light = false }) {
             </Link>
           );
         })}
-        <MDTypography
+        {/* <MDTypography
           variant="button"
           fontWeight="regular"
           textTransform="capitalize"
           color={light ? "white" : "dark"}
-          sx={{ lineHeight: 0 }}
+          // sx={{ lineHeight: 0 }}
+        >
+          {title.replace("-", " ")}
+        </MDTypography> */}
+        <MDTypography
+          component="span"
+          variant="button"
+          // fontWeight="regular"
+          // textTransform="capitalize"
+          // color={light ? "white" : "dark"}
+          // opacity={light ? 0.8 : 0.5}
+          // sx={{ lineHeight: 0 }}
+          noWrap
+          fontWeight="medium"
+          textTransform="capitalize"
+          color={"dark"}
+          opacity={0.8}
+          sx={{
+            display: "block",
+            width: 250,
+          }}
         >
           {title.replace("-", " ")}
         </MDTypography>
