@@ -7,7 +7,7 @@ import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout"
 import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import { Autocomplete, Grid, Icon, TextField } from "@mui/material";
 
-import colors from "/assets/theme/base/colors";
+import colors from "../../../assets/theme/base/colors";
 
 import MDBox from "../../../components/MDBox";
 
@@ -67,7 +67,7 @@ export default function Ongoing() {
         <Grid item></Grid>
       </Grid>
 
-      {opportunities.length > 0 && (
+      {opportunities.length > 0 ? (
         <MDBox>
           <Grid container spacing={3}>
             {opportunities?.map((opportunity, key) => (
@@ -108,6 +108,18 @@ export default function Ongoing() {
             </MDButton>
           </MDBox>
         </MDBox>
+      ) : (
+        <MDTypography
+          fontWeight="bold"
+          textTransform="capitalize"
+          noWrap
+          sx={{
+            fontSize: 15,
+            color: colors.grey[500],
+          }}
+        >
+          No opportunities found
+        </MDTypography>
       )}
     </DashboardLayout>
   );

@@ -1,4 +1,3 @@
-// @mui icons
 import Icon from "@mui/material/Icon";
 
 const routes = [
@@ -20,8 +19,7 @@ const routes = [
       {
         name: "All",
         key: "all",
-        route: "/opportunities/available",
-        // route: "/opportunities/all",
+        route: "/opportunities/all",
       },
       {
         name: "Available",

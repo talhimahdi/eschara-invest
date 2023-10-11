@@ -20,24 +20,23 @@ function FormAdd({ roles }) {
     message: "",
   });
   const [formValues, setFormValues] = useState({
-    first_name: "First",
-    last_name: "Last",
-    email: "first.last@gmail.com",
-    password: "password",
-    address: "Nullam dictum felis eu Nullam dictum felis eu",
-    address2: "Lorem ipsum dolor sit amet consectetur",
-    comment:
-      "Non lacinia lobortis donec neque nostra aptent venenatis quisque imperdiet nibh, curabitur nulla vulputate porta primis natoque phasellus placerat nullam vehicula porttitor",
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    address: "",
+    address2: "",
+    comment: "",
     role: "investor",
-    status: false,
-    zip_code: 20220,
-    phone: "+321 1516178",
-    town: "Paris",
-    country: "French",
+    status: "inactive",
+    zip_code: 0,
+    phone: "",
+    town: "",
+    country: "",
   });
 
   const onSubmit = async () => {
-    formValues.status = formValues.status == "Active" ? true : false;
+    // formValues.status = formValues.status == "Active" ? true : false;
     startTransition(async () => {
       const addUserResponse = await addUser(formValues);
 

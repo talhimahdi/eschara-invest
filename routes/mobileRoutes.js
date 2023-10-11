@@ -12,7 +12,7 @@ const mobileRoutes = [
     name: "Opportunities",
     key: "opportunities-mobile",
     icon: <Icon fontSize="medium">article</Icon>,
-    route: "/opportunities/available",
+    route: "/opportunities/all",
   },
 
   // {

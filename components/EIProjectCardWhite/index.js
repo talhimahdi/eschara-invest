@@ -21,6 +21,41 @@ function EIProjectCardWhite({
 }) {
   const router = useRouter();
 
+  const renderStatus = (status) => {
+    const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
+      (color) => color === status.toLowerCase()
+    );
+
+    return (
+      <MDBox
+        alignItems={"center"}
+        justifyContent={"center"}
+        alignContent={"center"}
+        color={colors.black.main}
+        display="flex"
+        borderRadius={"lg"}
+        px={0.5}
+        py={0.3}
+        mt={1}
+        ml={1}
+        sx={{
+          backgroundColor: colors.escharaThemeStatusColors[statusColor],
+        }}
+        m={1}
+      >
+        <MDTypography
+          fontWeight="light"
+          style={{ color: colors.white.main }}
+          sx={{
+            fontSize: 12,
+          }}
+        >
+          {status}
+        </MDTypography>
+      </MDBox>
+    );
+  };
+
   return (
     <Card
       sx={{
@@ -66,32 +101,7 @@ function EIProjectCardWhite({
           </Grid>
           <Grid item xs={2}></Grid>
           <Grid item xs={5}>
-            <MDBox
-              alignItems={"center"}
-              justifyContent={"center"}
-              alignContent={"center"}
-              color={colors.black.main}
-              display="flex"
-              borderRadius={"lg"}
-              px={0.5}
-              py={0.3}
-              mt={1}
-              ml={1}
-              sx={{
-                backgroundColor: "#7180AC",
-              }}
-              m={1}
-            >
-              <MDTypography
-                fontWeight="light"
-                style={{ color: colors.white.main }}
-                sx={{
-                  fontSize: 12,
-                }}
-              >
-                {state}
-              </MDTypography>
-            </MDBox>
+            {renderStatus(state)}
           </Grid>
         </Grid>
 

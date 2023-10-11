@@ -11,7 +11,8 @@ export default withAuth({
         pathname === "/favicon.ico" ||
         pathname.startsWith("/login") ||
         pathname.startsWith("/signup") ||
-        pathname.startsWith("/waiting-page")
+        pathname.startsWith("/waiting-page") ||
+        pathname.startsWith("/reset-password")
       ) {
         return true;
       }

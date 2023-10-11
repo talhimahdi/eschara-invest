@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/api/auth/[...nextauth]/route";
 import { revalidatePath } from "next/cache";
 
-export default async function getOpportunitiesByStatusForInvestor(status) {
+export default async function getOpportunitiesByStatusForInvestor(status = "") {
   const session = await getServerSession(authOptions);
 
   if (session) {

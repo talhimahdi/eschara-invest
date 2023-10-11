@@ -7,8 +7,6 @@ import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout"
 import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import { Autocomplete, Grid, Icon, TextField } from "@mui/material";
 
-import colors from "/assets/theme/base/colors";
-
 import MDBox from "../../../components/MDBox";
 
 import EIProjectCardWhite from "../../../components/EIProjectCardWhite";
@@ -16,6 +14,7 @@ import MDButton from "../../../components/MDButton";
 import MDTypography from "../../../components/MDTypography";
 import getOpportunitiesByStatusForInvestor from "@/admin/opportunities/serverActions/getOpportunitiesByStatusForInvestor";
 import EILoader from "../../../components/EILoader";
+import colors from "../../../assets/theme/base/colors";
 
 export default function Available() {
   const [isPending, startTransition] = useTransition();
@@ -318,7 +317,7 @@ export default function Available() {
         </Grid>
       </Grid>
 
-      {opportunities.length > 0 && (
+      {opportunities.length > 0 ? (
         <MDBox>
           <Grid container spacing={3}>
             {opportunities?.map((opportunity, key) => (
@@ -359,6 +358,18 @@ export default function Available() {
             </MDButton>
           </MDBox>
         </MDBox>
+      ) : (
+        <MDTypography
+          fontWeight="bold"
+          textTransform="capitalize"
+          noWrap
+          sx={{
+            fontSize: 15,
+            color: colors.grey[500],
+          }}
+        >
+          No opportunities found
+        </MDTypography>
       )}
     </DashboardLayout>
   );
