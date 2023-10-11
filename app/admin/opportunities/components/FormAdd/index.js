@@ -28,19 +28,19 @@ import EIDragableImages from "../../../../../components/EIDragableImages";
 
 function FormAdd({ managers }) {
   const [properties, setProperties] = useState([
-    {
-      key: "nulla tortor at imperdiet",
-      value: "eros facilisi ac nunc auctor facilisis",
-    },
-    {
-      key: "Lorem ipsum dolor sit amet",
-      value:
-        "consectetur adipiscing elit morbi, fringilla praesent nisi, tempus.",
-    },
-    {
-      key: "Key 3",
-      value: "Value 3",
-    },
+    // {
+    //   key: "nulla tortor at imperdiet",
+    //   value: "eros facilisi ac nunc auctor facilisis",
+    // },
+    // {
+    //   key: "Lorem ipsum dolor sit amet",
+    //   value:
+    //     "consectetur adipiscing elit morbi, fringilla praesent nisi, tempus.",
+    // },
+    // {
+    //   key: "Key 3",
+    //   value: "Value 3",
+    // },
   ]);
 
   const router = useRouter();
@@ -60,20 +60,30 @@ function FormAdd({ managers }) {
 
   const [newTag, setNewTag] = useState("");
   const [formValues, setFormValues] = useState({
-    title:
-      "Cat remarked. 'Don't be impertinent,' said the Dormouse turned out, and, by the Hatter, with an important air, 'are you all ready? This is the capital of Paris, and Paris is the same thing,' said.",
+    // title:
+    //   "Cat remarked. 'Don't be impertinent,' said the Dormouse turned out, and, by the Hatter, with an important air, 'are you all ready? This is the capital of Paris, and Paris is the same thing,' said.",
+    // manager: null,
+    // status: "Rejected",
+    // tags: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"],
+    // description:
+    //   "Ut voluptates culpa quia ea omnis fugiat quisquam. Sapiente quas accusamus eligendi quam. Eum sint animi ut autem nostrum nesciunt.\n\nQuia modi voluptatem odit dignissimos dignissimos magnam. Suscipit labore et et. Expedita est placeat nostrum vel aliquam vel. Voluptatem accusantium eos vitae accusamus praesentium.\n\nTempore nam eum asperiores sed voluptatum. Ut ipsa minus veritatis voluptatem non qui possimus. Voluptas neque nihil placeat architecto repellendus dolores. Quia sit possimus cum rem consequatur amet aut. Soluta vel sunt sapiente provident eligendi possimus.",
+    // google_map: "7317 Tremblay Walks\nEast Norene, AR 72800",
+    // gallery: [],
+    // documents: [],
+    // property_description: [],
+    // expiration_date: "2024-10-29",
+    // created_at: "2023-09-22T01:12:19+00:00",
+    // total_value: 61541.72,
+    title: "",
     manager: null,
-    status: "Rejected",
-    tags: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"],
-    description:
-      "Ut voluptates culpa quia ea omnis fugiat quisquam. Sapiente quas accusamus eligendi quam. Eum sint animi ut autem nostrum nesciunt.\n\nQuia modi voluptatem odit dignissimos dignissimos magnam. Suscipit labore et et. Expedita est placeat nostrum vel aliquam vel. Voluptatem accusantium eos vitae accusamus praesentium.\n\nTempore nam eum asperiores sed voluptatum. Ut ipsa minus veritatis voluptatem non qui possimus. Voluptas neque nihil placeat architecto repellendus dolores. Quia sit possimus cum rem consequatur amet aut. Soluta vel sunt sapiente provident eligendi possimus.",
-    google_map: "7317 Tremblay Walks\nEast Norene, AR 72800",
+    status: "Available",
+    tags: [],
+    description: "",
     gallery: [],
     documents: [],
     property_description: [],
-    expiration_date: "2024-10-29",
-    created_at: "2023-09-22T01:12:19+00:00",
-    total_value: 61541.72,
+    expiration_date: "",
+    total_value: 0,
   });
 
   const status = ["Available", "Ongoing", "Closed", "Rejected"];
