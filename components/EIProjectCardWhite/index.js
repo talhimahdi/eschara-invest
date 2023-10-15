@@ -22,9 +22,9 @@ function EIProjectCardWhite({
   const router = useRouter();
 
   const renderStatus = (status) => {
-    const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-      (color) => color === status.toLowerCase()
-    );
+    // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
+    //   (color) => color === status.toLowerCase()
+    // );
 
     return (
       <MDBox
@@ -39,7 +39,7 @@ function EIProjectCardWhite({
         mt={1}
         ml={1}
         sx={{
-          backgroundColor: colors.escharaThemeStatusColors[statusColor],
+          backgroundColor: status.color,
         }}
         m={1}
       >
@@ -50,7 +50,7 @@ function EIProjectCardWhite({
             fontSize: 12,
           }}
         >
-          {status}
+          {status.name}
         </MDTypography>
       </MDBox>
     );
@@ -65,7 +65,7 @@ function EIProjectCardWhite({
         cursor: "pointer",
       }}
       onClick={() => {
-        router.push("/opportunities/available/" + id);
+        router.push("/opportunities/" + state.name.toLowerCase() + "/" + id);
       }}
     >
       <MDBox position="relative" className="card-header">

@@ -57,18 +57,14 @@ export default function OpportunitiesList({ opportunities }) {
         Header: "Status",
         accessor: "status",
         Cell: ({ value, row }) => {
-          const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-            (color) => color === value.toLowerCase()
-          );
-
           return (
             <MDBox
-              bgColor={colors.escharaThemeStatusColors[statusColor]}
+              bgColor={value.color}
               color="white"
               textAlign="center"
               sx={{ paddingY: 0.5, paddingX: 1, borderRadius: 1 }}
             >
-              {value}
+              {value.name}
             </MDBox>
           );
         },
