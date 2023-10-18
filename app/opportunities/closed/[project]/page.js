@@ -87,10 +87,6 @@ function Project({ params }) {
 
   const renderStatus = (status) => {
     if (status) {
-      const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-        (color) => color === status.toLowerCase()
-      );
-
       return (
         <MDBox
           key={status}
@@ -99,7 +95,7 @@ function Project({ params }) {
           width={150}
           py={0.3}
           sx={{
-            backgroundColor: colors.escharaThemeStatusColors[statusColor],
+            backgroundColor: status.color,
             borderRadius: 1,
           }}
         >
@@ -110,7 +106,7 @@ function Project({ params }) {
               fontSize: 12,
             }}
           >
-            {status ? status : ""}
+            {status.name ? status.name : ""}
           </MDTypography>
         </MDBox>
       );
@@ -342,8 +338,8 @@ function Project({ params }) {
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       euro
                     </Icon>
-                    {opportunityData.total_value
-                      ? (opportunityData.total_value / 10).toFixed(2)
+                    {opportunityData.equity_commitment
+                      ? (opportunityData.equity_commitment / 10).toFixed(2)
                       : ""}
                   </MDBox>
                 </Grid>
@@ -387,8 +383,8 @@ function Project({ params }) {
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       euro
                     </Icon>
-                    {opportunityData.total_value
-                      ? (opportunityData.total_value / 10).toFixed(2)
+                    {opportunityData.equity_commitment
+                      ? (opportunityData.equity_commitment / 10).toFixed(2)
                       : ""}
                   </MDBox>
                 </Grid>

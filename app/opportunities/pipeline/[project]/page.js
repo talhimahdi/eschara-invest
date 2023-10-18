@@ -27,14 +27,8 @@ import MDButton from "../../../../components/MDButton";
 import Carousel from "react-material-ui-carousel";
 import Image from "next/image";
 
-import project_4_slide from "/assets/images/projects/project-4-slide.png";
-import project_4_plan from "/assets/images/projects/project-4-plan.png";
-
 import ImgsViewer from "react-images-viewer";
 
-// Form Component
-
-import NewUser from "./formComponents";
 import getOpportunityById from "@/admin/opportunities/serverActions/getOpportunityByIdForInvestor";
 import { useRouter } from "next/navigation";
 import EILoader from "../../../../components/EILoader";
@@ -70,7 +64,6 @@ function Project({ params }) {
 
   const [imgsViewer, setImgsViewer] = useState(false);
   const [imgsViewerCurrent, setImgsViewerCurrent] = useState(0);
-  const [showAcceptForm, setShowAcceptForm] = useState(false);
 
   const openImgsViewer = () => setImgsViewer(true);
   const closeImgsViewer = () => setImgsViewer(false);
@@ -90,36 +83,66 @@ function Project({ params }) {
   }
 
   const renderStatus = (status) => {
-    if (status) {
-      // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-      //   (color) => color === status.toLowerCase()
-      // );
+    // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
+    //   (color) => color === status.toLowerCase()
+    // );
 
-      return (
-        <MDBox
-          key={status}
-          justifyContent={"center"}
-          display="flex"
-          width={150}
-          py={0.3}
+    return (
+      <MDBox
+        key={status}
+        justifyContent={"center"}
+        display="flex"
+        width={150}
+        py={0.3}
+        sx={{
+          backgroundColor: status.color,
+          borderRadius: 1,
+        }}
+      >
+        <MDTypography
+          fontWeight="light"
+          style={{ color: colors.white.main }}
           sx={{
-            backgroundColor: status.color,
-            borderRadius: 1,
+            fontSize: 12,
           }}
         >
-          <MDTypography
-            fontWeight="light"
-            style={{ color: colors.white.main }}
-            sx={{
-              fontSize: 12,
-            }}
-          >
-            {status.name ? status.name : ""}
-          </MDTypography>
-        </MDBox>
-      );
-    }
+          {status.name ? status.name : ""}
+        </MDTypography>
+      </MDBox>
+    );
   };
+
+  // const renderStatus = (status) => {
+  //   if (status) {
+  //     const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
+  //       (color) => color === status.toLowerCase()
+  //     );
+
+  //     return (
+  //       <MDBox
+  //         key={status}
+  //         justifyContent={"center"}
+  //         display="flex"
+  //         width={150}
+  //         py={0.3}
+  //         sx={{
+  //           backgroundColor: colors.escharaThemeStatusColors[statusColor],
+  //           borderRadius: 1,
+  //         }}
+  //       >
+  //         <MDTypography
+  //           fontWeight="light"
+  //           style={{ color: colors.white.main }}
+  //           sx={{
+  //             fontSize: 12,
+  //           }}
+  //         >
+  //           {status ? status : ""}
+  //         </MDTypography>
+  //       </MDBox>
+  //     );
+  //   }
+  // };
 
   const renderTag = (tag) => {
     if (tag) {
@@ -395,26 +418,6 @@ function Project({ params }) {
                       ? (opportunityData.equity_commitment / 10).toFixed(2)
                       : ""}
                   </MDBox>
-                  <MDButton
-                    onClick={setShowAcceptForm}
-                    variant="contained"
-                    sx={{
-                      px: 10,
-                      color: colors.white.main,
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                      borderRadius: 1,
-
-                      "&:hover": {
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                      },
-                      "&:focus:not(:hover)": {
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                        boxShadow: "none",
-                      },
-                    }}
-                  >
-                    ACCEPT
-                  </MDButton>
                 </Grid>
               </Grid>
               <Grid item container spacing={2}>
@@ -561,39 +564,7 @@ function Project({ params }) {
                     </MDBox>
                   </Card>
                 </Grid>
-                <MDBox
-                  sx={{
-                    position: "fixed",
-                    width: "100vw",
-                    zIndex: 10,
-                    bottom: 110,
-                    display: { xs: "flex", md: "none" },
-                    // alignItems: "center",
-                    justifyContent: "center",
-                    // justifyItems: "center",
-                  }}
-                >
-                  <MDButton
-                    onClick={setShowAcceptForm}
-                    variant="contained"
-                    sx={{
-                      px: 10,
-                      color: colors.white.main,
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                      borderRadius: 1,
 
-                      "&:hover": {
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                      },
-                      "&:focus:not(:hover)": {
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                        boxShadow: "none",
-                      },
-                    }}
-                  >
-                    ACCEPT
-                  </MDButton>
-                </MDBox>
                 <Grid
                   order={{ xs: 1, md: 2 }}
                   item
@@ -778,9 +749,6 @@ function Project({ params }) {
                 onClickNext={imgsViewerNext}
                 backdropCloseable
               />
-            </MDBox>
-            <MDBox>
-              <NewUser isOpen={showAcceptForm} setIsOpen={setShowAcceptForm} />
             </MDBox>
           </>
         )}

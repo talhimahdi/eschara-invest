@@ -27,7 +27,7 @@ import dayjs from "dayjs";
 import EIDragableTable from "../../../../../components/EIDragableTable";
 import EIDragableImages from "../../../../../components/EIDragableImages";
 
-function FormEdit({ opportunity, managers }) {
+function FormEdit({ opportunity, managers = [], statuses = [] }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [previewImages, setPreviewImages] = useState([]);
@@ -39,26 +39,42 @@ function FormEdit({ opportunity, managers }) {
     severity: "",
     message: "",
   });
+  const [properties, setProperties] = useState(
+    opportunity.property_description
+  );
   const [propertyDescription, setPropertyDescription] = useState({
     key: "",
     value: "",
   });
-  const [properties, setProperties] = useState(
-    opportunity.property_description
-  );
+  const [economics, setEconomics] = useState(opportunity.economics);
+  const [economic, setEconomic] = useState({
+    key: "",
+    value: "",
+  });
   const [newTag, setNewTag] = useState("");
   const [formValues, setFormValues] = useState({
     ...opportunity,
   });
 
-  const status = ["Available", "Ongoing", "Closed", "Rejected"];
+  const [status, setStatus] = useState(opportunity.status);
+
+  // const status = ["Available", "Ongoing", "Closed", "Rejected"];
+  // const statuses = [
+  //   { id: 5, name: "Pipeline", color: "#" },
+  //   { id: 1, name: "Available", color: "#" },
+  //   { id: 2, name: "Closed", color: "#" },
+  //   { id: 3, name: "Ongoing", color: "#" },
+  //   { id: 4, name: "Rejected", color: "#" },
+  // ];
 
   const onSubmit = async () => {
     formValues.manager = managerValue.id;
     formValues.property_description = properties;
+    formValues.economics = economics;
     formValues.newGallery = previewImages;
     formValues.gallery = gelleryImages;
     formValues.documents = galleryFiles;
+    formValues.status = status.id;
 
     startTransition(async () => {
       const editOpportunityResponse = await editOpportunity(formValues);
@@ -148,6 +164,27 @@ function FormEdit({ opportunity, managers }) {
       ]);
 
       setPropertyDescription({ key: "", value: "" });
+    }
+  };
+
+  const handleAddEconomic = () => {
+    if (
+      !economics.find(
+        (propert) =>
+          propert.key.toLowerCase() === economic.key.toLowerCase() &&
+          propert.value.toLowerCase() === economic.value.toLowerCase()
+      ) &&
+      economic.value != ""
+    ) {
+      setEconomics([
+        ...economics,
+        {
+          key: economic.key,
+          value: economic.value,
+        },
+      ]);
+
+      setEconomic({ key: "", value: "" });
     }
   };
 
@@ -310,15 +347,12 @@ function FormEdit({ opportunity, managers }) {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
-                      value={formValues.status}
-                      inputValue={formValues.status}
-                      onInputChange={(event, newInputValue) => {
-                        setFormValues({
-                          ...formValues,
-                          status: newInputValue,
-                        });
+                      value={status}
+                      onChange={(event, newValue) => {
+                        setStatus(newValue);
                       }}
-                      options={status}
+                      options={statuses}
+                      getOptionLabel={(option) => option?.name}
                       renderInput={(params) => (
                         <FormField
                           {...params}
@@ -332,7 +366,7 @@ function FormEdit({ opportunity, managers }) {
               </MDBox>
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
                     <FormField
                       value={formValues.total_value}
                       onChange={(e) => {
@@ -341,13 +375,28 @@ function FormEdit({ opportunity, managers }) {
                           total_value: e.target.value,
                         });
                       }}
-                      type="total_value"
+                      type="number"
                       label="Total value"
                       placeholder="0.00"
                       variant="outlined"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
+                    <FormField
+                      value={formValues.equity_commitment}
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          equity_commitment: e.target.value,
+                        });
+                      }}
+                      type="number"
+                      label="Equity Commitment"
+                      placeholder="0.00"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
                     <Autocomplete
                       renderOption={(props, option) => {
                         return (
@@ -385,7 +434,7 @@ function FormEdit({ opportunity, managers }) {
 
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <MDBox mb={3}>
                       {/* <MDEditor value={editorValue} onChange={setEditorValue} /> */}
                       <FormField
@@ -400,9 +449,25 @@ function FormEdit({ opportunity, managers }) {
                         variant="outlined"
                         fullWidth
                         multiline
-                        minRows={8}
+                        minRows={4}
                       />
                     </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormField
+                      value={formValues.google_map}
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          google_map: e.target.value,
+                        });
+                      }}
+                      type="text"
+                      label="Google map"
+                      variant="outlined"
+                      multiline
+                      minRows={4}
+                    />
                   </Grid>
                 </Grid>
               </MDBox>
@@ -426,27 +491,7 @@ function FormEdit({ opportunity, managers }) {
                       />
                     </LocalizationProvider>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormField
-                      value={formValues.google_map}
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          google_map: e.target.value,
-                        });
-                      }}
-                      type="text"
-                      label="Google map"
-                      variant="outlined"
-                      multiline
-                      minRows={4}
-                    />
-                  </Grid>
-                </Grid>
-              </MDBox>
 
-              <MDBox mt={2}>
-                <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <MDBox>
@@ -524,7 +569,11 @@ function FormEdit({ opportunity, managers }) {
                       </MDBox>
                     </MDBox>
                   </Grid>
+                </Grid>
+              </MDBox>
 
+              <MDBox mt={2}>
+                <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <MDBox>
@@ -582,6 +631,66 @@ function FormEdit({ opportunity, managers }) {
                         <EIDragableTable
                           properties={properties}
                           setProperties={setProperties}
+                        />
+                      </MDBox>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <MDBox>
+                        <MDTypography sx={{ fontSize: 15 }}>
+                          Economics
+                        </MDTypography>
+                      </MDBox>
+                      <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
+                        <FormField
+                          value={economic.key}
+                          onChange={(e) =>
+                            setEconomic({
+                              ...economic,
+                              key: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Name"
+                          variant="outlined"
+                        />
+                        <FormField
+                          value={economic.value}
+                          onChange={(e) =>
+                            setEconomic({
+                              ...economic,
+                              value: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Value"
+                          variant="outlined"
+                        />
+                        <MDButton
+                          sx={{
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                            "&:hover": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                          }}
+                          onClick={handleAddEconomic}
+                        >
+                          Add
+                        </MDButton>
+                      </MDBox>
+                      <MDBox sx={{ mt: 1 }}>
+                        <EIDragableTable
+                          properties={economics}
+                          setProperties={setEconomics}
                         />
                       </MDBox>
                     </MDBox>

@@ -5,6 +5,7 @@ import { authOptions } from "@/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import getOpportunityById from "../serverActions/getOpportunityById";
 import getManagers from "../serverActions/getManagers";
+import getStatuses from "../serverActions/getStatuses";
 
 import DashboardLayout from "../../../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../../../examples/Navbars/DashboardNavbar";
@@ -36,12 +37,17 @@ export default async function EditOpportunity({ params }) {
 
   const opportunityData = await getOpportunityData(opportunityId);
   const managers = await getManagers();
+  const statuses = await getStatuses();
 
   return (
     <DashboardLayout>
       <DashboardNavbar pageTitle={opportunityData.title} />
       <MDBox mt={0} mb={9}>
-        <FormEdit opportunity={opportunityData} managers={managers} />
+        <FormEdit
+          opportunity={opportunityData}
+          managers={managers}
+          statuses={statuses}
+        />
       </MDBox>
     </DashboardLayout>
   );

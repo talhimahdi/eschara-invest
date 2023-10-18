@@ -41,6 +41,11 @@ const routes = [
         key: "rejected",
         route: "/opportunities/rejected",
       },
+      {
+        name: "Pipeline",
+        key: "pipeline",
+        route: "/opportunities/pipeline",
+      },
     ],
   },
 

@@ -290,35 +290,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       route: "/admin/opportunities",
     },
   ];
-  // (session && session?.user.role == "admin") ||
-  // (session?.user.role == "manager" && {
-  //   type: "collapse",
-  //   name: "Admin Panel",
-  //   key: "admin",
-  //   icon: <Icon fontSize="medium">admin_panel_settings</Icon>,
-  //   collapse:
-  //     session && session?.user.role == "admin"
-  //       ? [
-  //           {
-  //             name: "Users",
-  //             key: "users",
-  //             route: "/admin/users",
-  //           },
-  //           {
-  //             name: "Opportunities",
-  //             key: "opportunities",
-  //             route: "/admin/opportunities",
-  //           },
-  //         ]
-  //       : [
-  //           {
-  //             name: "Opportunities",
-  //             key: "opportunities",
-  //             route: "/admin/opportunities",
-  //           },
-  //         ],
-  // });
-  // console.log(adminRoutes.collapse);
+
   const renderAdminMenu = (
     <MDBox sx={{ mb: 3 }}>
       <SidenavCollapse

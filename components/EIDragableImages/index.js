@@ -18,9 +18,6 @@ import Image from "next/image";
 
 export default function EIDragableImages({ images, setImages, onImageDelete }) {
   const handleDragEnd = (sourceIndex, destinationIndex) => {
-    // console.log(e);
-    // return;
-
     if (!destinationIndex) return;
 
     let tempData = Array.from(images);

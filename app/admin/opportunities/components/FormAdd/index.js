@@ -26,7 +26,7 @@ import dayjs from "dayjs";
 import EIDragableTable from "../../../../../components/EIDragableTable";
 import EIDragableImages from "../../../../../components/EIDragableImages";
 
-function FormAdd({ managers }) {
+function FormAdd({ managers = [], statuses = [] }) {
   const [properties, setProperties] = useState([
     // {
     //   key: "nulla tortor at imperdiet",
@@ -42,6 +42,7 @@ function FormAdd({ managers }) {
     //   value: "Value 3",
     // },
   ]);
+  const [economics, setEconomics] = useState([]);
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -54,6 +55,10 @@ function FormAdd({ managers }) {
   });
 
   const [propertyDescription, setPropertyDescription] = useState({
+    key: "",
+    value: "",
+  });
+  const [economic, setEconomic] = useState({
     key: "",
     value: "",
   });
@@ -71,40 +76,62 @@ function FormAdd({ managers }) {
     gallery: [],
     documents: [],
     property_description: [],
+    economics: [],
     expiration_date: "2024-10-29",
-    created_at: "2023-09-22T01:12:19+00:00",
     total_value: 61541.72,
     equity_commitment: 81441.72,
     // title: "",
     // manager: null,
-    // // status: "Available",
     // status: { name: "Select Status", id: 0 },
     // tags: [],
     // description: "",
+    // google_map: "",
     // gallery: [],
     // documents: [],
     // property_description: [],
+    // economics: [],
     // expiration_date: "",
     // total_value: 0,
+    // equity_commitment: 0,
   });
 
-  // const status = ["Available", "Ongoing", "Closed", "Rejected"];
+  const [status, setStatus] = useState({ name: "Select Status", id: 0 });
 
-  const statuses = [
-    { name: "Available", id: 1, color: "#" },
-    { name: "Ongoing", id: 2, color: "#" },
-    { name: "Closed", id: 3, color: "#" },
-    { name: "Rejected", id: 4, color: "#" },
-    { name: "Pipeline", id: 5, color: "#" },
-  ];
+  // const statuses = [
+  //   { name: "Pipeline", id: 5, color: "#" },
+  //   { name: "Available", id: 1, color: "#" },
+  //   { name: "Ongoing", id: 2, color: "#" },
+  //   { name: "Closed", id: 3, color: "#" },
+  //   { name: "Rejected", id: 4, color: "#" },
+  // ];
 
   const onSubmit = async () => {
     formValues.manager = managerValue.id;
     formValues.property_description = properties;
+    formValues.economics = economics;
     formValues.gallery = previewImages;
+    formValues.status = status.id;
 
     startTransition(async () => {
       const addOpportunityResponse = await addOpportunity(formValues);
+
+      if (addOpportunityResponse.status) {
+        // setAlert({
+        //   severity: "success",
+        //   message: addOpportunityResponse.message,
+        // });
+        // window.scrollTo({ top: 0, behavior: "smooth" });
+        router.push(
+          "/admin/opportunities/" + addOpportunityResponse.opportunity.id
+        );
+      } else {
+        setAlert({
+          severity: "error",
+          message: addOpportunityResponse.message,
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
       if (addOpportunityResponse.errors) {
         setAlert({
@@ -112,13 +139,6 @@ function FormAdd({ managers }) {
           message: Object.values(addOpportunityResponse.errors)[0],
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        setAlert({
-          severity: "success",
-          message: addOpportunityResponse.message,
-        });
-
-        router.push("/admin/opportunities");
       }
     });
   };
@@ -177,6 +197,27 @@ function FormAdd({ managers }) {
       ]);
 
       setPropertyDescription({ key: "", value: "" });
+    }
+  };
+
+  const handleAddEconomic = () => {
+    if (
+      !economics.find(
+        (propert) =>
+          propert.key.toLowerCase() === economic.key.toLowerCase() &&
+          propert.value.toLowerCase() === economic.value.toLowerCase()
+      ) &&
+      economic.value != ""
+    ) {
+      setEconomics([
+        ...economics,
+        {
+          key: economic.key,
+          value: economic.value,
+        },
+      ]);
+
+      setEconomic({ key: "", value: "" });
     }
   };
 
@@ -338,12 +379,13 @@ function FormAdd({ managers }) {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
-                      value={formValues.status}
+                      value={status}
                       onChange={(event, newValue) => {
-                        setFormValues({
-                          ...formValues,
-                          status: newValue,
-                        });
+                        // setFormValues({
+                        //   ...formValues,
+                        //   status: newValue,
+                        // });
+                        setStatus(newValue);
                       }}
                       options={statuses}
                       getOptionLabel={(option) => option?.name}
@@ -378,7 +420,7 @@ function FormAdd({ managers }) {
               </MDBox>
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
                     <FormField
                       value={formValues.total_value}
                       onChange={(e) => {
@@ -387,13 +429,28 @@ function FormAdd({ managers }) {
                           total_value: e.target.value,
                         });
                       }}
-                      type="total_value"
+                      type="number"
                       label="Total value"
                       placeholder="0.00"
                       variant="outlined"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
+                    <FormField
+                      value={formValues.equity_commitment}
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          equity_commitment: e.target.value,
+                        });
+                      }}
+                      type="number"
+                      label="Equity Commitment"
+                      placeholder="0.00"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
                     <Autocomplete
                       renderOption={(props, option) => {
                         return (
@@ -435,7 +492,7 @@ function FormAdd({ managers }) {
 
               <MDBox mt={5}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       {/* <MDEditor value={editorValue} onChange={setEditorValue} /> */}
                       <FormField
@@ -450,9 +507,25 @@ function FormAdd({ managers }) {
                         variant="outlined"
                         fullWidth
                         multiline
-                        minRows={8}
+                        minRows={4}
                       />
                     </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormField
+                      value={formValues.google_map}
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          google_map: e.target.value,
+                        });
+                      }}
+                      type="text"
+                      label="Google map"
+                      variant="outlined"
+                      multiline
+                      minRows={4}
+                    />
                   </Grid>
                 </Grid>
               </MDBox>
@@ -476,27 +549,6 @@ function FormAdd({ managers }) {
                       />
                     </LocalizationProvider>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormField
-                      value={formValues.google_map}
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          google_map: e.target.value,
-                        });
-                      }}
-                      type="text"
-                      label="Google map"
-                      variant="outlined"
-                      multiline
-                      minRows={4}
-                    />
-                  </Grid>
-                </Grid>
-              </MDBox>
-
-              <MDBox mt={2}>
-                <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <MDBox>
@@ -574,6 +626,11 @@ function FormAdd({ managers }) {
                       </MDBox>
                     </MDBox>
                   </Grid>
+                </Grid>
+              </MDBox>
+
+              <MDBox mt={2}>
+                <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <MDBox mb={3}>
                       <MDBox>
@@ -630,6 +687,66 @@ function FormAdd({ managers }) {
                         <EIDragableTable
                           properties={properties}
                           setProperties={setProperties}
+                        />
+                      </MDBox>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      <MDBox>
+                        <MDTypography sx={{ fontSize: 15 }}>
+                          Economics
+                        </MDTypography>
+                      </MDBox>
+                      <MDBox sx={{ mt: 3, display: "flex", gap: 1 }}>
+                        <FormField
+                          value={economic.key}
+                          onChange={(e) =>
+                            setEconomic({
+                              ...economic,
+                              key: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Name"
+                          variant="outlined"
+                        />
+                        <FormField
+                          value={economic.value}
+                          onChange={(e) =>
+                            setEconomic({
+                              ...economic,
+                              value: e.target.value,
+                            })
+                          }
+                          type="text"
+                          label="Value"
+                          variant="outlined"
+                        />
+                        <MDButton
+                          sx={{
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            color: colors.white.main,
+                            "&:hover": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor:
+                                colors.escharaThemeSecondary.main,
+                              color: colors.white.main,
+                            },
+                          }}
+                          onClick={handleAddEconomic}
+                        >
+                          Add
+                        </MDButton>
+                      </MDBox>
+                      <MDBox sx={{ mt: 1 }}>
+                        <EIDragableTable
+                          properties={economics}
+                          setProperties={setEconomics}
                         />
                       </MDBox>
                     </MDBox>
