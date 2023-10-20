@@ -457,64 +457,126 @@ function Project({ params }) {
                             : ""}
                         </MDTypography>
                       </MDBox>
-                      <MDTypography
-                        fontWeight="bold"
-                        textTransform="capitalize"
-                        variant="h6"
-                        color={"dark"}
-                      >
-                        Property description
-                      </MDTypography>
-                      <TableContainer sx={{ boxShadow: 0 }}>
-                        <Table
-                          sx={{
-                            mt: 3,
-                            "& .MuiTableCell-root": {
-                              px: 0,
-                              // fontSize: 15,
-                            },
-                          }}
+                      <MDBox mb={5}>
+                        <MDTypography
+                          fontWeight="bold"
+                          textTransform="capitalize"
+                          variant="h6"
+                          color={"dark"}
                         >
-                          <TableBody>
-                            {opportunityData.property_description?.map(
-                              (property, index) => (
-                                <TableRow
-                                  key={index + property.key}
-                                  sx={{
-                                    verticalAlign: "text-top",
-                                  }}
-                                >
-                                  <TableCell
+                          Specifications
+                        </MDTypography>
+                        <TableContainer sx={{ boxShadow: 0 }}>
+                          <Table
+                            sx={{
+                              mt: 3,
+                              "& .MuiTableCell-root": {
+                                px: 0,
+                                // fontSize: 15,
+                              },
+                            }}
+                          >
+                            <TableBody>
+                              {opportunityData.property_description?.map(
+                                (property, index) => (
+                                  <TableRow
+                                    key={index + property.key}
                                     sx={{
-                                      borderRight: 1,
-                                      borderRightColor: colors.grey[300],
+                                      verticalAlign: "text-top",
                                     }}
                                   >
-                                    <MDBox
+                                    <TableCell
                                       sx={{
-                                        fontSize: 14,
-                                        px: 2,
+                                        borderRight: 1,
+                                        borderRightColor: colors.grey[300],
                                       }}
                                     >
-                                      {property.key}
-                                    </MDBox>
-                                  </TableCell>
-                                  <TableCell>
-                                    <MDBox
+                                      <MDBox
+                                        sx={{
+                                          fontSize: 14,
+                                          px: 2,
+                                        }}
+                                      >
+                                        {property.key}
+                                      </MDBox>
+                                    </TableCell>
+                                    <TableCell>
+                                      <MDBox
+                                        sx={{
+                                          fontSize: 12,
+                                          px: 2,
+                                        }}
+                                      >
+                                        {property.value}
+                                      </MDBox>
+                                    </TableCell>
+                                  </TableRow>
+                                )
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </MDBox>
+                      <MDBox mb={5}>
+                        <MDTypography
+                          fontWeight="bold"
+                          textTransform="capitalize"
+                          variant="h6"
+                          color={"dark"}
+                        >
+                          Economics
+                        </MDTypography>
+                        <TableContainer sx={{ boxShadow: 0 }}>
+                          <Table
+                            sx={{
+                              mt: 3,
+                              "& .MuiTableCell-root": {
+                                px: 0,
+                                // fontSize: 15,
+                              },
+                            }}
+                          >
+                            <TableBody>
+                              {opportunityData.economics?.map(
+                                (economic, index) => (
+                                  <TableRow
+                                    key={index + economic.key}
+                                    sx={{
+                                      verticalAlign: "text-top",
+                                    }}
+                                  >
+                                    <TableCell
                                       sx={{
-                                        fontSize: 12,
-                                        px: 2,
+                                        borderRight: 1,
+                                        borderRightColor: colors.grey[300],
                                       }}
                                     >
-                                      {property.value}
-                                    </MDBox>
-                                  </TableCell>
-                                </TableRow>
-                              )
-                            )}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
+                                      <MDBox
+                                        sx={{
+                                          fontSize: 14,
+                                          px: 2,
+                                        }}
+                                      >
+                                        {economic.key}
+                                      </MDBox>
+                                    </TableCell>
+                                    <TableCell>
+                                      <MDBox
+                                        sx={{
+                                          fontSize: 12,
+                                          px: 2,
+                                        }}
+                                      >
+                                        {economic.value}
+                                      </MDBox>
+                                    </TableCell>
+                                  </TableRow>
+                                )
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </MDBox>
                     </MDBox>
                     <MDBox id="__documents_block">
                       <MDTypography

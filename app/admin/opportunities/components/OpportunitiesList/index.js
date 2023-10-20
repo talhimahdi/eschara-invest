@@ -123,7 +123,7 @@ export default function OpportunitiesList({ opportunities }) {
         },
       },
       {
-        Header: "Property description",
+        Header: "Specifications",
         accessor: "property_description",
         width: "10%",
         Cell: ({ value, row }) => {
