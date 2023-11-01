@@ -49,6 +49,7 @@ function FormAdd({ managers = [], statuses = [] }) {
   const [previewImages, setPreviewImages] = useState([]);
   const [previewFiles, setPreviewFiles] = useState([]);
   const [managerValue, setManagerValue] = useState(managers[0]);
+  const [status, setStatus] = useState(statuses[0]);
   const [alert, setAlert] = useState({
     severity: "",
     message: "",
@@ -65,47 +66,41 @@ function FormAdd({ managers = [], statuses = [] }) {
 
   const [newTag, setNewTag] = useState("");
   const [formValues, setFormValues] = useState({
-    title:
-      "Cat remarked. 'Don't be impertinent,' said the Dormouse turned out, and, by the Hatter, with an important air, 'are you all ready? This is the capital of Paris, and Paris is the same thing,' said.",
+    title: "",
     manager: null,
-    status: { name: "Select Status", id: 0 },
-    tags: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5"],
-    description:
-      "Ut voluptates culpa quia ea omnis fugiat quisquam. Sapiente quas accusamus eligendi quam. Eum sint animi ut autem nostrum nesciunt.\n\nQuia modi voluptatem odit dignissimos dignissimos magnam. Suscipit labore et et. Expedita est placeat nostrum vel aliquam vel. Voluptatem accusantium eos vitae accusamus praesentium.\n\nTempore nam eum asperiores sed voluptatum. Ut ipsa minus veritatis voluptatem non qui possimus. Voluptas neque nihil placeat architecto repellendus dolores. Quia sit possimus cum rem consequatur amet aut. Soluta vel sunt sapiente provident eligendi possimus.",
-    google_map: "7317 Tremblay Walks\nEast Norene, AR 72800",
+    status: 0,
+    tags: [],
+    description: "",
+    google_map: "",
     gallery: [],
     documents: [],
     property_description: [],
     economics: [],
-    expiration_date: "2024-10-29",
-    total_value: 61541.72,
-    equity_commitment: 81441.72,
-    // title: "",
-    // manager: null,
-    // status: { name: "Select Status", id: 0 },
-    // tags: [],
-    // description: "",
-    // google_map: "",
-    // gallery: [],
-    // documents: [],
-    // property_description: [],
-    // economics: [],
-    // expiration_date: "",
-    // total_value: 0,
-    // equity_commitment: 0,
+    expiration_date: "",
+    total_value: 0,
+    equity_commitment: 0,
   });
 
-  const [status, setStatus] = useState({ name: "Select Status", id: 0 });
-
-  // const statuses = [
-  //   { name: "Pipeline", id: 5, color: "#" },
-  //   { name: "Available", id: 1, color: "#" },
-  //   { name: "Ongoing", id: 2, color: "#" },
-  //   { name: "Closed", id: 3, color: "#" },
-  //   { name: "Rejected", id: 4, color: "#" },
-  // ];
-
   const onSubmit = async () => {
+    if (
+      !managerValue ||
+      !status ||
+      !formValues.title ||
+      !formValues.description ||
+      !formValues.google_map ||
+      !formValues.expiration_date ||
+      !formValues.total_value ||
+      !formValues.equity_commitment
+    ) {
+      setAlert({
+        severity: "error",
+        message: "Please fill the required fields.",
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     formValues.manager = managerValue.id;
     formValues.property_description = properties;
     formValues.economics = economics;
@@ -373,7 +368,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                         });
                       }}
                       type="text"
-                      label="Title"
+                      label="Title *"
                       variant="outlined"
                     />
                   </Grid>
@@ -381,10 +376,6 @@ function FormAdd({ managers = [], statuses = [] }) {
                     <Autocomplete
                       value={status}
                       onChange={(event, newValue) => {
-                        // setFormValues({
-                        //   ...formValues,
-                        //   status: newValue,
-                        // });
                         setStatus(newValue);
                       }}
                       options={statuses}
@@ -393,28 +384,10 @@ function FormAdd({ managers = [], statuses = [] }) {
                         <FormField
                           {...params}
                           variant="outlined"
-                          label="Status"
+                          label="Status *"
                         />
                       )}
                     />
-                    {/* <Autocomplete
-                      value={formValues.status}
-                      inputValue={formValues.status}
-                      onInputChange={(event, newInputValue) => {
-                        setFormValues({
-                          ...formValues,
-                          status: newInputValue,
-                        });
-                      }}
-                      options={status}
-                      renderInput={(params) => (
-                        <FormField
-                          {...params}
-                          variant="outlined"
-                          label="Status"
-                        />
-                      )}
-                    /> */}
                   </Grid>
                 </Grid>
               </MDBox>
@@ -430,7 +403,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                         });
                       }}
                       type="number"
-                      label="Total value"
+                      label="Total value *"
                       placeholder="0.00"
                       variant="outlined"
                     />
@@ -445,7 +418,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                         });
                       }}
                       type="number"
-                      label="Equity Commitment"
+                      label="Equity Commitment *"
                       placeholder="0.00"
                       variant="outlined"
                     />
@@ -482,7 +455,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                         <FormField
                           {...params}
                           variant="outlined"
-                          label="Manager"
+                          label="Manager *"
                         />
                       )}
                     />
@@ -503,7 +476,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                             description: e.target.value,
                           });
                         }}
-                        label="Description"
+                        label="Description *"
                         variant="outlined"
                         fullWidth
                         multiline
@@ -521,7 +494,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                         });
                       }}
                       type="text"
-                      label="Google map"
+                      label="Google map *"
                       variant="outlined"
                       multiline
                       minRows={4}
@@ -535,7 +508,7 @@ function FormAdd({ managers = [], statuses = [] }) {
                   <Grid item xs={12} sm={6}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
-                        label="Expiration date"
+                        label="Expiration date *"
                         value={dayjs(formValues.expiration_date)}
                         format="DD/MM/YYYY"
                         onChange={(newValue) =>

@@ -321,24 +321,26 @@ function Project({ params }) {
                     </Icon>
                     Expiration date : {opportunityData.expiration_date}
                   </MDBox>
-                  <MDBox
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      py: 1.5,
-                      px: 3,
-                      fontSize: { xs: 12, md: 16 },
-                      color: "#ffffff",
-                    }}
-                  >
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      euro
-                    </Icon>
-                    {opportunityData.equity_commitment
-                      ? (opportunityData.equity_commitment / 10).toFixed(2)
-                      : ""}
-                  </MDBox>
+                  {opportunityData.calculated_ammount ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        px: 3,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      {opportunityData.calculated_ammount}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
                 </Grid>
                 <Grid
                   container
@@ -366,24 +368,26 @@ function Project({ params }) {
                     </Icon>
                     Expiration date : {opportunityData.expiration_date}
                   </MDBox>
-                  <MDBox
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      py: 1.5,
-                      px: 3,
-                      fontSize: { xs: 12, md: 16 },
-                      color: "#ffffff",
-                    }}
-                  >
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      euro
-                    </Icon>
-                    {opportunityData.equity_commitment
-                      ? (opportunityData.equity_commitment / 10).toFixed(2)
-                      : ""}
-                  </MDBox>
+                  {opportunityData.calculated_ammount ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        px: 3,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      {opportunityData.calculated_ammount}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
                 </Grid>
               </Grid>
               <Grid item container spacing={2}>
@@ -572,7 +576,7 @@ function Project({ params }) {
                                   {file.name}
                                 </MDTypography>
                                 <MDTypography sx={{ fontSize: { xs: 12 } }}>
-                                  {file.size} MB
+                                  {file.size}
                                 </MDTypography>
                               </MDBox>
                             </Link>

@@ -14,9 +14,11 @@ import MDTypography from "/components/MDTypography";
 import EIProjectCard from "/components/EIProjectCard";
 
 // NextJS Material Dashboard 2 PRO examples
-import DashboardLayout from "/examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "/examples/Navbars/DashboardNavbar";
+// import DashboardLayout from "/examples/LayoutContainers/DashboardLayout";
+// import DashboardNavbar from "/examples/Navbars/DashboardNavbar";
 
+import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
+import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 // Images
 import booking1 from "/assets/images/projects/project-1-min.png";
 import booking2 from "/assets/images/projects/project-2-min.png";

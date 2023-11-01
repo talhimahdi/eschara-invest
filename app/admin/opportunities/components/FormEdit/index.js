@@ -26,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import EIDragableTable from "../../../../../components/EIDragableTable";
 import EIDragableImages from "../../../../../components/EIDragableImages";
+import EIDragableGalleryImages from "../../../../../components/EIDragableGalleryImages";
 
 function FormEdit({ opportunity, managers = [], statuses = [] }) {
   const router = useRouter();
@@ -708,7 +709,18 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                     </MDBox>
 
                     <MDBox my={3} sx={{ display: "flex", flexWrap: "wrap" }}>
-                      {gelleryImages.map((image) => (
+                      {gelleryImages.length > 0 ? (
+                        <EIDragableGalleryImages
+                          images={gelleryImages}
+                          setImages={setGelleryImages}
+                          onImageDelete={handleImageGalleryDelete}
+                        />
+                      ) : (
+                        <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                          No image selected!
+                        </MDTypography>
+                      )}
+                      {/* {gelleryImages.map((image) => (
                         <MDBox
                           key={image}
                           sx={{
@@ -748,7 +760,7 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                             delete_outline
                           </Icon>
                         </MDBox>
-                      ))}
+                      ))} */}
                     </MDBox>
                     <MDBox mb={3}>
                       <Button
@@ -816,7 +828,8 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                             {file.name}
                           </MDTypography>
                           <MDTypography sx={{ fontSize: { xs: 12 } }}>
-                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                            {/* {(file.size / 1024 / 1024).toFixed(2)} MB */}
+                            {file.size}
                           </MDTypography>
                           <Icon
                             sx={{

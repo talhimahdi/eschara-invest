@@ -90,7 +90,7 @@ function FormAdd({ roles }) {
                       }}
                       type="text"
                       label="First Name"
-                      placeholder="User first name"
+                      placeholder="First name"
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -104,7 +104,7 @@ function FormAdd({ roles }) {
                       }}
                       type="text"
                       label="Last Name"
-                      placeholder="User last name"
+                      placeholder="Last name"
                     />
                   </Grid>
                 </Grid>

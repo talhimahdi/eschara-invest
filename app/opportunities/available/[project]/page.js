@@ -25,20 +25,14 @@ import MDTypography from "../../../../components/MDTypography";
 import colors from "../../../../assets/theme/base/colors";
 import MDButton from "../../../../components/MDButton";
 import Carousel from "react-material-ui-carousel";
-import Image from "next/image";
-
-import project_4_slide from "/assets/images/projects/project-4-slide.png";
-import project_4_plan from "/assets/images/projects/project-4-plan.png";
 
 import ImgsViewer from "react-images-viewer";
 
-// Form Component
-
-import NewUser from "./formComponents";
 import getOpportunityById from "@/admin/opportunities/serverActions/getOpportunityByIdForInvestor";
 import { useRouter } from "next/navigation";
 import EILoader from "../../../../components/EILoader";
 import Link from "next/link";
+import PopupForm from "./popupForm";
 
 function Project({ params }) {
   const router = useRouter();
@@ -55,7 +49,13 @@ function Project({ params }) {
       const opportunityData = await getOpportunityById(opportunityId);
 
       if (opportunityData.status && opportunityData.opportunity) {
-        setOpportunityData(opportunityData.opportunity);
+        if (
+          opportunityData.opportunity.status.name.toLowerCase() != "available"
+        ) {
+          router.push("/overview");
+        } else {
+          setOpportunityData(opportunityData.opportunity);
+        }
       } else {
         router.push("/overview");
       }
@@ -332,24 +332,26 @@ function Project({ params }) {
                     </Icon>
                     Expiration date : {opportunityData.expiration_date}
                   </MDBox>
-                  <MDBox
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      py: 1.5,
-                      px: 3,
-                      fontSize: { xs: 12, md: 16 },
-                      color: "#ffffff",
-                    }}
-                  >
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      euro
-                    </Icon>
-                    {opportunityData.equity_commitment
-                      ? (opportunityData.equity_commitment / 10).toFixed(2)
-                      : ""}
-                  </MDBox>
+                  {opportunityData.calculated_ammount ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        px: 3,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      {opportunityData.calculated_ammount}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
                 </Grid>
                 <Grid
                   container
@@ -377,24 +379,31 @@ function Project({ params }) {
                     </Icon>
                     Expiration date : {opportunityData.expiration_date}
                   </MDBox>
-                  <MDBox
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      py: 1.5,
-                      px: 3,
-                      fontSize: { xs: 12, md: 16 },
-                      color: "#ffffff",
-                    }}
-                  >
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      euro
-                    </Icon>
-                    {opportunityData.equity_commitment
+
+                  {/* {opportunityData.equity_commitment
                       ? (opportunityData.equity_commitment / 10).toFixed(2)
-                      : ""}
-                  </MDBox>
+                      : ""} */}
+                  {opportunityData.calculated_ammount ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        px: 3,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      {opportunityData.calculated_ammount}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
+
                   {opportunityData.expired ? (
                     <MDBox
                       sx={{
@@ -628,7 +637,7 @@ function Project({ params }) {
                                   {file.name}
                                 </MDTypography>
                                 <MDTypography sx={{ fontSize: { xs: 12 } }}>
-                                  {file.size} MB
+                                  {file.size}
                                 </MDTypography>
                               </MDBox>
                             </Link>
@@ -867,7 +876,12 @@ function Project({ params }) {
               />
             </MDBox>
             <MDBox>
-              <NewUser isOpen={showAcceptForm} setIsOpen={setShowAcceptForm} />
+              {/* <NewUser isOpen={showAcceptForm} setIsOpen={setShowAcceptForm} /> */}
+              <PopupForm
+                isOpen={showAcceptForm}
+                setIsOpen={setShowAcceptForm}
+                opportunity={opportunityData}
+              />
             </MDBox>
           </>
         )}

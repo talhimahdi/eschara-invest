@@ -46,6 +46,7 @@
     "react-images-viewer": "^1.7.1",
     "react-material-ui-carousel": "^3.4.2",
     "react-quill": "2.0.0",
+    "react-signature-canvas": "^1.0.6",
     "react-table": "7.8.0",
     "regenerator-runtime": "0.13.11",
     "stylis": "4.1.3",

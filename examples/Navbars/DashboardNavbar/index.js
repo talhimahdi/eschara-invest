@@ -171,8 +171,8 @@ function DashboardNavbar({
             </MDBox>
           </Grid>
           <Grid item xs={3}>
-            <MDBox display="flex" gap={2}>
-              <IconButton
+            <MDBox display="flex" gap={2} justifyContent="end">
+              {/* <IconButton
                 size="small"
                 disableRipple
                 color="inherit"
@@ -190,7 +190,7 @@ function DashboardNavbar({
                 >
                   <Icon sx={{ color: colors.grey[500] }}>notifications</Icon>
                 </MDBadge>
-              </IconButton>
+              </IconButton> */}
               <MDBox
                 display="flex"
                 alignItems={"center"}
@@ -266,7 +266,7 @@ function DashboardNavbar({
               <Grid container item xs={6} md={4} justifyContent={"end"}>
                 <MDBox>
                   <MDBox display="flex">
-                    <IconButton
+                    {/* <IconButton
                       size="small"
                       disableRipple
                       color="inherit"
@@ -286,7 +286,7 @@ function DashboardNavbar({
                           notifications
                         </Icon>
                       </MDBadge>
-                    </IconButton>
+                    </IconButton> */}
                     <MDBox
                       display="flex"
                       alignItems={"center"}

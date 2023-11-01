@@ -117,6 +117,19 @@ function EIProjectCardWhite({
           </Grid>
 
           <MDBox
+            color="white"
+            textAlign="center"
+            sx={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              width: "100%",
+              height: 300,
+            }}
+          ></MDBox>
+
+          {/* <MDBox
             width="100%"
             height={300}
             zIndex={1}
@@ -132,7 +145,7 @@ function EIProjectCardWhite({
                 height: "100%",
               }}
             />
-          </MDBox>
+          </MDBox> */}
         </MDBox>
         <MDBox pt={1} px={2}>
           <MDTypography variant="h6" fontWeight="bold" sx={{ fontSize: 15 }}>
