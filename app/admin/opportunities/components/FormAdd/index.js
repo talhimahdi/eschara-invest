@@ -769,56 +769,9 @@ function FormAdd({ managers = [], statuses = [] }) {
                           />
                         ) : (
                           <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                            No image selected!
+                            No image selected.
                           </MDTypography>
                         )}
-                        {/* {previewImages.length > 0 ? (
-                          previewImages.map((prv) => (
-                            <MDBox
-                              key={prv.url + prv.name}
-                              sx={{
-                                m: "5px",
-                                pt: 1,
-                                pb: 3,
-                                px: 1,
-                                backgroundColor: colors.grey[300],
-                                boxShadow: "0px 1px 2px rgb(0 0 0 / 50%)",
-                                borderRadius: 1,
-                                position: "relative",
-                              }}
-                            >
-                              <MDBox
-                                color="white"
-                                textAlign="center"
-                                sx={{
-                                  backgroundImage: `url(${prv.url})`,
-                                  backgroundSize: "contain",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                  width: 120,
-                                  height: 100,
-                                }}
-                              ></MDBox>
-                              <Icon
-                                sx={{
-                                  fontSize: "small",
-                                  color: "#ff0000",
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  right: 0,
-                                  bottom: 0,
-                                }}
-                                onClick={(e) => handleImageDelete(e, prv)}
-                              >
-                                delete_outline
-                              </Icon>
-                            </MDBox>
-                          ))
-                        ) : (
-                          <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                            No image selected!
-                          </MDTypography>
-                        )} */}
                       </MDBox>
                     </MDBox>
                   </Grid>

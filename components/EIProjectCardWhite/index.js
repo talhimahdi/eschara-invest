@@ -26,7 +26,7 @@ function EIProjectCardWhite({
 
   const renderStatus = (status) => {
     // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-    //   (color) => color === status.toLowerCase()
+    //   (color) => color === status?.toLowerCase()
     // );
 
     return (
@@ -42,7 +42,7 @@ function EIProjectCardWhite({
         mt={1}
         ml={1}
         sx={{
-          backgroundColor: status.color,
+          backgroundColor: status?.color ? status?.color : "",
         }}
         m={1}
       >
@@ -54,7 +54,7 @@ function EIProjectCardWhite({
             fontWeight: "bold",
           }}
         >
-          {status.name}
+          {status?.name ? status?.name : ""}
         </MDTypography>
       </MDBox>
     );

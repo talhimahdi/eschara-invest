@@ -50,7 +50,7 @@ function Project({ params }) {
 
       if (opportunityData.status && opportunityData.opportunity) {
         if (
-          opportunityData.opportunity.status.name.toLowerCase() != "available"
+          opportunityData.opportunity.status?.name.toLowerCase() != "available"
         ) {
           router.push("/overview");
         } else {
@@ -92,7 +92,7 @@ function Project({ params }) {
   const renderStatus = (status) => {
     if (status) {
       // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-      //   (color) => color === status.toLowerCase()
+      //   (color) => color === status?.toLowerCase()
       // );
 
       return (
@@ -103,7 +103,7 @@ function Project({ params }) {
           width={150}
           py={0.3}
           sx={{
-            backgroundColor: status.color,
+            backgroundColor: status?.color,
             borderRadius: 1,
           }}
         >
@@ -114,7 +114,7 @@ function Project({ params }) {
               fontSize: 12,
             }}
           >
-            {status.name ? status.name : ""}
+            {status?.name ? status?.name : ""}
           </MDTypography>
         </MDBox>
       );

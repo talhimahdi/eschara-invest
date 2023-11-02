@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useTransition } from "react";
 
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
@@ -18,6 +18,7 @@ import getOpportunitiesByStatusForInvestor from "@/admin/opportunities/serverAct
 import EILoader from "../../../components/EILoader";
 
 export default function All() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [show, setShow] = useState(false);
   const [opportunities, setOpportunities] = useState([]);

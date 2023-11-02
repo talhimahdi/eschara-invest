@@ -717,7 +717,7 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                         />
                       ) : (
                         <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                          No image selected!
+                          No image found.
                         </MDTypography>
                       )}
                       {/* {gelleryImages.map((image) => (
@@ -796,7 +796,7 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                           />
                         ) : (
                           <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                            No image selected!
+                            No image selected.
                           </MDTypography>
                         )}
                       </MDBox>
