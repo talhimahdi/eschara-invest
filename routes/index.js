@@ -1,14 +1,14 @@
 import Icon from "@mui/material/Icon";
 
 const routes = [
-  {
-    type: "collapse",
-    name: "Overview",
-    key: "overview",
-    icon: <Icon fontSize="medium">dashboard</Icon>,
-    route: "/overview",
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Overview",
+  //   key: "overview",
+  //   icon: <Icon fontSize="medium">dashboard</Icon>,
+  //   route: "/overview",
+  //   noCollapse: true,
+  // },
 
   {
     type: "collapse",

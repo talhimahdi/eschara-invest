@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -34,6 +34,7 @@ import Carousel from "react-material-ui-carousel";
 import { useEffect } from "react";
 
 function Overview() {
+  redirect("/opportunities");
   const router = useRouter();
 
   const opportunities = [

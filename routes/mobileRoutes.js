@@ -1,12 +1,12 @@
 // @mui icons
 import Icon from "@mui/material/Icon";
 const mobileRoutes = [
-  {
-    name: "Overview",
-    key: "overview-mobile",
-    icon: <Icon fontSize="medium">dashboard</Icon>,
-    route: "/overview",
-  },
+  // {
+  //   name: "Overview",
+  //   key: "overview-mobile",
+  //   icon: <Icon fontSize="medium">dashboard</Icon>,
+  //   route: "/overview",
+  // },
 
   {
     name: "Opportunities",

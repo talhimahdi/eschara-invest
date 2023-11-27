@@ -30,12 +30,18 @@ import ImgsViewer from "react-images-viewer";
 
 import getOpportunityById from "@/admin/opportunities/serverActions/getOpportunityByIdForInvestor";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import EILoader from "../../../../components/EILoader";
 import Link from "next/link";
 import PopupForm from "./popupForm";
+import opportunityAccepted from "@/admin/opportunities/serverActions/opportunityAccepted";
+
+// const numberToSpanishWords = require('number-to-spanish-words');
 
 function Project({ params }) {
   const router = useRouter();
+  const session = useSession();
+
   const [isPending, startTransition] = useTransition();
 
   const opportunityId = parseInt(Number(params.project));
@@ -44,6 +50,7 @@ function Project({ params }) {
     router.push("/overview");
   }
   const [opportunityData, setOpportunityData] = useState({});
+
   useEffect(() => {
     async function getOpportunityData() {
       const opportunityData = await getOpportunityById(opportunityId);
@@ -152,6 +159,19 @@ function Project({ params }) {
       );
     }
   };
+
+  const onSubmit = async (data) => {
+    console.log("onSubmit from page   " + data?.opportunityId);
+
+    const response = await opportunityAccepted(data);
+
+    if (response.status && response.message) {
+      console.log(response.message);
+      
+    } else {
+      router.push("/overview");
+    }
+}
 
   if (opportunityData.title) {
     return (
@@ -881,6 +901,8 @@ function Project({ params }) {
                 isOpen={showAcceptForm}
                 setIsOpen={setShowAcceptForm}
                 opportunity={opportunityData}
+                userId={session?.data?.user.id}
+                onSubmit={onSubmit}
               />
             </MDBox>
           </>

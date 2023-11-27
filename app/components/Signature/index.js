@@ -7,23 +7,13 @@ import MDButton from "../../../components/MDButton";
 import colors from "../../../assets/theme/base/colors";
 import { Tab, Tabs, Typography } from "@mui/material";
 
-export default function Signature({ onSave }) {
-  const [imageURL, setImageURL] = useState(null); // create a state that will contain our image url
+export default function Signature({ sigCanvas }) {
   const [activeSignatureTabIndex, setActiveSignatureTabIndex] = useState(0);
 
-  const sigCanvas = useRef({});
+  // let sigCanvas = useRef({});
 
   const clear = () => {
     sigCanvas.current.clear();
-    setImageURL(null);
-    onSave("");
-  };
-  const save = () => {
-    if (sigCanvas.current.isEmpty()) {
-    } else {
-      setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-      onSave(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-    }
   };
 
   const handleChangeActiveSignatureTabIndex = (event, newValue) => {
@@ -109,13 +99,13 @@ export default function Signature({ onSave }) {
             >
               <SignaturePad
                 ref={sigCanvas}
+                // ref={sigCanvas}
+                // onEnd={save}
                 canvasProps={{
                   // className: "signatureCanvas",
                   // width: 300,
                   // height: 300,
                   style: {
-                    // backgroundColor: "red",
-
                     width: "100%",
                     height: "100%",
                     maxWidth: 500,
@@ -124,35 +114,8 @@ export default function Signature({ onSave }) {
               />
             </MDBox>
 
-            <MDBox sx={{ width: "100%" }}>
-              <Typography sx={{ fontSize: 8, textAlign: "left" }}>
-                By signing this document with an electronic signature, I agree
-                that such signature will be as valid as handwritten signatures.
-              </Typography>
-            </MDBox>
-
-            <MDBox
-              sx={{ display: "flex", gap: 2, my: 3, alignItems: "center" }}
-            >
-              <MDButton
-                sx={{
-                  backgroundColor: colors.escharaThemeSecondary.main,
-                  color: colors.white.main,
-                  "&:hover": {
-                    backgroundColor: colors.escharaThemeSecondary.main,
-                    color: colors.white.main,
-                  },
-                  "&:focus:not(:hover)": {
-                    backgroundColor: colors.escharaThemeSecondary.main,
-                    color: colors.white.main,
-                  },
-                }}
-                onClick={() => save()}
-              >
-                Save
-              </MDButton>
-
-              <MDButton
+            <MDBox sx={{display: "flex", width: "100%", alignItems: "center", gap:1 }}>
+            <MDButton
                 sx={{
                   backgroundColor: colors.grey[400],
                   color: colors.grey[800],
@@ -169,13 +132,12 @@ export default function Signature({ onSave }) {
               >
                 Clear
               </MDButton>
-
-              {imageURL && (
-                <Typography sx={{ fontSize: 10, color: "green" }}>
-                  Signature saved.
-                </Typography>
-              )}
+              <Typography sx={{ fontSize: 8, textAlign: "left" }}>
+                By signing this document with an electronic signature, I agree
+                that such signature will be as valid as handwritten signatures.
+              </Typography>
             </MDBox>
+
           </MDBox>
         </CustomTabPanel>
         <CustomTabPanel value={activeSignatureTabIndex} index={1}>

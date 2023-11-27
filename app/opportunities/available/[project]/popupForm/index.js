@@ -14,13 +14,14 @@ import Checkbox from "@mui/material/Checkbox";
 import Signature from "@/components/Signature";
 import CloseIcon from "@mui/icons-material/Close";
 import MDTypography from "../../../../../components/MDTypography";
+import writtenNumber from "written-number";
 
 const steps = ["Informations", "Terms and conditions", "Signature"];
 
-export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
+export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSubmit }) {
   const [activeStep, setActiveStep] = useState(1);
   const [isError, setIsError] = useState("");
-  const isLastStep = activeStep === steps.length + 1;
+  const isLastStep = activeStep === steps.length;
   const isFirstStep = activeStep <= 1;
 
   const [termsCheck, setTermsCheck] = useState(false);
@@ -29,20 +30,23 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
   const checkRef = useRef(null);
   const textRef = useRef(null);
 
+  let sigCanvas = useRef({});
+
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 1:
         return (
           <MDBox>
-            <Grid item container direction={"column"} gap={3}>
+            <Grid item container direction={"column"} gap={3}
+            sx={{textAlign:"center"}}>
               <MDBox>
                 <MDTypography
                   fontWeight="bold"
                   textTransform="capitalize"
                   variant="h5"
                   color={"dark"}
-                  textAlign="center"
-                  mx={{ xs: 3, sm: 10 }}
+                  // textAlign="center"
+                  // mx={{ xs: 3, sm: 10 }}
                 >
                   {opportunity.title ? opportunity.title : ""}
                 </MDTypography>
@@ -50,7 +54,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                   variant="h5"
                   fontWeight="regular"
                   color="secondary"
-                  textAlign="center"
+                  // textAlign="center"
                   mt={3}
                 >
                   {opportunity.id ? "#" + opportunity.id : ""}
@@ -61,11 +65,12 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                 sx={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent:"center",
                   gap: 1,
                   fontSize: { xs: 12, md: 16 },
                   // color: "#ffffff",
                 }}
-              >
+                >
                 <Icon fontSize="small" sx={{ mt: -0.25 }}>
                   calendar_month
                 </Icon>
@@ -73,9 +78,10 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
               </MDBox>
               {opportunity.equity_commitment ? (
                 <MDBox
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent:"center",
                     gap: 1,
                     fontSize: { xs: 12, md: 16 },
                     // color: "#ffffff",
@@ -84,7 +90,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                   <Icon fontSize="small" sx={{ mt: -0.25 }}>
                     euro
                   </Icon>
-                  {opportunity.equity_commitment}
+                  Soft commitment : {opportunity.equity_commitment}
                 </MDBox>
               ) : (
                 ""
@@ -106,158 +112,54 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                 overflowY: "scroll",
                 maxHeight: 400,
                 backgroundColor: colors.grey[200],
-                mx: { xs: 1, sm: 10 },
+                // mx: { xs: 1, sm: 10 },
                 p: 2,
                 borderRadius: 3,
               }}
             >
-              <MDBox ref={textRef}>
+              <MDBox ref={textRef} sx={{display: "flex",flexDirection: "column",}}>
+                <Typography variant="p" sx={{ fontSize: 16, fontWeight: "bold", textAlign: "center", mb: 2, }}>
+                  COMMITMENT CONFIRMATION FOR EACH INDIVIDUAL INVESTMENT
+                </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
-                  Fusce neque. Quisque libero metus, condimentum nec, tempor a,
-                  commodo mollis, magna. Ut non enim eleifend felis pretium
-                  feugiat. Vestibulum ante ipsum primis in faucibus orci luctus
-                  et ultrices posuere cubilia Curae; In ac dui quis mi
-                  consectetuer lacinia. Suspendisse faucibus, nunc et
-                  pellentesque egestas, lacus ante convallis tellus, vitae
-                  iaculis lacus elit id tortor. Sed a libero. Fusce pharetra
-                  convallis urna. Vivamus laoreet. Aliquam lorem ante, dapibus
-                  in, viverra quis, feugiat a, tellus. Ut tincidunt tincidunt
-                  erat. Nullam nulla eros, ultricies sit amet, nonummy id,
-                  imperdiet feugiat, pede. Aliquam lobortis. Sed consequat, leo
-                  eget bibendum sodales, augue velit cursus nunc, quis gravida
-                  magna mi a libero. Nunc nonummy metus. Cras non dolor. Donec
-                  mollis hendrerit risus. Aliquam lobortis. Nam eget dui. In
-                  turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet. Fusce neque. Quisque libero metus,
-                  condimentum nec, tempor a, commodo mollis, magna. Ut non enim
-                  eleifend felis pretium feugiat. Vestibulum ante ipsum primis
-                  in faucibus orci luctus et ultrices posuere cubilia Curae; In
-                  ac dui quis mi consectetuer lacinia. Suspendisse faucibus,
-                  nunc et pellentesque egestas, lacus ante convallis tellus,
-                  vitae iaculis lacus elit id tortor. Sed a libero. Fusce
-                  pharetra convallis urna. Vivamus laoreet. Aliquam lorem ante,
-                  dapibus in, viverra quis, feugiat a, tellus. Ut tincidunt
-                  tincidunt erat. Nullam nulla eros, ultricies sit amet, nonummy
-                  id, imperdiet feugiat, pede. Aliquam lobortis. Sed consequat,
-                  leo eget bibendum sodales, augue velit cursus nunc, quis
-                  gravida magna mi a libero. Nunc nonummy metus. Cras non dolor.
-                  Donec mollis hendrerit risus. Aliquam lobortis. Nam eget dui.
-                  In turpis. Nullam dictum felis eu pede mollis pretium. In hac
-                  habitasse platea dictumst. Proin faucibus arcu quis ante.
-                  Nullam sagittis. Pellentesque habitant morbi tristique
-                  senectus et netus et malesuada fames ac turpis egestas.
-                  Vivamus laoreet.
+                  Confirmo mi compromiso vinculante de invertir {opportunity.equity_commitment}€ ({writtenNumber(1234, {lang: 'es'})} euros) en a la Oportunidad de Inversión marcada con el número ({opportunity.id}) y denominada ({opportunity.title}) (la “Oportunidad de Inversión”) . <br /><br />
+                  [Desde este momento manifiesto mi compromiso vinculante de invertir un monto adicional de {opportunity.equity_commitment}€ ({writtenNumber(1234, {lang: 'es'})} euros) en la Oportunidad de Inversión, en caso de que exista disponibilidad después de recibir los compromisos de los demás posibles inversionistas de la Plataforma.] <br /><br />
+                  
+                  <Typography variant="p" sx={{ fontSize: 13, fontWeight: "bold" }}>
+                    Al acceder a esta página web, declaro bajo protesta de decir verdad que:
+                  </Typography>
+
+                  <br /><br />
+                    (a)	soy un inversionista calificado, según dicho término se define en el Artículo 2 fracción XVI de la Ley del Mercado de Valores y en las Disposiciones de Carácter General aplicables a las Emisoras de Valores y a otros Participantes del Mercado de Valores; 
+                    <br /><br />
+                    (b)	tengo el conocimiento y experiencia necesarios para entender y evaluar los méritos y riesgos relacionados con oportunidades de inversión que se presenten a través de esta página web, y he consultado y tengo acceso a consultar en el futuro a aquellos asesores y expertos que he considerado o llegue a considerar necesarios o convenientes para tomar mis propias decisiones de inversión. Reconozco que ni el propietario de esta página web ni cualquier inversionista o potencial inversionista que acceda a esta página web, ni ninguna de sus respectivas partes relacionadas, me han proporcionado asesoría ni garantizado ganancia, rendimiento o resultado alguno en relación con cualquier posible inversión presentada a través de esta página web;
+                    <br /><br />
+                    (c)	me obligo a no revelar a terceros ninguna información en relación con la cualquier otra oportunidad de inversión presentada a través de esta página web, excepto por aquella información que (i) sea o se haya convertido del dominio público; (ii) sea conocida o desarrollada independientemente por mi sin referencia alguna a la información recibida; o (iii) tenga que ser divulgada por mandamiento legal o de autoridad competente. 
+                    <br /><br />
+
+                  <Typography variant="p" sx={{ fontSize: 13, fontWeight: "bold" }}>
+                    Liberación de Responsabilidad
+                  </Typography>
+                  <br /><br />
+
+                  1. Incluir sólo si se tiene la intención de invertir en la Oportunidad de Inversión respectiva.
+                  <br /><br />
+
+                  Incluir sólo si se tiene la intención de invertir más de su parte proporcional en la Oportunidad de Inversión respectiva.
+                  <br /><br />
+
+
+                  La información y opiniones expresadas en esta página web son responsabilidad exclusiva de los autores del contenido de las mismas, y no representan ni reflejan la opinión o posición del propietario de esta página web, quien (1) no garantiza en forma alguna ni es responsable de la veracidad, suficiencia o uso que se le dé a la información contenida en esta página web, y (2) no será responsable de los daños y perjuicios que, directa o indirectamente, deriven del uso de la información contenida en esta página web. Al acceder a nuestra página web, usted acepta en su totalidad la presente liberación de responsabilidad.
+                  <br /><br />
+
+
+                  <Typography variant="p" sx={{ fontSize: 13, fontWeight: "bold" }}>
+                    Derechos de autor
+                  </Typography>
+                  <br /><br />
+
+
+                  TODO EL MATERIAL, IMÁGENES Y TEXTOS INCLUIDOS EN ESTA PÁGINA WEB SON PROPIEDAD DE ABBEY CAPITAL, S.L., Y SE ENCUENTRAN PROTEGIDOS POR LA LEGISLACIÓN INTERNACIONAL, ESPAÑOLA Y MEXICANA EN MATERIA DE DERECHOS DE AUTOR. NINGUNA PARTE DE ESTA PÁGINA WEB PODRÁ SER CITADA, COPIADA NI REPRODUCIDA, EN FORMA O MEDIO ALGUNO, SIN EL PREVIO CONSENTIMIENTO POR ESCRITO DE ABBEY CAPITAL, S.L.
                 </Typography>
               </MDBox>
               <MDBox
@@ -318,10 +220,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
               }}
             >
               <Signature
-                onSave={(image) => {
-                  setIsError("");
-                  setSignatureImage(image);
-                }}
+                sigCanvas={sigCanvas}
               />
             </MDBox>
           </MDBox>
@@ -347,15 +246,29 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
       return;
     }
 
-    if (activeStep === 3 && !signatureImage) {
-      setIsError("Please save your Signature in order to send your request.");
-      return;
+    if (activeStep === 3){
+      if (sigCanvas?.current?.isEmpty()) { 
+        setIsError("Please save your Signature in order to send your request.");
+        return;
+      }
+      // else{
+      //   console.log("gCanvas.current.getTrimmedCan");
+      //   setIsError("igCanvas.current.getTrimmedCan");
+      //   setSignatureImage(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
+      // }
     }
 
     if (isLastStep) {
       // submitForm(values, actions);
-      setIsError("Submit...");
-      console.log("Submit...");
+      const data = {
+        opportunityId : opportunity?.id,
+        userId: userId,
+        signature: sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")
+      };
+
+      onSubmit(data);
+      setIsError("");
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
     }
 
@@ -401,6 +314,13 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
 
         backgroundColor: "rgba(255,255,255,0.7)",
       }}
+
+      onKeyDown={(e) => {
+        // console.log(e.keyCode);
+        if (e.keyCode == 27) {
+          closeForm();
+        }
+      }}
     >
       <Grid
         container
@@ -408,8 +328,8 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
         alignItems="center"
         sx={{ height: "100%" }}
       >
-        <Grid item xs={12} lg={8} gap={2}>
-          <MDBox
+        <Grid item  gap={2} sx={{width: "800px"}}>
+          {/* <MDBox
             onClick={closeForm}
             sx={{
               display: "flex",
@@ -421,7 +341,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
             }}
           >
             <CloseIcon />
-          </MDBox>
+          </MDBox> */}
           <Card sx={{ height: "100%", boxShadow: 5 }}>
             <MDBox
               mx={2}
@@ -475,7 +395,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                       mt: 2,
                     }}
                   >
-                    {!isFirstStep && (
+                    {!isFirstStep ? (
                       <Button
                         // color="inherit"
                         disabled={activeStep === 0}
@@ -495,7 +415,25 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity }) {
                       >
                         Back
                       </Button>
-                    )}
+                    ):(<Button
+                        // color="inherit"
+                        disabled={activeStep === 0}
+                        onClick={closeForm}
+                        sx={{
+                          color: colors.white.main,
+                          backgroundColor: colors.escharaThemePrimary.main,
+                          ":hover": {
+                            color: colors.white.main,
+                            backgroundColor: colors.escharaThemePrimary.main,
+                          },
+                          ":focus:not(:hover)": {
+                            color: colors.white.main,
+                            backgroundColor: colors.escharaThemePrimary.main,
+                          },
+                        }}
+                      >
+                        Cancel
+                      </Button>)}
                     <MDBox sx={{ flex: "1 1 auto", textAlign: "center" }}>
                       {isError && (
                         <Typography

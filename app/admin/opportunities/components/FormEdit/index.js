@@ -16,7 +16,7 @@ import MDBox from "../../../../../components/MDBox";
 import FormField from "../../../../../components/FormField";
 import MDButton from "../../../../../components/MDButton";
 import editOpportunity from "../../serverActions/editOpportunity";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Cancel, Send } from "@mui/icons-material";
 import colors from "../../../../../assets/theme/base/colors";
 import EILoader from "../../../../../components/EILoader";
@@ -92,7 +92,8 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
           message: editOpportunityResponse.message,
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
-        // router.push("/admin/opportunities");
+
+        redirect("/admin/opportunities/"+opportunity?.id);
       }
     });
   };
