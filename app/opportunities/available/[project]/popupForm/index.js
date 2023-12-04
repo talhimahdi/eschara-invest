@@ -122,8 +122,8 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
                   COMMITMENT CONFIRMATION FOR EACH INDIVIDUAL INVESTMENT
                 </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
-                  Confirmo mi compromiso vinculante de invertir {opportunity.equity_commitment}€ ({writtenNumber(1234, {lang: 'es'})} euros) en a la Oportunidad de Inversión marcada con el número ({opportunity.id}) y denominada ({opportunity.title}) (la “Oportunidad de Inversión”) . <br /><br />
-                  [Desde este momento manifiesto mi compromiso vinculante de invertir un monto adicional de {opportunity.equity_commitment}€ ({writtenNumber(1234, {lang: 'es'})} euros) en la Oportunidad de Inversión, en caso de que exista disponibilidad después de recibir los compromisos de los demás posibles inversionistas de la Plataforma.] <br /><br />
+                  Confirmo mi compromiso vinculante de invertir {opportunity.equity_commitment}€ ({writtenNumber(parseInt(opportunity.equity_commitment.replace(",", "")), {lang: 'es'})} euros) en a la Oportunidad de Inversión marcada con el número ({opportunity.id}) y denominada ({opportunity.title}) (la “Oportunidad de Inversión”) . <br /><br />
+                  [Desde este momento manifiesto mi compromiso vinculante de invertir un monto adicional de {opportunity.equity_commitment}€ ({writtenNumber(parseInt(opportunity.equity_commitment.replace(",", "")), {lang: 'es'})} euros) en la Oportunidad de Inversión, en caso de que exista disponibilidad después de recibir los compromisos de los demás posibles inversionistas de la Plataforma.] <br /><br />
                   
                   <Typography variant="p" sx={{ fontSize: 13, fontWeight: "bold" }}>
                     Al acceder a esta página web, declaro bajo protesta de decir verdad que:
