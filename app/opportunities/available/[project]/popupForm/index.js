@@ -361,13 +361,17 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
                 ))}
               </Stepper>
             </MDBox>
-            <MDBox sx={{ p: 2 }}>
+            <MDBox sx={{ p: 4 }}>
               {activeStep === steps.length + 1 ? (
                 <React.Fragment>
                   <Typography
-                    sx={{ mt: 2, mb: 1, textAlign: "center", fontSize: 18 }}
+                    sx={{ mt: 2, textAlign: "center", fontSize: 16 }}
                   >
-                    Your request has been sent successfully.
+                    Your commitment has been fully acknowledged.
+                    </Typography>
+                    <Typography
+                    sx={{ mb: 1, textAlign: "center", fontSize: 16 }}>
+                    The asset manager has been informed and a confirmaiton email has been sent to you.
                   </Typography>
                   <MDBox sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                     <MDBox sx={{ flex: "1 1 auto", textAlign: "center" }}>
