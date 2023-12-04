@@ -86,7 +86,7 @@ export default function Rejected() {
               </Grid>
             ))}
           </Grid>
-          <MDBox mt={5} textAlign="center">
+          {/* <MDBox mt={5} textAlign="center">
             <MDButton
               disableElevation
               disableRipple
@@ -106,7 +106,7 @@ export default function Rejected() {
             >
               SEE MORE
             </MDButton>
-          </MDBox>
+          </MDBox> */}
         </MDBox>
       ) : (
         <MDTypography
