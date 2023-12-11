@@ -5,19 +5,38 @@ import SignaturePad from "react-signature-canvas";
 import MDBox from "../../../components/MDBox";
 import MDButton from "../../../components/MDButton";
 import colors from "../../../assets/theme/base/colors";
-import { Tab, Tabs, Typography } from "@mui/material";
+import { Button, Tab, Tabs, Typography } from "@mui/material";
+import MDTypography from "../../../components/MDTypography";
 
-export default function Signature({ sigCanvas }) {
+export default function Signature({ sigCanvas, signatureUploadImage, setSignatureUploadImage }) {
   const [activeSignatureTabIndex, setActiveSignatureTabIndex] = useState(0);
+  // const [signatureUploadImage, setSignatureUploadImage] = useState({
+  //     url: "",
+  //     name: "",
+  //     size: "",
+  //     type: "",
+  //     data: "",
+  //   });
 
   // let sigCanvas = useRef({});
 
   const clear = () => {
-    sigCanvas.current.clear();
+    sigCanvas.current?.clear();
   };
 
   const handleChangeActiveSignatureTabIndex = (event, newValue) => {
     setActiveSignatureTabIndex(newValue);
+
+    clear();
+    setSignatureUploadImage({
+          url: "",
+          name: "",
+          size: "",
+          type: "",
+          data: "",
+        });
+
+
   };
 
   const CustomTabPanel = (props) => {
@@ -44,6 +63,43 @@ export default function Signature({ sigCanvas }) {
         )}
       </MDBox>
     );
+  };
+
+  async function convert2DataUrl(blobOrFile) {
+    let reader = new FileReader();
+    reader.readAsDataURL(blobOrFile);
+    await new Promise((resolve) => (reader.onload = () => resolve()));
+    return reader.result;
+  }
+
+  const handleUploadSignature = async (e) => {
+    var file = e.target.files[0];
+    
+    var imagesSize = file.size;
+
+    if ((imagesSize / 1024 / 1024).toFixed(4) > 10) {
+      // setAlert({
+      //   severity: "error",
+      //   message: "Max size is 10 MB",
+      // });
+      // window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      console.log("Max size is 10 MB");
+      return;
+    }
+
+
+    const base64 = await convert2DataUrl(file);
+
+    setSignatureUploadImage({
+        url: URL.createObjectURL(file),
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        data: base64,
+      });
+
+    e.target.value = null;
   };
 
   return (
@@ -80,7 +136,10 @@ export default function Signature({ sigCanvas }) {
           />
         </Tabs>
       </MDBox>
-      <MDBox>
+      <MDBox
+        sx={{
+          width: "100%",
+        }}>
         <CustomTabPanel value={activeSignatureTabIndex} index={0}>
           <MDBox
             sx={{
@@ -115,7 +174,7 @@ export default function Signature({ sigCanvas }) {
             </MDBox>
 
             <MDBox sx={{display: "flex", width: "100%", alignItems: "center", gap:1 }}>
-            <MDButton
+              <MDButton
                 sx={{
                   backgroundColor: colors.grey[400],
                   color: colors.grey[800],

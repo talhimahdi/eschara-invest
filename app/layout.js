@@ -26,7 +26,9 @@ export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
       <head>
-        <title>Eschara-Invest</title>
+        <title>Eschara Invest</title>
+        {/* <link rel="icon" type="image/png" href="/images/favicon.png" /> */}
+        <link rel="icon" href="/images/favicon.png" sizes="any" />
         <meta charSet="utf-8" />
 
         <link

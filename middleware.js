@@ -8,7 +8,8 @@ export default withAuth({
       if (
         pathname.startsWith("/_next") ||
         pathname.startsWith("/images") ||
-        pathname === "/favicon.ico" ||
+        // pathname === "/favicon.ico" ||
+        // pathname === "/favicon.png" ||
         pathname.startsWith("/login") ||
         pathname.startsWith("/signup") ||
         pathname.startsWith("/waiting-page") ||

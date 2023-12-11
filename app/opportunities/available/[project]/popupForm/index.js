@@ -26,11 +26,19 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
 
   const [termsCheck, setTermsCheck] = useState(false);
   const [signatureImage, setSignatureImage] = useState("");
+  const [signatureUploadImage, setSignatureUploadImage] = useState({
+      url: "",
+      name: "",
+      size: "",
+      type: "",
+      data: "",
+    });
 
   const checkRef = useRef(null);
   const textRef = useRef(null);
 
   let sigCanvas = useRef({});
+  
 
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -221,6 +229,8 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
             >
               <Signature
                 sigCanvas={sigCanvas}
+                signatureUploadImage={signatureUploadImage}
+                setSignatureUploadImage={setSignatureUploadImage}
               />
             </MDBox>
           </MDBox>
@@ -247,23 +257,19 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
     }
 
     if (activeStep === 3){
-      if (sigCanvas?.current?.isEmpty()) { 
+      if ((sigCanvas?.current === null || sigCanvas?.current?.isEmpty()) && signatureUploadImage?.data == "") { 
         setIsError("Please save your Signature in order to send your request.");
         return;
       }
-      // else{
-      //   console.log("gCanvas.current.getTrimmedCan");
-      //   setIsError("igCanvas.current.getTrimmedCan");
-      //   setSignatureImage(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"));
-      // }
     }
 
     if (isLastStep) {
-      // submitForm(values, actions);
+      const imageData = sigCanvas?.current === null ? signatureUploadImage?.data : sigCanvas?.current?.getTrimmedCanvas().toDataURL("image/png");
       const data = {
         opportunityId : opportunity?.id,
         userId: userId,
-        signature: sigCanvas.current.getTrimmedCanvas().toDataURL("image/png")
+        signature: imageData,
+        equity_commitment_words: writtenNumber(parseInt(opportunity.equity_commitment.replace(",", "")), {lang: 'es'})
       };
 
       onSubmit(data);
@@ -361,9 +367,12 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
                 ))}
               </Stepper>
             </MDBox>
-            <MDBox sx={{ p: 4 }}>
+            <MDBox sx={{ p: 4,textAlign: "center" }}>
               {activeStep === steps.length + 1 ? (
                 <React.Fragment>
+                  <Icon sx={{ fontSize: 'xxx-large !important', mb: 2, color: colors.escharaThemePrimary.main }}>
+                    task_alt
+                  </Icon>
                   <Typography
                     sx={{ mt: 2, textAlign: "center", fontSize: 16 }}
                   >
@@ -371,7 +380,7 @@ export default function PopupForm({ isOpen, setIsOpen, opportunity, userId, onSu
                     </Typography>
                     <Typography
                     sx={{ mb: 1, textAlign: "center", fontSize: 16 }}>
-                    The asset manager has been informed and a confirmaiton email has been sent to you.
+                    The asset manager has been informed and a confirmation email has been sent to you.
                   </Typography>
                   <MDBox sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                     <MDBox sx={{ flex: "1 1 auto", textAlign: "center" }}>

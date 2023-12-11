@@ -51,6 +51,8 @@ function Project({ params }) {
   }
   const [opportunityData, setOpportunityData] = useState({});
 
+  console.log(opportunityData);
+
   useEffect(() => {
     async function getOpportunityData() {
       const opportunityData = await getOpportunityById(opportunityId);
@@ -334,6 +336,9 @@ function Project({ params }) {
                   sx={{
                     display: { xs: "flex", md: "none" },
                     pt: 2,
+                    flexDirection: "column", 
+                    alignItems: "start", 
+                    alignContent: "start", 
                   }}
                 >
                   <MDBox
@@ -342,7 +347,6 @@ function Project({ params }) {
                       alignItems: "center",
                       gap: 1,
                       py: 1.5,
-                      px: 3,
                       fontSize: { xs: 12, md: 16 },
                       color: "#ffffff",
                     }}
@@ -359,7 +363,6 @@ function Project({ params }) {
                         alignItems: "center",
                         gap: 1,
                         py: 1.5,
-                        px: 3,
                         fontSize: { xs: 12, md: 16 },
                         color: "#ffffff",
                       }}
@@ -372,6 +375,32 @@ function Project({ params }) {
                   ) : (
                     ""
                   )}
+
+                  <MDBox
+                        sx={{
+                          alignItems: "center",
+                          mt: 2,
+                          py: 1,
+                          px: 2,
+                          color: colors.escharaThemePrimary.main + ' !important',
+                          backgroundColor: colors.white.main,
+                          borderRadius: 1,
+                          fontSize: 14,
+                          fontWeight: "bold",
+
+                          "&:hover": {
+                            backgroundColor: colors.white.main,
+                          },
+                          "&:focus:not(:hover)": {
+                            backgroundColor: colors.white.main,
+                            boxShadow: "none",
+                          },
+                        }}
+                      >
+                      <a href={"mailto:" + opportunityData.manager_email} target="_blank" style={{color:"inherit"}} >
+                          Contact manager
+                      </a>
+                    </MDBox>
                 </Grid>
                 <Grid
                   container
@@ -448,26 +477,52 @@ function Project({ params }) {
                       </Typography>
                     </MDBox>
                   ) : (
-                    <MDButton
-                      onClick={setShowAcceptForm}
-                      variant="contained"
-                      sx={{
-                        px: 10,
-                        color: colors.white.main,
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                        borderRadius: 1,
+                    <MDBox sx={{display:"flex", gap:2}}>
+                      <MDButton
+                        onClick={setShowAcceptForm}
+                        variant="contained"
+                        sx={{
+                          // px: 10,
+                          color: colors.white.main,
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          borderRadius: 1,
 
-                        "&:hover": {
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                        },
-                        "&:focus:not(:hover)": {
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                          boxShadow: "none",
-                        },
-                      }}
-                    >
-                      ACCEPT
-                    </MDButton>
+                          "&:hover": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                          },
+                          "&:focus:not(:hover)": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            boxShadow: "none",
+                          },
+                        }}
+                      >
+                        ACCEPT
+                      </MDButton>
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          px: 2,
+                          color: colors.escharaThemePrimary.main + ' !important',
+                          backgroundColor: colors.white.main,
+                          borderRadius: 1,
+                          fontSize: 14,
+                          fontWeight: "bold",
+
+                          "&:hover": {
+                            backgroundColor: colors.white.main,
+                          },
+                          "&:focus:not(:hover)": {
+                            backgroundColor: colors.white.main,
+                            boxShadow: "none",
+                          },
+                        }}
+                      >
+                      <a href={"mailto:" + opportunityData.manager_email} target="_blank" style={{color:"inherit"}} >
+                          Contact manager
+                      </a>
+                    </MDBox>
+                  </MDBox>
                   )}
                 </Grid>
               </Grid>
@@ -641,7 +696,7 @@ function Project({ params }) {
                       <MDBox sx={{ mt: 2 }}>
                         {opportunityData.documents?.length ? (
                           opportunityData.documents?.map((file, index) => (
-                            <Link href={file.url} key={index}>
+                            <Link href={file.url} key={index} target="_blank">
                               <MDBox
                                 sx={{
                                   display: "flex",
