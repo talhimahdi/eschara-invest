@@ -400,7 +400,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       )} */}
         <MDBox sx={{ my: 15 }}>
           <MuiLink
-            href={"#"}
+            href={"/contact"}
             key={"contact-us"}
             rel="noreferrer"
             sx={{ textDecoration: "none" }}

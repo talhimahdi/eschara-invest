@@ -200,7 +200,51 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
           </MDBox>
         </CustomTabPanel>
         <CustomTabPanel value={activeSignatureTabIndex} index={1}>
-          Item Two
+          <MDBox mt={3}>
+            <Button
+              variant="contained"
+              component="label"
+              sx={{
+                backgroundColor: colors.escharaThemeSecondary.main,
+                color: colors.white.main,
+                "&:hover": {
+                  backgroundColor: colors.escharaThemeSecondary.main,
+                  color: colors.white.main,
+                },
+              }}
+            >
+              Add signature
+              <input
+                hidden
+                accept=".jpg,.png"
+                type="file"
+                name="gallery"
+                onChange={handleUploadSignature}
+              />
+            </Button>
+            <MDBox
+              sx={{ display: "flex", flexWrap: "nowrap", mt: 3, justifyContent: "center" }}
+            >
+              {signatureUploadImage?.url != "" ? (
+                  <MDBox
+                    color="white"
+                    textAlign="center"
+                    sx={{
+                      backgroundImage: `url(${signatureUploadImage?.url})`,
+                      backgroundSize: "contain",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      width: 120,
+                      height: 100,
+                    }}
+                  ></MDBox>
+                ) : (
+                  <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                    No image selected.
+                  </MDTypography>
+                )}
+            </MDBox>
+          </MDBox>
         </CustomTabPanel>
       </MDBox>
     </MDBox>
