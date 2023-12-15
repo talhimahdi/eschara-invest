@@ -33,7 +33,7 @@ export default function Contact() {
                 <MDBox>
                   <Typography
                     variant="h4"
-                    mb={5}
+                    mb={3}
                     color={colors.escharaThemeSecondary.main}
                   >
                     General contact
@@ -63,7 +63,7 @@ export default function Contact() {
                 <MDBox>
                   <Typography
                     variant="h4"
-                    mb={5}
+                    mb={3}
                     color={colors.escharaThemeSecondary.main}
                   >
                     Technical contact
