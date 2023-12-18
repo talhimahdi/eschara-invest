@@ -8,7 +8,11 @@ import colors from "../../../assets/theme/base/colors";
 import { Button, Tab, Tabs, Typography } from "@mui/material";
 import MDTypography from "../../../components/MDTypography";
 
-export default function Signature({ sigCanvas, signatureUploadImage, setSignatureUploadImage }) {
+export default function Signature({
+  sigCanvas,
+  signatureUploadImage,
+  setSignatureUploadImage,
+}) {
   const [activeSignatureTabIndex, setActiveSignatureTabIndex] = useState(0);
   // const [signatureUploadImage, setSignatureUploadImage] = useState({
   //     url: "",
@@ -29,14 +33,12 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
 
     clear();
     setSignatureUploadImage({
-          url: "",
-          name: "",
-          size: "",
-          type: "",
-          data: "",
-        });
-
-
+      url: "",
+      name: "",
+      size: "",
+      type: "",
+      data: "",
+    });
   };
 
   const CustomTabPanel = (props) => {
@@ -74,7 +76,7 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
 
   const handleUploadSignature = async (e) => {
     var file = e.target.files[0];
-    
+
     var imagesSize = file.size;
 
     if ((imagesSize / 1024 / 1024).toFixed(4) > 10) {
@@ -83,21 +85,20 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
       //   message: "Max size is 10 MB",
       // });
       // window.scrollTo({ top: 0, behavior: "smooth" });
-      
+
       console.log("Max size is 10 MB");
       return;
     }
 
-
     const base64 = await convert2DataUrl(file);
 
     setSignatureUploadImage({
-        url: URL.createObjectURL(file),
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        data: base64,
-      });
+      url: URL.createObjectURL(file),
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      data: base64,
+    });
 
     e.target.value = null;
   };
@@ -119,7 +120,7 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
           sx={{
             backgroundColor: "#F8F9FA",
             borderRadius: 1,
-            width: 400,
+            width: { xs: 350, md: 400 },
           }}
         >
           <Tab
@@ -139,16 +140,16 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
       <MDBox
         sx={{
           width: "100%",
-        }}>
+        }}
+      >
         <CustomTabPanel value={activeSignatureTabIndex} index={0}>
           <MDBox
             sx={{
-              width: 400,
+              width: { xs: 350, md: 400 },
             }}
           >
             <MDBox
               sx={{
-                width: 400,
                 height: 200,
                 margin: 0,
                 backgroundColor: "#F8F9FA",
@@ -173,7 +174,14 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
               />
             </MDBox>
 
-            <MDBox sx={{display: "flex", width: "100%", alignItems: "center", gap:1 }}>
+            <MDBox
+              sx={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
               <MDButton
                 sx={{
                   backgroundColor: colors.grey[400],
@@ -196,7 +204,6 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
                 that such signature will be as valid as handwritten signatures.
               </Typography>
             </MDBox>
-
           </MDBox>
         </CustomTabPanel>
         <CustomTabPanel value={activeSignatureTabIndex} index={1}>
@@ -223,26 +230,31 @@ export default function Signature({ sigCanvas, signatureUploadImage, setSignatur
               />
             </Button>
             <MDBox
-              sx={{ display: "flex", flexWrap: "nowrap", mt: 3, justifyContent: "center" }}
+              sx={{
+                display: "flex",
+                flexWrap: "nowrap",
+                mt: 3,
+                justifyContent: "center",
+              }}
             >
               {signatureUploadImage?.url != "" ? (
-                  <MDBox
-                    color="white"
-                    textAlign="center"
-                    sx={{
-                      backgroundImage: `url(${signatureUploadImage?.url})`,
-                      backgroundSize: "contain",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      width: 120,
-                      height: 100,
-                    }}
-                  ></MDBox>
-                ) : (
-                  <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
-                    No image selected.
-                  </MDTypography>
-                )}
+                <MDBox
+                  color="white"
+                  textAlign="center"
+                  sx={{
+                    backgroundImage: `url(${signatureUploadImage?.url})`,
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    width: 120,
+                    height: 100,
+                  }}
+                ></MDBox>
+              ) : (
+                <MDTypography sx={{ fontSize: { xs: 12, md: 15 } }}>
+                  No image selected.
+                </MDTypography>
+              )}
             </MDBox>
           </MDBox>
         </CustomTabPanel>

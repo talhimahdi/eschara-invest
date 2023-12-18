@@ -27,7 +27,7 @@ function FormAdd({ roles }) {
     address: "",
     address2: "",
     comment: "",
-    role: "investor",
+    role: "admin",
     status: "inactive",
     zip_code: 0,
     phone: "",
@@ -44,6 +44,12 @@ function FormAdd({ roles }) {
         setAlert({
           severity: "error",
           message: Object.values(addUserResponse.errors)[0],
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (!addUserResponse.status) {
+        setAlert({
+          severity: "error",
+          message: "An error occurred while creating the account!!",
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {

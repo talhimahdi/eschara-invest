@@ -51,8 +51,6 @@ function Project({ params }) {
   }
   const [opportunityData, setOpportunityData] = useState({});
 
-  console.log(opportunityData);
-
   useEffect(() => {
     async function getOpportunityData() {
       const opportunityData = await getOpportunityById(opportunityId);
@@ -163,17 +161,14 @@ function Project({ params }) {
   };
 
   const onSubmit = async (data) => {
-    console.log("onSubmit from page   " + data?.opportunityId);
-
     const response = await opportunityAccepted(data);
 
     if (response.status && response.message) {
-      console.log(response.message);
-      
+      // console.log(response.message);
     } else {
       router.push("/overview");
     }
-}
+  };
 
   if (opportunityData.title) {
     return (
@@ -336,9 +331,9 @@ function Project({ params }) {
                   sx={{
                     display: { xs: "flex", md: "none" },
                     pt: 2,
-                    flexDirection: "column", 
-                    alignItems: "start", 
-                    alignContent: "start", 
+                    flexDirection: "column",
+                    alignItems: "start",
+                    alignContent: "start",
                   }}
                 >
                   <MDBox
@@ -377,30 +372,34 @@ function Project({ params }) {
                   )}
 
                   <MDBox
-                        sx={{
-                          alignItems: "center",
-                          mt: 2,
-                          py: 1,
-                          px: 2,
-                          color: colors.escharaThemePrimary.main + ' !important',
-                          backgroundColor: colors.white.main,
-                          borderRadius: 1,
-                          fontSize: 14,
-                          fontWeight: "bold",
+                    sx={{
+                      alignItems: "center",
+                      mt: 2,
+                      py: 1,
+                      px: 2,
+                      color: colors.escharaThemePrimary.main + " !important",
+                      backgroundColor: colors.white.main,
+                      borderRadius: 1,
+                      fontSize: 14,
+                      fontWeight: "bold",
 
-                          "&:hover": {
-                            backgroundColor: colors.white.main,
-                          },
-                          "&:focus:not(:hover)": {
-                            backgroundColor: colors.white.main,
-                            boxShadow: "none",
-                          },
-                        }}
-                      >
-                      <a href={"mailto:" + opportunityData.manager_email} target="_blank" style={{color:"inherit"}} >
-                          Contact manager
-                      </a>
-                    </MDBox>
+                      "&:hover": {
+                        backgroundColor: colors.white.main,
+                      },
+                      "&:focus:not(:hover)": {
+                        backgroundColor: colors.white.main,
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    <a
+                      href={"mailto:" + opportunityData.manager_email}
+                      target="_blank"
+                      style={{ color: "inherit" }}
+                    >
+                      Contact manager
+                    </a>
+                  </MDBox>
                 </Grid>
                 <Grid
                   container
@@ -477,7 +476,7 @@ function Project({ params }) {
                       </Typography>
                     </MDBox>
                   ) : (
-                    <MDBox sx={{display:"flex", gap:2}}>
+                    <MDBox sx={{ display: "flex", gap: 2 }}>
                       <MDButton
                         onClick={setShowAcceptForm}
                         variant="contained"
@@ -503,7 +502,8 @@ function Project({ params }) {
                           display: "flex",
                           alignItems: "center",
                           px: 2,
-                          color: colors.escharaThemePrimary.main + ' !important',
+                          color:
+                            colors.escharaThemePrimary.main + " !important",
                           backgroundColor: colors.white.main,
                           borderRadius: 1,
                           fontSize: 14,
@@ -518,11 +518,15 @@ function Project({ params }) {
                           },
                         }}
                       >
-                      <a href={"mailto:" + opportunityData.manager_email} target="_blank" style={{color:"inherit"}} >
+                        <a
+                          href={"mailto:" + opportunityData.manager_email}
+                          target="_blank"
+                          style={{ color: "inherit" }}
+                        >
                           Contact manager
-                      </a>
+                        </a>
+                      </MDBox>
                     </MDBox>
-                  </MDBox>
                   )}
                 </Grid>
               </Grid>
