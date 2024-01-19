@@ -101,11 +101,16 @@ function FormAdd({ managers = [], statuses = [] }) {
       return;
     }
 
-    formValues.manager = managerValue.id;
-    formValues.property_description = properties;
-    formValues.economics = economics;
-    formValues.gallery = previewImages;
-    formValues.status = status.id;
+    const values = formValues;
+
+    values.equity_commitment = values.equity_commitment.replaceAll(",", "");
+    values.total_value = values.total_value.replaceAll(",", "");
+
+    values.manager = managerValue.id;
+    values.property_description = properties;
+    values.economics = economics;
+    values.gallery = previewImages;
+    values.status = status.id;
 
     startTransition(async () => {
       const addOpportunityResponse = await addOpportunity(formValues);
@@ -179,7 +184,7 @@ function FormAdd({ managers = [], statuses = [] }) {
         (propert) =>
           propert.key.toLowerCase() === propertyDescription.key.toLowerCase() &&
           propert.value.toLowerCase() ===
-            propertyDescription.value.toLowerCase()
+          propertyDescription.value.toLowerCase()
       ) &&
       propertyDescription.value != ""
     ) {
@@ -397,12 +402,22 @@ function FormAdd({ managers = [], statuses = [] }) {
                     <FormField
                       value={formValues.total_value}
                       onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          total_value: e.target.value,
-                        });
+                        if (/^[0-9.,\b]+$/.test(e.target.value)) {
+                          console.log('yes');
+                          setFormValues({
+                            ...formValues,
+                            total_value: parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'),
+                          });
+                        } else {
+                          console.log('no');
+                          setFormValues({
+                            ...formValues,
+                            total_value: e.target.value.substring(0, e.target.value.length - 1)
+                          });
+                        }
+
                       }}
-                      type="number"
+                      type="text"
                       label="Total value *"
                       placeholder="0.00"
                       variant="outlined"
@@ -412,12 +427,23 @@ function FormAdd({ managers = [], statuses = [] }) {
                     <FormField
                       value={formValues.equity_commitment}
                       onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          equity_commitment: e.target.value,
-                        });
+
+                        if (/^[0-9.,\b]+$/.test(e.target.value)) {
+                          console.log('yes');
+                          setFormValues({
+                            ...formValues,
+                            equity_commitment: parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'),
+                          });
+                        } else {
+                          console.log('no');
+                          setFormValues({
+                            ...formValues,
+                            equity_commitment: e.target.value.substring(0, e.target.value.length - 1)
+                          });
+                        }
+
                       }}
-                      type="number"
+                      type="text"
                       label="Equity Commitment *"
                       placeholder="0.00"
                       variant="outlined"

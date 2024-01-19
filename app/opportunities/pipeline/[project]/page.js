@@ -33,6 +33,7 @@ import getOpportunityById from "@/admin/opportunities/serverActions/getOpportuni
 import { useRouter } from "next/navigation";
 import EILoader from "../../../../components/EILoader";
 import Link from "next/link";
+import EIOpportunitySlider from "../../../../components/EIOpportunitySlider";
 
 function Project({ params }) {
   const router = useRouter();
@@ -218,6 +219,7 @@ function Project({ params }) {
                   {opportunityData.tags?.map((tag) => renderTag(tag))}
                 </MDBox>
               </Grid>
+
               <Grid
                 container
                 item
@@ -234,109 +236,13 @@ function Project({ params }) {
                 }}
               >
                 <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  sx={{
-                    "& .MuiTabs-root": {
-                      padding: 0,
-                      borderRadius: 1,
-                    },
-                    "& .MuiTabs-indicator": {
-                      borderRadius: 1,
-                      boxShadow: 0,
-                    },
-                  }}
-                >
-                  <Tabs
-                    orientation={"horizontal"}
-                    value={tabValue}
-                    onChange={handleSetTabValue}
-                    TabIndicatorProps={{
-                      sx: { display: { xs: "none", md: "block" } },
-                      style: {
-                        backgroundColor: "#434461",
-                      },
-                    }}
-                    sx={{
-                      backgroundColor: "inherit",
-                      width: "fit-content",
-                      "& .MuiTabs-flexContainer": {
-                        flexWrap: "wrap",
-                      },
-
-                      "& .MuiTabs-root": {
-                        padding: 0,
-                        height: 100,
-                      },
-                      "& .MuiTab-textColorPrimary": {
-                        color: "white!important",
-                      },
-                      "& .Mui-selected": {
-                        color: "white",
-                        backgroundColor: "#434461",
-                      },
-
-                      /* Left button */
-                      "& .css-hn784z:hover button": {
-                        backgroundColor: "#53dc17",
-                      },
-                      "& .css-hn784z": {
-                        margin: 0,
-                        padding: 0,
-                        backgroundColor: "#53dc17",
-                      },
-                      /* Right button */
-                      "& .css-1abc02a": {
-                        margin: 0,
-                        padding: 0,
-                        color: "#FF0000",
-                      },
-                    }}
-                  >
-                    <Tab
-                      label="Description"
-                      sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", md: "row" },
-                        py: 1.5,
-                        px: 3,
-                        fontSize: { xs: 12, md: 16 },
-                      }}
-                      icon={
-                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                          help_outline
-                        </Icon>
-                      }
-                      onClick={() => scrollTo("__description_block")}
-                    />
-
-                    <Tab
-                      label="Documents"
-                      sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", md: "row" },
-                        py: 1.5,
-                        px: 3,
-                        fontSize: { xs: 12, md: 16 },
-                      }}
-                      icon={
-                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                          article_outlined
-                        </Icon>
-                      }
-                      onClick={() => scrollTo("__documents_block")}
-                    />
-                  </Tabs>
-                </Grid>
-                <Grid
                   container
                   item
-                  // xs={0}
-                  // md={8}
                   sx={{
                     display: { xs: "flex", md: "none" },
-                    pt: 2,
+                    flexDirection: "column",
+                    alignItems: "start",
+                    alignContent: "start",
                   }}
                 >
                   <MDBox
@@ -345,7 +251,6 @@ function Project({ params }) {
                       alignItems: "center",
                       gap: 1,
                       py: 1.5,
-                      px: 3,
                       fontSize: { xs: 12, md: 16 },
                       color: "#ffffff",
                     }}
@@ -355,14 +260,14 @@ function Project({ params }) {
                     </Icon>
                     Expiration date : {opportunityData.expiration_date}
                   </MDBox>
-                  {opportunityData.calculated_ammount ? (
+
+                  {opportunityData.total_value ? (
                     <MDBox
                       sx={{
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
                         py: 1.5,
-                        px: 3,
                         fontSize: { xs: 12, md: 16 },
                         color: "#ffffff",
                       }}
@@ -370,60 +275,194 @@ function Project({ params }) {
                       <Icon fontSize="small" sx={{ mt: -0.25 }}>
                         euro
                       </Icon>
-                      {opportunityData.calculated_ammount}
+                      Total value : {opportunityData.total_value}
                     </MDBox>
                   ) : (
                     ""
                   )}
+
+                  {opportunityData.equity_commitment ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        group_add
+                      </Icon>
+                      Equity commitment : {opportunityData.equity_commitment}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
+
+                  <MDBox
+                    sx={{
+                      alignItems: "center",
+                      mt: 2,
+                      py: 1,
+                      px: 2,
+                      color: colors.escharaThemePrimary.main + " !important",
+                      backgroundColor: colors.white.main,
+                      borderRadius: 1,
+                      fontSize: 14,
+                      fontWeight: "bold",
+
+                      "&:hover": {
+                        backgroundColor: colors.white.main,
+                      },
+                      "&:focus:not(:hover)": {
+                        backgroundColor: colors.white.main,
+                        boxShadow: "none",
+                      },
+                    }}
+                  >
+                    <a
+                      href={"mailto:" + opportunityData.manager_email}
+                      target="_blank"
+                      style={{ color: "inherit" }}
+                    >
+                      Contact manager
+                    </a>
+                  </MDBox>
                 </Grid>
                 <Grid
                   container
                   item
                   xs={0}
-                  md={8}
+                  md={12}
                   sx={{
                     display: { xs: "none", md: "flex" },
-                    justifyContent: "end",
+                    justifyContent: "space-between"
                   }}
                 >
-                  <MDBox
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      py: 1.5,
-                      px: 3,
-                      fontSize: { xs: 12, md: 16 },
-                      color: "#ffffff",
-                    }}
-                  >
-                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      calendar_month
-                    </Icon>
-                    Expiration date : {opportunityData.expiration_date}
-                  </MDBox>
-                  {opportunityData.calculated_ammount ? (
+                  <MDBox sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 3,
+                  }}>
                     <MDBox
                       sx={{
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
-                        py: 1.5,
-                        px: 3,
-                        fontSize: { xs: 12, md: 16 },
+                        fontSize: { xs: 12, md: 14 },
                         color: "#ffffff",
                       }}
                     >
                       <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                        euro
+                        calendar_month
                       </Icon>
-                      {opportunityData.calculated_ammount}
+                      Expiration date : {opportunityData.expiration_date}
                     </MDBox>
-                  ) : (
-                    ""
-                  )}
+
+                    {opportunityData.total_value ? (
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          fontSize: { xs: 12, md: 14 },
+                          color: "#ffffff",
+                        }}
+                      >
+                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                          euro
+                        </Icon>
+                        Total value : {opportunityData.total_value}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                    {/* opportunityData.calculated_ammount */}
+                    {opportunityData.equity_commitment ? (
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          // py: 1.5,
+                          // px: 3,
+                          fontSize: { xs: 12, md: 14 },
+                          color: "#ffffff",
+                        }}
+                      >
+                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                          group_add
+                        </Icon>
+                        Equity commitment : {opportunityData.equity_commitment}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                  </MDBox>
+
+                  <MDBox>
+                    {opportunityData.expired ? (
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            px: 2,
+                            borderRadius: 1,
+                            fontSize: { xs: 12, md: 14 },
+                            fontWeight: "bold",
+                            color: "#fa2f2f",
+                            backgroundColor: "#ffffff",
+                          }}
+                        >
+                          Expired
+                        </Typography>
+                      </MDBox>
+                    ) : (
+                      <MDBox sx={{ display: "flex", gap: 2 }}>
+                        <MDBox
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            px: 2,
+                            py: 1,
+                            color:
+                              colors.escharaThemePrimary.main + " !important",
+                            backgroundColor: colors.white.main,
+                            borderRadius: 1,
+                            fontSize: 14,
+                            fontWeight: "bold",
+
+                            "&:hover": {
+                              backgroundColor: colors.white.main,
+                            },
+                            "&:focus:not(:hover)": {
+                              backgroundColor: colors.white.main,
+                              boxShadow: "none",
+                            },
+                          }}
+                        >
+                          <a
+                            href={"mailto:" + opportunityData.manager_email}
+                            target="_blank"
+                            style={{ color: "inherit" }}
+                          >
+                            Contact manager
+                          </a>
+                        </MDBox>
+                      </MDBox>
+                    )}
+                  </MDBox>
                 </Grid>
               </Grid>
+
               <Grid item container spacing={2}>
                 <Grid
                   item
@@ -651,103 +690,7 @@ function Project({ params }) {
               > */}
                   <MDBox>
                     {opportunityData.gallery?.length ? (
-                      <MDBox>
-                        <MDBox
-                          sx={{
-                            position: "absolute",
-                            zIndex: 2,
-                            right: 40,
-                            marginTop: "14px",
-                            fontSize: 30,
-                            width: 30,
-                            height: 30,
-                            padding: 0,
-                            alignItems: "center",
-                            justifyItems: "center",
-                            justifyContent: "center",
-                            display: "flex",
-                            cursor: "pointer",
-                          }}
-                          onClick={openImgsViewer}
-                        >
-                          <Icon sx={{ color: "#FFFFFF" }}>zoom_out_map</Icon>
-                        </MDBox>
-                        <Carousel
-                          autoPlay={false}
-                          cycleNavigation={true}
-                          navButtonsAlwaysVisible={true}
-                          indicators={true}
-                          animation="slide"
-                          duration={300}
-                          sx={{
-                            "& .MuiIconButton-root": {
-                              backgroundColor: "#00000000",
-                              //   color: colors.escharaThemePrimary.main,
-
-                              padding: 0,
-                              marginLeft: 3,
-                              marginRight: 3,
-                              // zIndex: 0,
-                            },
-                            "& .MuiIconButton-root:hover": {
-                              backgroundColor: "#00000000",
-                              //   color: colors.escharaThemePrimary.main,
-                            },
-                          }}
-                          indicatorIconButtonProps={{
-                            style: {
-                              width: 14,
-                              height: 14,
-                              padding: 0,
-                              margin: 3,
-                              color: "transparent",
-                              border: "2px solid white",
-                              zIndex: 2,
-                            },
-                          }}
-                          activeIndicatorIconButtonProps={{
-                            style: {
-                              padding: 0,
-                              color: "white",
-                              //   border: "2px solid white",
-                            },
-                          }}
-                          indicatorContainerProps={{
-                            style: {
-                              position: "absolute",
-                              // zIndex: 1,
-                              bottom: 20, // 5
-                              textAlign: "center", // 4
-                            },
-                          }}
-                          IndicatorIcon={
-                            <Icon
-                            // sx={{ padding: 0, margin: 0, width: 24, height: 24 }}
-                            >
-                              fiber_manual_record
-                            </Icon>
-                          }
-                          PrevIcon={<Icon>arrow_back_ios_outlined</Icon>}
-                          NextIcon={<Icon>arrow_forward_ios</Icon>}
-                        >
-                          {opportunityData.gallery?.map((imageUrl, index) => (
-                            <MDBox key={index} height={400}>
-                              <MDBox
-                                color="white"
-                                textAlign="center"
-                                sx={{
-                                  backgroundImage: `url(${imageUrl})`,
-                                  backgroundSize: "cover",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                  width: "100%",
-                                  height: "100%",
-                                }}
-                              ></MDBox>
-                            </MDBox>
-                          ))}
-                        </Carousel>
-                      </MDBox>
+                      <EIOpportunitySlider images={opportunityData.gallery} openModal={openImgsViewer} />
                     ) : (
                       <Card>
                         <MDBox p={2}>
