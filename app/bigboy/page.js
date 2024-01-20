@@ -337,7 +337,7 @@ export default function Bigboy({
         container
         justifyContent="center"
         alignItems="center"
-        // sx={{ height: "100%" }}
+      // sx={{ height: "100%" }}
       >
         <Grid item gap={2} sx={{ width: { xs: "90%", md: "60%" } }}>
           <Card sx={{ /*height: "100%",*/ boxShadow: 2, borderRadius: 4 }}>
