@@ -27,6 +27,10 @@ export default function All() {
     async function getOpportunitiesData() {
       const opportunitiesData = await getOpportunitiesByStatusForInvestor();
 
+      console.log(opportunitiesData);
+
+      return;
+
       if (opportunitiesData.status && opportunitiesData.opportunities) {
         setOpportunities(opportunitiesData.opportunities);
       } else {
