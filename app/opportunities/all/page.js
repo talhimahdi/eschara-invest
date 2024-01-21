@@ -18,7 +18,6 @@ import getOpportunitiesByStatusForInvestor from "@/admin/opportunities/serverAct
 import EILoader from "../../../components/EILoader";
 
 export default function All() {
-  return (<h1>Hello world Opportunities All</h1>);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [show, setShow] = useState(false);
@@ -38,6 +37,8 @@ export default function All() {
       getOpportunitiesData();
     });
   }, []);
+
+  return (<h1>Hello world Opportunities All render</h1>);
 
   return (
     <DashboardLayout>
