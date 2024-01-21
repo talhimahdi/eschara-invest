@@ -27,10 +27,11 @@ export default function All() {
     async function getOpportunitiesData() {
       const opportunitiesData = await getOpportunitiesByStatusForInvestor();
 
-      if (opportunitiesData.status && opportunitiesData.opportunities) {
+      if (opportunitiesData?.status && opportunitiesData?.opportunities) {
         setOpportunities(opportunitiesData.opportunities);
       } else {
-        router.push("/overview");
+        // router.push("/overview");
+        console.log(opportunitiesData);
       }
     }
     startTransition(async () => {
