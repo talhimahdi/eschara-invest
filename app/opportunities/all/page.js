@@ -38,8 +38,6 @@ export default function All() {
     });
   }, []);
 
-  return (<h1>Hello world Opportunities All render</h1>);
-
   return (
     <DashboardLayout>
       <DashboardNavbar pageTitle={"All opportunities"} />
