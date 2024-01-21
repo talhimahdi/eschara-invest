@@ -23,21 +23,21 @@ export default function All() {
   const [show, setShow] = useState(false);
   const [opportunities, setOpportunities] = useState([]);
 
-  useEffect(() => {
-    async function getOpportunitiesData() {
-      const opportunitiesData = await getOpportunitiesByStatusForInvestor();
+  // useEffect(() => {
+  //   async function getOpportunitiesData() {
+  //     const opportunitiesData = await getOpportunitiesByStatusForInvestor();
 
-      if (opportunitiesData?.status && opportunitiesData?.opportunities) {
-        setOpportunities(opportunitiesData.opportunities);
-      } else {
-        // router.push("/overview");
-        console.log(opportunitiesData);
-      }
-    }
-    startTransition(async () => {
-      getOpportunitiesData();
-    });
-  }, []);
+  //     if (opportunitiesData?.status && opportunitiesData?.opportunities) {
+  //       setOpportunities(opportunitiesData.opportunities);
+  //     } else {
+  //       // router.push("/overview");
+  //       console.log(opportunitiesData);
+  //     }
+  //   }
+  //   startTransition(async () => {
+  //     getOpportunitiesData();
+  //   });
+  // }, []);
 
   return (
     <DashboardLayout>
