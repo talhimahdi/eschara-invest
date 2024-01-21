@@ -14,7 +14,7 @@ export default function Signup() {
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    if (session.status === "authenticated") router.push("/overview");
+    if (session.status === "authenticated") router.push("/opportunities/all");
   });
 
   return (

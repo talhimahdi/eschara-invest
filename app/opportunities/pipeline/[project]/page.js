@@ -42,7 +42,7 @@ function Project({ params }) {
   const opportunityId = parseInt(Number(params.project));
 
   if (opportunityId != params.project) {
-    router.push("/overview");
+    router.push("/opportunities/all");
   }
   const [opportunityData, setOpportunityData] = useState({});
   useEffect(() => {
@@ -52,7 +52,7 @@ function Project({ params }) {
       if (opportunityData.status && opportunityData.opportunity) {
         setOpportunityData(opportunityData.opportunity);
       } else {
-        router.push("/overview");
+        router.push("/opportunities/all");
       }
     }
     startTransition(async () => {

@@ -48,7 +48,7 @@ function Project({ params }) {
   const opportunityId = parseInt(Number(params.project));
 
   if (opportunityId != params.project) {
-    router.push("/overview");
+    router.push("/opportunities/all");
   }
   const [opportunityData, setOpportunityData] = useState({});
 
@@ -60,12 +60,12 @@ function Project({ params }) {
         if (
           opportunityData.opportunity.status?.name.toLowerCase() != "available"
         ) {
-          router.push("/overview");
+          router.push("/opportunities/all");
         } else {
           setOpportunityData(opportunityData.opportunity);
         }
       } else {
-        router.push("/overview");
+        router.push("/opportunities/all");
       }
     }
     startTransition(async () => {
@@ -167,7 +167,7 @@ function Project({ params }) {
     if (response.status && response.message) {
       // console.log(response.message);
     } else {
-      router.push("/overview");
+      router.push("/opportunities/all");
     }
   };
 

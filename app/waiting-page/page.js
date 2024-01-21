@@ -12,7 +12,7 @@ export default function WaitingPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (session.status === "authenticated") router.push("/overview");
+    if (session.status === "authenticated") router.push("/opportunities/all");
   });
 
   return (

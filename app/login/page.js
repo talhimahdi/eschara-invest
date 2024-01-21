@@ -37,7 +37,7 @@ function Login() {
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    if (session.status === "authenticated") router.push("/overview");
+    if (session.status === "authenticated") router.push("/");
   });
 
   const onSubmit = async () => {
@@ -49,7 +49,7 @@ function Login() {
             // email: "talhi.mahdi.1@gmail.com",
             password: pass.current,
             // password: "password",
-            callbackUrl: "/overview",
+            callbackUrl: "/",
             redirect: false,
           });
           if (
@@ -115,12 +115,12 @@ function Login() {
                   placeholder="Email"
                   required
                   onChange={(e) => (userName.current = e.target.value)}
-                  // sx={{
-                  //   "& .MuiFormHelperText-root": {
-                  //     color: "red",
-                  //     fontWeight: "bold",
-                  //   },
-                  // }}
+                // sx={{
+                //   "& .MuiFormHelperText-root": {
+                //     color: "red",
+                //     fontWeight: "bold",
+                //   },
+                // }}
                 />
               </MDBox>
               <MDBox>
