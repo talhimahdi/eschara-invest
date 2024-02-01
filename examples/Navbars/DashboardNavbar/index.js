@@ -204,8 +204,8 @@ function DashboardNavbar({
                 >
                   {session?.user ? (
                     <>
-                      {session.user.first_name.charAt(0) +
-                        session.user.last_name.charAt(0)}
+                      {session.user.first_name?.charAt(0) +
+                        session.user.last_name?.charAt(0)}
                     </>
                   ) : (
                     ""
@@ -250,8 +250,8 @@ function DashboardNavbar({
                       pageTitle
                         ? pageTitle
                         : route
-                        ? route[route.length - 1]
-                        : ""
+                          ? route[route.length - 1]
+                          : ""
                     }
                     route={route}
                     light={light}
@@ -312,8 +312,8 @@ function DashboardNavbar({
                       >
                         {session?.user && (
                           <>
-                            {session.user.first_name.charAt(0) +
-                              session.user.last_name.charAt(0)}
+                            {session.user.first_name?.charAt(0) +
+                              session.user.last_name?.charAt(0)}
                           </>
                         )}
                       </MDAvatar>
