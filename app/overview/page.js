@@ -34,7 +34,7 @@ import Carousel from "react-material-ui-carousel";
 import { useEffect } from "react";
 
 function Overview() {
-  redirect("/opportunities");
+  redirect("/google");
   const router = useRouter();
 
   const opportunities = [

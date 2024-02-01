@@ -63,8 +63,8 @@ export default function PopupForm({
                   textTransform="capitalize"
                   variant="h5"
                   color={"dark"}
-                  // textAlign="center"
-                  // mx={{ xs: 3, sm: 10 }}
+                // textAlign="center"
+                // mx={{ xs: 3, sm: 10 }}
                 >
                   {opportunity.title ? opportunity.title : ""}
                 </MDTypography>
@@ -105,10 +105,28 @@ export default function PopupForm({
                     // color: "#ffffff",
                   }}
                 >
-                  <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                    euro
-                  </Icon>
-                  Soft commitment : {opportunity.equity_commitment}
+
+                  <MDBox sx={{ display: "flex", alignItems: "center" }}>
+                    <Icon fontSize="small">
+                      euro
+                    </Icon>
+                    Soft commitment : {
+                      opportunity.investor_parts > 0 ?
+                        <MDBox sx={{ display: "flex", alignItems: "center", ml: 1, gap: 1 }}>
+                          {
+                            parseFloat(parseFloat(opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2).replace(/,/g, '')).toLocaleString('en')
+                          }
+                          <MDBox sx={{ fontSize: 12, }}>({opportunity.investor_parts} parts)</MDBox>
+                        </MDBox>
+
+                        :
+
+                        <MDBox sx={{ fontSize: 12, }}>{opportunity.equity_commitment} (no parts)</MDBox>
+                    }
+                  </MDBox>
+
+
+
                 </MDBox>
               ) : (
                 ""

@@ -31,7 +31,7 @@ export default function Closed() {
       if (opportunitiesData.status && opportunitiesData.opportunities) {
         setOpportunities(opportunitiesData.opportunities);
       } else {
-        router.push("/overview");
+        router.push("/opportunities/all");
       }
     }
     startTransition(async () => {

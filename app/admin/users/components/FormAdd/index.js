@@ -33,6 +33,7 @@ function FormAdd({ roles }) {
     phone: "",
     town: "",
     country: "",
+    parts: "",
   });
 
   const onSubmit = async () => {
@@ -328,6 +329,24 @@ function FormAdd({ roles }) {
                         fullWidth
                         multiline
                         minRows={3}
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <MDBox mb={3}>
+                      {/* <MDEditor value={editorValue} onChange={setEditorValue} /> */}
+                      <FormField
+                        value={formValues.parts}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            parts: e.target.value,
+                          });
+                        }}
+                        type="number"
+                        label="Parts"
+                        variant="outlined"
+                        fullWidth
                       />
                     </MDBox>
                   </Grid>

@@ -1,4 +1,4 @@
 import { redirect } from "next/navigation";
 export default async function Home() {
-  redirect("/opportunities");
+  redirect("/opportunities/all");
 }
