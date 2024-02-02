@@ -45,6 +45,30 @@ export default function PopupForm({
 
   let sigCanvas = useRef({});
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  })
+
+  const equity_commitment_number = (opportunity.investor_parts > 0)
+    ?
+    formatter.format((opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2))
+    :
+    formatter.format((opportunity.equity_commitment.replaceAll(',', '')).toFixed(2))
+    ;
+
+  const equity_commitment_words = (opportunity.investor_parts > 0)
+    ? writtenNumber(
+      (opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2),
+      { lang: "es" }
+    )
+    :
+    writtenNumber(
+      parseInt(opportunity.equity_commitment.replaceAll(',', '')),
+      { lang: "es" }
+    );
+
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 1:
@@ -170,23 +194,16 @@ export default function PopupForm({
                 </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
                   Confirmo mi compromiso vinculante de invertir{" "}
-                  {opportunity.equity_commitment}€ (
-                  {writtenNumber(
-                    parseInt(opportunity.equity_commitment.replace(",", "")),
-                    { lang: "es" }
-                  )}{" "}
-                  euros) en a la Oportunidad de Inversión marcada con el número
+                  {equity_commitment_number} € ({opportunity.investor_parts} parts)
+                  ({equity_commitment_words} euros)
+                  en a la Oportunidad de Inversión marcada con el número
                   ({opportunity.id}) y denominada ({opportunity.title}) (la
                   “Oportunidad de Inversión”) . <br />
                   <br />
                   [Desde este momento manifiesto mi compromiso vinculante de
-                  invertir un monto adicional de {opportunity.equity_commitment}
-                  € (
-                  {writtenNumber(
-                    parseInt(opportunity.equity_commitment.replace(",", "")),
-                    { lang: "es" }
-                  )}{" "}
-                  euros) en la Oportunidad de Inversión, en caso de que exista
+                  invertir un monto adicional de {equity_commitment_number} €
+                  ({equity_commitment_words} euros)
+                  en la Oportunidad de Inversión, en caso de que exista
                   disponibilidad después de recibir los compromisos de los demás
                   posibles inversionistas de la Plataforma.] <br />
                   <br />
@@ -382,10 +399,7 @@ export default function PopupForm({
         opportunityId: opportunity?.id,
         userId: userId,
         signature: imageData,
-        equity_commitment_words: writtenNumber(
-          parseInt(opportunity.equity_commitment.replace(",", "")),
-          { lang: "es" }
-        ),
+        equity_commitment_words: equity_commitment_words,
       };
 
       onSubmit(data);

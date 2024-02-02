@@ -331,7 +331,8 @@ function Project({ params }) {
                   md={12}
                   sx={{
                     display: { xs: "none", md: "flex" },
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    alignItems: "center"
                   }}
                 >
                   <MDBox sx={{
@@ -375,21 +376,43 @@ function Project({ params }) {
 
                     {/* opportunityData.calculated_ammount */}
                     {opportunityData.equity_commitment ? (
-                      <MDBox
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          // py: 1.5,
-                          // px: 3,
-                          fontSize: { xs: 12, md: 14 },
-                          color: "#ffffff",
-                        }}
-                      >
-                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                          group_add
-                        </Icon>
-                        Equity commitment : {opportunityData.equity_commitment}
+                      <MDBox sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                        <MDBox
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            // py: 1.5,
+                            // px: 3,
+                            fontSize: { xs: 12, md: 14 },
+                            color: "#ffffff",
+                          }}
+                        >
+                          <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                            group_add
+                          </Icon>
+                          Equity commitment : {opportunityData.equity_commitment}
+                        </MDBox>
+                        {opportunityData.investor_parts ? (
+                          <MDBox
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              // py: 1.5,
+                              // px: 3,
+                              fontSize: { xs: 12, md: 14 },
+                              color: "#ffffff",
+                            }}
+                          >
+                            <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                              account_balance_wallet
+                            </Icon>
+                            Parts : {opportunityData.investor_parts}
+                          </MDBox>
+                        ) : (
+                          ""
+                        )}
                       </MDBox>
                     ) : (
                       ""
@@ -722,14 +745,6 @@ function Project({ params }) {
                   md={5}
                   gap={3}
                 >
-                  {/* <Card
-                sx={{
-                  borderRadius: 1,
-                  boxShadow: 2,
-                  m: 0,
-                  p: 0,
-                }}
-              > */}
                   <MDBox>
                     {opportunityData.gallery?.length ? (
                       <EIOpportunitySlider images={opportunityData.gallery} openModal={openImgsViewer} />
@@ -758,16 +773,6 @@ function Project({ params }) {
                       p: 0,
                     }}
                   >
-                    {/* <iframe
-                      width="600"
-                      height="500"
-                      id="gmap_canvas"
-                      src="https://maps.google.com/maps?q=chennai&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                      frameborder="0"
-                      scrolling="no"
-                      marginheight="0"
-                      marginwidth="0"
-                    ></iframe> */}
                     <iframe
                       src={
                         "https://maps.google.com/maps?q=" +
@@ -802,7 +807,6 @@ function Project({ params }) {
               />
             </MDBox>
             <MDBox>
-              {/* <NewUser isOpen={showAcceptForm} setIsOpen={setShowAcceptForm} /> */}
               <PopupForm
                 isOpen={showAcceptForm}
                 setIsOpen={setShowAcceptForm}
