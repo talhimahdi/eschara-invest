@@ -49,23 +49,23 @@ export default function PopupForm({
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
-  })
+  });
 
   const equity_commitment_number = (opportunity.investor_parts > 0)
     ?
-    formatter.format((opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2))
+    formatter.format((opportunity.equity_commitment?.replaceAll(',', '') * opportunity.investor_parts).toFixed(2))
     :
-    formatter.format((opportunity.equity_commitment.replaceAll(',', '')).toFixed(2))
+    formatter.format(opportunity.equity_commitment?.replaceAll(',', ''))
     ;
 
   const equity_commitment_words = (opportunity.investor_parts > 0)
     ? writtenNumber(
-      (opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2),
+      (opportunity.equity_commitment?.replaceAll(',', '') * opportunity.investor_parts).toFixed(2),
       { lang: "es" }
     )
     :
     writtenNumber(
-      parseInt(opportunity.equity_commitment.replaceAll(',', '')),
+      parseInt(opportunity.equity_commitment?.replaceAll(',', '')),
       { lang: "es" }
     );
 
@@ -138,7 +138,7 @@ export default function PopupForm({
                       opportunity.investor_parts > 0 ?
                         <MDBox sx={{ display: "flex", alignItems: "center", ml: 1, gap: 1 }}>
                           {
-                            parseFloat(parseFloat(opportunity.equity_commitment.replaceAll(',', '') * opportunity.investor_parts).toFixed(2).replace(/,/g, '')).toLocaleString('en')
+                            parseFloat(parseFloat(opportunity.equity_commitment?.replaceAll(',', '') * opportunity.investor_parts).toFixed(2).replace(/,/g, '')).toLocaleString('en')
                           }
                           <MDBox sx={{ fontSize: 12, }}>({opportunity.investor_parts} parts)</MDBox>
                         </MDBox>
@@ -194,7 +194,11 @@ export default function PopupForm({
                 </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
                   Confirmo mi compromiso vinculante de invertir{" "}
-                  {equity_commitment_number} € ({opportunity.investor_parts} parts)
+                  {equity_commitment_number} €{" "}
+                  {
+                    opportunity.investor_parts && <>({opportunity.investor_parts} parts) </>
+                  }
+
                   ({equity_commitment_words} euros)
                   en a la Oportunidad de Inversión marcada con el número
                   ({opportunity.id}) y denominada ({opportunity.title}) (la

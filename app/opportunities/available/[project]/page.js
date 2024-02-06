@@ -294,6 +294,26 @@ function Project({ params }) {
                     ""
                   )}
 
+                  {opportunityData.investor_parts ? (
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        py: 1.5,
+                        fontSize: { xs: 12, md: 16 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        account_balance_wallet
+                      </Icon>
+                      Parts : {opportunityData.investor_parts}
+                    </MDBox>
+                  ) : (
+                    ""
+                  )}
+
                   <MDBox
                     sx={{
                       alignItems: "center",
@@ -345,7 +365,7 @@ function Project({ params }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
-                        fontSize: { xs: 12, md: 14 },
+                        fontSize: { xs: 12, md: 13 },
                         color: "#ffffff",
                       }}
                     >
@@ -361,7 +381,7 @@ function Project({ params }) {
                           display: "flex",
                           alignItems: "center",
                           gap: 1,
-                          fontSize: { xs: 12, md: 14 },
+                          fontSize: { xs: 12, md: 13 },
                           color: "#ffffff",
                         }}
                       >
@@ -376,7 +396,7 @@ function Project({ params }) {
 
                     {/* opportunityData.calculated_ammount */}
                     {opportunityData.equity_commitment ? (
-                      <MDBox sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                      <MDBox sx={{ display: "flex", gap: 1 }}>
                         <MDBox
                           sx={{
                             display: "flex",
@@ -384,7 +404,7 @@ function Project({ params }) {
                             gap: 1,
                             // py: 1.5,
                             // px: 3,
-                            fontSize: { xs: 12, md: 14 },
+                            fontSize: { xs: 12, md: 13 },
                             color: "#ffffff",
                           }}
                         >
@@ -401,7 +421,7 @@ function Project({ params }) {
                               gap: 1,
                               // py: 1.5,
                               // px: 3,
-                              fontSize: { xs: 12, md: 14 },
+                              fontSize: { xs: 12, md: 13 },
                               color: "#ffffff",
                             }}
                           >
@@ -574,6 +594,7 @@ function Project({ params }) {
                                         }}
                                       >
                                         {property.key}
+
                                       </MDBox>
                                     </TableCell>
                                     <TableCell>
