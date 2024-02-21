@@ -385,7 +385,7 @@ export default function Bigboy() {
                         </Typography>
                       )}
                     </MDBox>
-                    <Button onClick={closeForm}>Let's go!</Button>
+                    <Button onClick={closeForm}>Let&apos;s go!</Button>
                   </MDBox>
                 </React.Fragment>
               ) : (
