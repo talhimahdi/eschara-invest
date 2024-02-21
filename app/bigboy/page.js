@@ -7,27 +7,20 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-// import MDBox from "../../../../../components/MDBox";
-// import colors from "../../../../../assets/theme/base/colors";
 import { Card, Grid, Icon } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Signature from "@/components/Signature";
-import CloseIcon from "@mui/icons-material/Close";
-// import MDTypography from "../../../../../components/MDTypography";
-import writtenNumber from "written-number";
 import MDBox from "../../components/MDBox";
-import MDTypography from "../../components/MDTypography";
 import colors from "../../assets/theme/base/colors";
+import changeBigboy from "@/admin/users/serverActions/changeBigboy";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const steps = ["Terms and conditions", "Signature"];
 
-export default function Bigboy({
-  isOpen,
-  setIsOpen,
-  //   opportunity,
-  //   userId,
-  onSubmit,
-}) {
+export default function Bigboy() {
+
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(1);
   const [isError, setIsError] = useState("");
   const isLastStep = activeStep === steps.length;
@@ -64,7 +57,6 @@ export default function Bigboy({
                 overflowY: "scroll",
                 maxHeight: 350,
                 backgroundColor: colors.grey[200],
-                // mx: { xs: 1, sm: 10 },
                 p: 2,
                 borderRadius: 3,
               }}
@@ -242,7 +234,7 @@ export default function Bigboy({
     }
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setIsError("");
     if (activeStep === 1 && !termsCheck) {
       checkRef.current.scrollIntoView({ behavior: "smooth" });
@@ -264,27 +256,25 @@ export default function Bigboy({
     }
 
     if (isLastStep) {
-      //   const imageData =
-      //     sigCanvas?.current === null
-      //       ? signatureUploadImage?.data
-      //       : sigCanvas?.current?.getTrimmedCanvas().toDataURL("image/png");
-      //   const data = {
-      //     opportunityId: opportunity?.id,
-      //     userId: userId,
-      //     signature: imageData,
-      //     equity_commitment_words: writtenNumber(
-      //       parseInt(opportunity.equity_commitment.replace(",", "")),
-      //       { lang: "es" }
-      //     ),
-      //   };
-      //   onSubmit(data);
-      //   setIsError("");
-      //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      //   return;
+      const imageData =
+        sigCanvas?.current === null
+          ? signatureUploadImage?.data
+          : sigCanvas?.current?.getTrimmedCanvas().toDataURL("image/png");
+      const data = {
+        signature: imageData,
+      };
+      const result = await onSubmit(data);
+      if (result) {
+        setIsError("");
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        return;
+      }
+      setIsError("an error has occurred. Please try again");
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      return;
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -295,37 +285,27 @@ export default function Bigboy({
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(1);
-    setSignatureImage("");
-    setIsError("");
-    setTermsCheck(false);
-    textRef.current?.scrollIntoView();
+  const closeForm = () => {
+    router.push("/opportunities/all");
   };
 
-  const closeForm = () => {
-    handleReset();
-    // setIsOpen(false);
+
+  const onSubmit = async (data) => {
+    const response = await changeBigboy(data);
+
+    if (response.status && response.message) {
+      console.log(response.message);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
     <MDBox
       sx={{
-        // display: () => (isOpen ? "block" : "none"),
-        // display: () => (isOpen ? "block" : "none"),
         zIndex: 10,
-        // height: "80vh",
-        // width: "100%",
-        // position: "fixed",
-        my: 4,
-        // bottom: "5%",
-        // left: { xs: "50%", md: "60%" },
-        // bottom: "50%",
-        // right: "50%",
-        /* bring your own prefixes */
-        // transform: "translate(-50%, -50%)",
-
-        // backgroundColor: "rgba(255,255,255,0.7)",
+        mb: 4,
       }}
       onKeyDown={(e) => {
         if (e.keyCode == 27) {
@@ -333,17 +313,30 @@ export default function Bigboy({
         }
       }}
     >
+      <MDBox
+        sx={{ display: "flex", justifyContent: "end", alignItems: "center", mr: 2, mt: 2, cursor: "pointer" }}
+        onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
+      ><Icon fontSize="medium">logout</Icon>
+        <Typography
+          variant="p"
+          sx={{
+            fontSize: 16,
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+
+          Log out
+        </Typography>
+      </MDBox>
       <Grid
         container
         justifyContent="center"
         alignItems="center"
-      // sx={{ height: "100%" }}
       >
         <Grid item gap={2} sx={{ width: { xs: "90%", md: "60%" } }}>
-          <Card sx={{ /*height: "100%",*/ boxShadow: 2, borderRadius: 4 }}>
+          <Card sx={{ boxShadow: 2, borderRadius: 4 }}>
             <MDBox
-              //   mx={2}
-              //   mt={-3}
               sx={{
                 "& .MuiStepper-root": {
                   background: "transparent",
@@ -376,12 +369,12 @@ export default function Bigboy({
                     task_alt
                   </Icon>
                   <Typography sx={{ mt: 2, textAlign: "center", fontSize: 16 }}>
-                    Your commitment has been fully acknowledged.
+                    Thank you for your support.
                   </Typography>
-                  <Typography sx={{ mb: 1, textAlign: "center", fontSize: 16 }}>
+                  {/* <Typography sx={{ mb: 1, textAlign: "center", fontSize: 16 }}>
                     The asset manager has been informed and a confirmation email
                     has been sent to you.
-                  </Typography>
+                  </Typography> */}
                   <MDBox sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                     <MDBox sx={{ flex: "1 1 auto", textAlign: "center" }}>
                       {isError && (
@@ -392,7 +385,7 @@ export default function Bigboy({
                         </Typography>
                       )}
                     </MDBox>
-                    <Button onClick={closeForm}>Close</Button>
+                    <Button onClick={closeForm}>Let's go!</Button>
                   </MDBox>
                 </React.Fragment>
               ) : (
