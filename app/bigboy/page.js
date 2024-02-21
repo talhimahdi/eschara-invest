@@ -74,94 +74,32 @@ export default function Bigboy() {
                     mb: 2,
                   }}
                 >
-                  COMMITMENT CONFIRMATION FOR EACH INDIVIDUAL INVESTMENT
+                  Al acceder a esta página web, declaro bajo protesta de decir verdad que:
                 </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
-                  <Typography
-                    variant="p"
-                    sx={{ fontSize: 13, fontWeight: "bold" }}
-                  >
-                    Al acceder a esta página web, declaro bajo protesta de decir
-                    verdad que:
-                  </Typography>
+                  (a) soy un inversionista calificado, según dicho término se define en el Artículo 2
+                  fracción XVI de la Ley del Mercado de Valores y en las Disposiciones de Carácter General
+                  aplicables a las Emisoras de Valores y a otros Participantes del Mercado de Valores;
                   <br />
                   <br />
-                  (a) soy un inversionista calificado, según dicho término se
-                  define en el Artículo 2 fracción XVI de la Ley del Mercado de
-                  Valores y en las Disposiciones de Carácter General aplicables
-                  a las Emisoras de Valores y a otros Participantes del Mercado
-                  de Valores;
+                  (b) tengo el conocimiento y experiencia necesarios para entender y evaluar los
+                  méritos y riesgos relacionados con oportunidades de inversión que se presenten a través
+                  de esta página web, y he consultado y tengo acceso a consultar en el futuro a aquellos
+                  asesores y expertos que he considerado o llegue a considerar necesarios o convenientes
+                  para tomar mis propias decisiones de inversión. Reconozco que ni el propietario de esta
+                  página web ni cualquier inversionista o potencial inversionista que acceda a esta página
+                  web, ni ninguna de sus respectivas partes relacionadas, me han proporcionado asesoría ni
+                  garantizado ganancia, rendimiento o resultado alguno en relación con cualquier posible
+                  inversión presentada a través de esta página web;
                   <br />
                   <br />
-                  (b) tengo el conocimiento y experiencia necesarios para
-                  entender y evaluar los méritos y riesgos relacionados con
-                  oportunidades de inversión que se presenten a través de esta
-                  página web, y he consultado y tengo acceso a consultar en el
-                  futuro a aquellos asesores y expertos que he considerado o
-                  llegue a considerar necesarios o convenientes para tomar mis
-                  propias decisiones de inversión. Reconozco que ni el
-                  propietario de esta página web ni cualquier inversionista o
-                  potencial inversionista que acceda a esta página web, ni
-                  ninguna de sus respectivas partes relacionadas, me han
-                  proporcionado asesoría ni garantizado ganancia, rendimiento o
-                  resultado alguno en relación con cualquier posible inversión
-                  presentada a través de esta página web;
+                  (c) me obligo a no revelar a terceros ninguna información en relación con la
+                  cualquier otra oportunidad de inversión presentada a través de esta página web, excepto
+                  por aquella información que (i) sea o se haya convertido del dominio público; (ii) sea
+                  conocida o desarrollada independientemente por mi sin referencia alguna a la información
+                  recibida; o (iii) tenga que ser divulgada por mandamiento legal o de autoridad competente.
                   <br />
-                  <br />
-                  (c) me obligo a no revelar a terceros ninguna información en
-                  relación con la cualquier otra oportunidad de inversión
-                  presentada a través de esta página web, excepto por aquella
-                  información que (i) sea o se haya convertido del dominio
-                  público; (ii) sea conocida o desarrollada independientemente
-                  por mi sin referencia alguna a la información recibida; o
-                  (iii) tenga que ser divulgada por mandamiento legal o de
-                  autoridad competente.
-                  <br />
-                  <br />
-                  <Typography
-                    variant="p"
-                    sx={{ fontSize: 13, fontWeight: "bold" }}
-                  >
-                    Liberación de Responsabilidad
-                  </Typography>
-                  <br />
-                  <br />
-                  1. Incluir sólo si se tiene la intención de invertir en la
-                  Oportunidad de Inversión respectiva.
-                  <br />
-                  <br />
-                  Incluir sólo si se tiene la intención de invertir más de su
-                  parte proporcional en la Oportunidad de Inversión respectiva.
-                  <br />
-                  <br />
-                  La información y opiniones expresadas en esta página web son
-                  responsabilidad exclusiva de los autores del contenido de las
-                  mismas, y no representan ni reflejan la opinión o posición del
-                  propietario de esta página web, quien (1) no garantiza en
-                  forma alguna ni es responsable de la veracidad, suficiencia o
-                  uso que se le dé a la información contenida en esta página
-                  web, y (2) no será responsable de los daños y perjuicios que,
-                  directa o indirectamente, deriven del uso de la información
-                  contenida en esta página web. Al acceder a nuestra página web,
-                  usted acepta en su totalidad la presente liberación de
-                  responsabilidad.
-                  <br />
-                  <br />
-                  <Typography
-                    variant="p"
-                    sx={{ fontSize: 13, fontWeight: "bold" }}
-                  >
-                    Derechos de autor
-                  </Typography>
-                  <br />
-                  <br />
-                  TODO EL MATERIAL, IMÁGENES Y TEXTOS INCLUIDOS EN ESTA PÁGINA
-                  WEB SON PROPIEDAD DE ABBEY CAPITAL, S.L., Y SE ENCUENTRAN
-                  PROTEGIDOS POR LA LEGISLACIÓN INTERNACIONAL, ESPAÑOLA Y
-                  MEXICANA EN MATERIA DE DERECHOS DE AUTOR. NINGUNA PARTE DE
-                  ESTA PÁGINA WEB PODRÁ SER CITADA, COPIADA NI REPRODUCIDA, EN
-                  FORMA O MEDIO ALGUNO, SIN EL PREVIO CONSENTIMIENTO POR ESCRITO
-                  DE ABBEY CAPITAL, S.L.
+
                 </Typography>
               </MDBox>
               <MDBox
