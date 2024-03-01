@@ -232,7 +232,6 @@ export default function Bigboy() {
     const response = await changeBigboy(data);
 
     if (response.status && response.message) {
-      console.log(response.message);
       return true;
     } else {
       return false;

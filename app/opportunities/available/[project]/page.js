@@ -36,14 +36,15 @@ import Link from "next/link";
 import PopupForm from "./popupForm";
 import opportunityAccepted from "@/admin/opportunities/serverActions/opportunityAccepted";
 import EIOpportunitySlider from "../../../../components/EIOpportunitySlider";
-
-// const numberToSpanishWords = require('number-to-spanish-words');
+import PopupSecondRoundForm from "./popupSecondRoundForm";
+import opportunitySecondRoundAccepted from "@/admin/opportunities/serverActions/opportunitySecondRoundAccepted";
 
 function Project({ params }) {
   const router = useRouter();
   const session = useSession();
 
   const [isPending, startTransition] = useTransition();
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const opportunityId = parseInt(Number(params.project));
 
@@ -52,57 +53,40 @@ function Project({ params }) {
   }
   const [opportunityData, setOpportunityData] = useState({});
 
-  useEffect(() => {
-    async function getOpportunityData() {
-      const opportunityData = await getOpportunityById(opportunityId);
+  const getOpportunityData = async () => {
+    const opportunityData = await getOpportunityById(opportunityId);
 
-      if (opportunityData.status && opportunityData.opportunity) {
-        if (
-          opportunityData.opportunity.status?.name.toLowerCase() != "available"
-        ) {
-          router.push("/opportunities/all");
-        } else {
-          setOpportunityData(opportunityData.opportunity);
-        }
-      } else {
+    if (opportunityData?.status && opportunityData?.opportunity) {
+      if (
+        opportunityData.opportunity.status?.name.toLowerCase() != "available" &&
+        opportunityData.opportunity.current_round != 2
+      ) {
         router.push("/opportunities/all");
+      } else {
+        setOpportunityData(opportunityData.opportunity);
       }
+    } else {
+      router.push("/opportunities/all");
     }
+  }
+  useEffect(() => {
     startTransition(async () => {
-      getOpportunityData();
+      await getOpportunityData();
     });
   }, []);
-
-  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
-  const [tabValue, setTabValue] = useState(0);
 
   const [imgsViewer, setImgsViewer] = useState(false);
   const [imgsViewerCurrent, setImgsViewerCurrent] = useState(0);
   const [showAcceptForm, setShowAcceptForm] = useState(false);
+  const [showSecondRoundAcceptForm, setShowSecondRoundAcceptForm] = useState(false);
 
   const openImgsViewer = () => setImgsViewer(true);
   const closeImgsViewer = () => setImgsViewer(false);
   const imgsViewerNext = () => setImgsViewerCurrent(imgsViewerCurrent + 1);
   const imgsViewerPrev = () => setImgsViewerCurrent(imgsViewerCurrent - 1);
 
-  function scrollTo(hash) {
-    // location.hash = "#" + hash;
-    // document.getElementById(hash).scrollIntoView();
-
-    const yOffset = -130;
-    const element = document.getElementById(hash);
-    const y =
-      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({ top: y, behavior: "smooth" });
-  }
-
   const renderStatus = (status) => {
     if (status) {
-      // const statusColor = Object.keys(colors.escharaThemeStatusColors).find(
-      //   (color) => color === status?.toLowerCase()
-      // );
-
       return (
         <MDBox
           key={status}
@@ -142,11 +126,8 @@ function Project({ params }) {
             py: 0.3,
             backgroundColor: colors.white.main,
             borderRadius: 1,
-            // width: 120,
-            // width: 120,
           }}
         >
-          {/* <Icon fontSize={"inherit"}>place</Icon> */}
           <MDTypography
             fontWeight="light"
             style={{ color: colors.black.main }}
@@ -161,11 +142,31 @@ function Project({ params }) {
     }
   };
 
-  const onSubmit = async (data) => {
-    const response = await opportunityAccepted(data);
+  const onRefrech = async () => {
+    startTransition(async () => {
+      await getOpportunityData();
+    });
+  }
 
+  const onSubmit = async (data) => {
+    setIsSubmiting(true);
+    const response = await opportunityAccepted(data);
+    setIsSubmiting(false);
     if (response.status && response.message) {
-      // console.log(response.message);
+      return true;
+
+    } else {
+      router.push("/opportunities/all");
+    }
+  };
+
+  const onSecondRoundSubmit = async (data) => {
+    setIsSubmiting(true);
+    const response = await opportunitySecondRoundAccepted(data);
+    setIsSubmiting(false);
+    if (response.status && response.message) {
+      return true;
+
     } else {
       router.push("/opportunities/all");
     }
@@ -175,7 +176,7 @@ function Project({ params }) {
     return (
       <DashboardLayout>
         <DashboardNavbar pageTitle={opportunityData.title} />
-        <EILoader open={isPending} />
+        <EILoader open={isPending || isSubmiting} />
         {!isPending && (
           <>
             <Grid container my={3} gap={2} direction={"column"}>
@@ -207,7 +208,7 @@ function Project({ params }) {
                     gap: 1,
                     display: "flex",
                     flexWrap: { xs: "wrap", md: "nowrap" },
-                    // maxWidth: "70%",
+
                   }}
                 >
                   {opportunityData.tags?.map((tag) => renderTag(tag))}
@@ -236,6 +237,8 @@ function Project({ params }) {
                     flexDirection: "column",
                     alignItems: "start",
                     alignContent: "start",
+                    p: 1,
+                    gap: 2,
                   }}
                 >
                   <MDBox
@@ -243,7 +246,7 @@ function Project({ params }) {
                       display: "flex",
                       alignItems: "center",
                       gap: 1,
-                      py: 1.5,
+                      // py: 1.5,
                       fontSize: { xs: 12, md: 16 },
                       color: "#ffffff",
                     }}
@@ -260,7 +263,7 @@ function Project({ params }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
-                        py: 1.5,
+                        // py: 1.5,
                         fontSize: { xs: 12, md: 16 },
                         color: "#ffffff",
                       }}
@@ -280,7 +283,7 @@ function Project({ params }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
-                        py: 1.5,
+                        // py: 1.5,
                         fontSize: { xs: 12, md: 16 },
                         color: "#ffffff",
                       }}
@@ -300,7 +303,7 @@ function Project({ params }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 1,
-                        py: 1.5,
+                        // py: 1.5,
                         fontSize: { xs: 12, md: 16 },
                         color: "#ffffff",
                       }}
@@ -313,7 +316,6 @@ function Project({ params }) {
                   ) : (
                     ""
                   )}
-
                   <MDBox
                     sx={{
                       alignItems: "center",
@@ -394,7 +396,6 @@ function Project({ params }) {
                       ""
                     )}
 
-                    {/* opportunityData.calculated_ammount */}
                     {opportunityData.equity_commitment ? (
                       <MDBox sx={{ display: "flex", gap: 1 }}>
                         <MDBox
@@ -402,8 +403,8 @@ function Project({ params }) {
                             display: "flex",
                             alignItems: "center",
                             gap: 1,
-                            // py: 1.5,
-                            // px: 3,
+
+
                             fontSize: { xs: 12, md: 13 },
                             color: "#ffffff",
                           }}
@@ -419,8 +420,8 @@ function Project({ params }) {
                               display: "flex",
                               alignItems: "center",
                               gap: 1,
-                              // py: 1.5,
-                              // px: 3,
+
+
                               fontSize: { xs: 12, md: 13 },
                               color: "#ffffff",
                             }}
@@ -463,25 +464,50 @@ function Project({ params }) {
                       </MDBox>
                     ) : (
                       <MDBox sx={{ display: "flex", gap: 2 }}>
-                        <MDButton
-                          onClick={setShowAcceptForm}
-                          variant="contained"
-                          sx={{
-                            color: colors.white.main,
-                            backgroundColor: colors.escharaThemeSecondary.main,
-                            borderRadius: 1,
+                        {opportunityData?.current_round == 1 && (
+                          <MDButton
+                            onClick={setShowAcceptForm}
+                            variant="contained"
+                            sx={{
+                              color: colors.white.main,
+                              backgroundColor: colors.escharaThemeSecondary.main,
+                              borderRadius: 1,
 
-                            "&:hover": {
-                              backgroundColor: colors.escharaThemeSecondary.main,
-                            },
-                            "&:focus:not(:hover)": {
-                              backgroundColor: colors.escharaThemeSecondary.main,
-                              boxShadow: "none",
-                            },
-                          }}
-                        >
-                          ACCEPT
-                        </MDButton>
+                              "&:hover": {
+                                backgroundColor: colors.escharaThemeSecondary.main,
+                              },
+                              "&:focus:not(:hover)": {
+                                backgroundColor: colors.escharaThemeSecondary.main,
+                                boxShadow: "none",
+                              },
+                            }}
+                          >
+                            ACCEPT
+                          </MDButton>
+                        )}
+
+                        {opportunityData?.current_round == 2 && (
+                          <MDButton
+                            onClick={setShowSecondRoundAcceptForm}
+                            variant="contained"
+                            sx={{
+                              color: colors.white.main,
+                              backgroundColor: opportunityData.status.color,
+                              borderRadius: 1,
+
+                              "&:hover": {
+                                backgroundColor: opportunityData.status.color,
+                              },
+                              "&:focus:not(:hover)": {
+                                backgroundColor: opportunityData.status.color,
+                                boxShadow: "none",
+                              },
+                            }}
+                          >
+                            Invest more
+                          </MDButton>
+                        )}
+
                         <MDBox
                           sx={{
                             display: "flex",
@@ -515,6 +541,215 @@ function Project({ params }) {
                     )}
                   </MDBox>
                 </Grid>
+              </Grid>
+              <Grid
+                container
+                item
+                sx={{
+                  position: { md: "sticky" },
+                  top: 80,
+                  zIndex: 3,
+                  direction: "row",
+                  alignItems: "center",
+                  backgroundColor: colors.escharaThemePrimary.main,
+                  borderRadius: 1.5,
+                  boxShadow: 2,
+                  p: { xs: 1, md: 2 },
+                }}
+              >
+                <Grid
+                  container
+                  item
+                  sx={{
+                    display: { xs: "flex", md: "none" },
+                    flexDirection: "column",
+                    alignItems: "start",
+                    alignContent: "start",
+                    p: 1,
+                    gap: 2,
+                  }}
+                >
+                  <MDBox sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: 3,
+                  }}>
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        fontSize: { xs: 12, md: 13 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      Remaining amount : {opportunityData.remaining_amount}
+                    </MDBox>
+
+                    {opportunityData.total_value ? (
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          fontSize: { xs: 12, md: 13 },
+                          color: "#ffffff",
+                        }}
+                      >
+                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                          person_pin
+                        </Icon>
+                        Seats number : {opportunityData.seats_number}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                    {opportunityData.equity_commitment ? (
+                      <MDBox sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                        <MDBox
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+
+
+                            fontSize: { xs: 12, md: 13 },
+                            color: "#ffffff",
+                          }}
+                        >
+                          <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                            euro
+                          </Icon>
+                          Invested amount : {opportunityData.invested_amount}
+                        </MDBox>
+                        {opportunityData.investor_parts ? (
+                          <MDBox
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+
+
+                              fontSize: { xs: 12, md: 13 },
+                              color: "#ffffff",
+                            }}
+                          >
+                            <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                              person_pin
+                            </Icon>
+                            Occupied seats : {opportunityData.occupied_seats}
+                          </MDBox>
+                        ) : (
+                          ""
+                        )}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                  </MDBox>
+
+                </Grid>
+                <Grid
+                  container
+                  item
+                  xs={0}
+                  md={12}
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }}
+                >
+                  <MDBox sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 3,
+                  }}>
+                    <MDBox
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        fontSize: { xs: 12, md: 13 },
+                        color: "#ffffff",
+                      }}
+                    >
+                      <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                        euro
+                      </Icon>
+                      Remaining amount : {opportunityData.remaining_amount}
+                    </MDBox>
+
+                    {opportunityData.total_value ? (
+                      <MDBox
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          fontSize: { xs: 12, md: 13 },
+                          color: "#ffffff",
+                        }}
+                      >
+                        <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                          person_pin
+                        </Icon>
+                        Seats number : {opportunityData.seats_number}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                    {opportunityData.equity_commitment ? (
+                      <MDBox sx={{ display: "flex", gap: 1 }}>
+                        <MDBox
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+
+
+                            fontSize: { xs: 12, md: 13 },
+                            color: "#ffffff",
+                          }}
+                        >
+                          <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                            euro
+                          </Icon>
+                          Invested amount : {opportunityData.invested_amount}
+                        </MDBox>
+                        {opportunityData.investor_parts ? (
+                          <MDBox
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              fontSize: { xs: 12, md: 13 },
+                              color: "#ffffff",
+                            }}
+                          >
+                            <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                              person_pin
+                            </Icon>
+                            Occupied seats : {opportunityData.occupied_seats}
+                          </MDBox>
+                        ) : (
+                          ""
+                        )}
+                      </MDBox>
+                    ) : (
+                      ""
+                    )}
+
+                  </MDBox>
+
+                </Grid>
+
               </Grid>
               <Grid item container spacing={2}>
                 <Grid
@@ -568,7 +803,6 @@ function Project({ params }) {
                               mt: 3,
                               "& .MuiTableCell-root": {
                                 px: 0,
-                                // fontSize: 15,
                               },
                             }}
                           >
@@ -629,7 +863,6 @@ function Project({ params }) {
                               mt: 3,
                               "& .MuiTableCell-root": {
                                 px: 0,
-                                // fontSize: 15,
                               },
                             }}
                           >
@@ -730,31 +963,54 @@ function Project({ params }) {
                     zIndex: 10,
                     bottom: 110,
                     display: { xs: "flex", md: "none" },
-                    // alignItems: "center",
                     justifyContent: "center",
-                    // justifyItems: "center",
                   }}
                 >
-                  <MDButton
-                    onClick={setShowAcceptForm}
-                    variant="contained"
-                    sx={{
-                      px: 10,
-                      color: colors.white.main,
-                      backgroundColor: colors.escharaThemeSecondary.main,
-                      borderRadius: 1,
+                  {opportunityData?.current_round == 1 && (
 
-                      "&:hover": {
+
+                    <MDButton
+                      onClick={setShowAcceptForm}
+                      variant="contained"
+                      sx={{
+                        px: 10,
+                        color: colors.white.main,
                         backgroundColor: colors.escharaThemeSecondary.main,
-                      },
-                      "&:focus:not(:hover)": {
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                        boxShadow: "none",
-                      },
-                    }}
-                  >
-                    ACCEPT
-                  </MDButton>
+                        borderRadius: 1,
+
+                        "&:hover": {
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                        },
+                        "&:focus:not(:hover)": {
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          boxShadow: "none",
+                        },
+                      }}
+                    >
+                      ACCEPT
+                    </MDButton>
+                  )}
+                  {opportunityData?.current_round == 2 && (
+                    <MDButton
+                      onClick={setShowSecondRoundAcceptForm}
+                      variant="contained"
+                      sx={{
+                        color: colors.white.main,
+                        backgroundColor: opportunityData.status.color,
+                        borderRadius: 1,
+
+                        "&:hover": {
+                          backgroundColor: opportunityData.status.color,
+                        },
+                        "&:focus:not(:hover)": {
+                          backgroundColor: opportunityData.status.color,
+                          boxShadow: "none",
+                        },
+                      }}
+                    >
+                      Invest more
+                    </MDButton>
+                  )}
                 </MDBox>
                 <Grid
                   order={{ xs: 1, md: 2 }}
@@ -834,6 +1090,15 @@ function Project({ params }) {
                 opportunity={opportunityData}
                 userId={session?.data?.user.id}
                 onSubmit={onSubmit}
+                onRefrech={onRefrech}
+              />
+              <PopupSecondRoundForm
+                isOpen={showSecondRoundAcceptForm}
+                setIsOpen={setShowSecondRoundAcceptForm}
+                opportunity={opportunityData}
+                userId={session?.data?.user.id}
+                onSubmit={onSecondRoundSubmit}
+                onRefrech={onRefrech}
               />
             </MDBox>
           </>

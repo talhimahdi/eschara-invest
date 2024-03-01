@@ -9,16 +9,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import MDBox from "../../../../../components/MDBox";
 import colors from "../../../../../assets/theme/base/colors";
-import { Card, Grid, Icon } from "@mui/material";
+import { Card, Grid, Icon, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Signature from "@/components/Signature";
 import CloseIcon from "@mui/icons-material/Close";
 import MDTypography from "../../../../../components/MDTypography";
 import writtenNumber from "written-number";
+import FormField from "../../../../../components/FormField";
 
-const steps = ["Informations", "Terms and conditions", "Signature"];
+const steps = ["Informations", "Invested Amount", "Terms and conditions", "Signature"];
 
-export default function PopupForm({
+export default function PopupSecondRoundForm({
   isOpen,
   setIsOpen,
   opportunity,
@@ -40,6 +41,8 @@ export default function PopupForm({
     type: "",
     data: "",
   });
+
+  const [investedAmount, setInvestedAmount] = useState(0.00);
 
   const checkRef = useRef(null);
   const textRef = useRef(null);
@@ -69,6 +72,11 @@ export default function PopupForm({
       parseInt(opportunity.equity_commitment?.replaceAll(',', '')),
       { lang: "es" }
     );
+
+  const invested_amount_words = investedAmount && writtenNumber(
+    parseInt(investedAmount?.replaceAll(',', '')),
+    { lang: "es" }
+  );
 
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -161,6 +169,36 @@ export default function PopupForm({
         );
       case 2:
         return (
+          <MDBox sx={{ width: { xs: "100%", sm: "50%" }, mx: "auto" }}>
+            <MDTypography
+              fontWeight="bold"
+              variant="h5"
+              color={"dark"}
+              pb={5}
+            // textAlign="center"
+            // mx={{ xs: 3, sm: 10 }}
+            >
+              The amount that you want to invest
+            </MDTypography>
+            <FormField
+              value={investedAmount}
+              onChange={(e) => {
+                if (/^[0-9.,\b]+$/.test(e.target.value)) {
+                  setInvestedAmount(parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'));
+                } else {
+                  setInvestedAmount(e.target.value.substring(0, e.target.value.length - 1));
+                }
+
+              }}
+              type="text"
+              label="Invested amount"
+              placeholder="0.00"
+              variant="outlined"
+            />
+          </MDBox>
+        );
+      case 3:
+        return (
           <MDBox>
             <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
               Terms and conditions
@@ -205,12 +243,13 @@ export default function PopupForm({
                   ({opportunity.id}) y denominada ({opportunity.title}) (la
                   “Oportunidad de Inversión”) . <br />
                   <br />
-                  {/* [Desde este momento manifiesto mi compromiso vinculante de
-                  invertir un monto adicional de {equity_commitment_number} €
-                  ({equity_commitment_words} euros)
+
+                  [Desde este momento manifiesto mi compromiso vinculante de
+                  invertir un monto adicional de {investedAmount} €
+                  ({invested_amount_words} euros)
                   en la Oportunidad de Inversión, en caso de que exista
                   disponibilidad después de recibir los compromisos de los demás
-                  posibles inversionistas de la Plataforma.] <br /> <br />*/}
+                  posibles inversionistas de la Plataforma.] <br /> <br />
 
                   <Typography
                     variant="p"
@@ -340,7 +379,7 @@ export default function PopupForm({
             </MDBox>
           </MDBox>
         );
-      case 3:
+      case 4:
         return (
           <MDBox>
             <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
@@ -371,12 +410,15 @@ export default function PopupForm({
 
   const handleNext = async () => {
     setIsError("");
-    // if (activeStep === 1 && !test) {
-    //   console.log("Error 1");
 
-    //   return;
-    // }
-    if (activeStep === 2 && !termsCheck) {
+    if (activeStep === 2 && investedAmount < 1) {
+      setIsError(
+        "Please enter an amount."
+      );
+
+      return;
+    }
+    if (activeStep === 3 && !termsCheck) {
       checkRef.current.scrollIntoView({ behavior: "smooth" });
       setIsError(
         "Please indicate that you have read and agree to the Terms and Conditions."
@@ -385,7 +427,7 @@ export default function PopupForm({
       return;
     }
 
-    if (activeStep === 3) {
+    if (activeStep === 4) {
       if (
         (sigCanvas?.current === null || sigCanvas?.current?.isEmpty()) &&
         signatureUploadImage?.data == ""
@@ -400,16 +442,21 @@ export default function PopupForm({
         sigCanvas?.current === null
           ? signatureUploadImage?.data
           : sigCanvas?.current?.getTrimmedCanvas().toDataURL("image/png");
+
       const data = {
         opportunityId: opportunity?.id,
-        userId: userId,
+        userId,
         signature: imageData,
-        equity_commitment_words: equity_commitment_words,
+        equity_commitment_words,
+        invested_amount_words,
+        invested_amount: investedAmount.replaceAll(",", ""),
       };
 
-      await onSubmit(data);
-      setIsError("");
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      const success = await onSubmit(data);
+      if (success) {
+        setIsError("");
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
       return;
     }
 

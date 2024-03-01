@@ -398,13 +398,11 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
                       value={formValues.total_value}
                       onChange={(e) => {
                         if (/^[0-9.,\b]+$/.test(e.target.value)) {
-                          console.log('yes');
                           setFormValues({
                             ...formValues,
                             total_value: parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en-US'),
                           });
                         } else {
-                          console.log('no');
                           setFormValues({
                             ...formValues,
                             total_value: e.target.value.substring(0, e.target.value.length - 1)
@@ -425,13 +423,11 @@ function FormEdit({ opportunity, managers = [], statuses = [] }) {
 
 
                         if (/^[0-9.,\b]+$/.test(e.target.value)) {
-                          console.log('yes');
                           setFormValues({
                             ...formValues,
                             equity_commitment: parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'),
                           });
                         } else {
-                          console.log('no');
                           setFormValues({
                             ...formValues,
                             equity_commitment: e.target.value.substring(0, e.target.value.length - 1)

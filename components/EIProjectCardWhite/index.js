@@ -72,8 +72,9 @@ function EIProjectCardWhite({
         }}
         onClick={() =>
           startTransition(async () => {
+            const status = state.name.toLowerCase().includes('second') ? "available" : state.name.toLowerCase();
             router.push(
-              "/opportunities/" + state.name.toLowerCase() + "/" + id
+              "/opportunities/" + status + "/" + id
             );
           })
         }
