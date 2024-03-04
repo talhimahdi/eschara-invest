@@ -348,7 +348,6 @@ function Project({ params }) {
                       ""
                     )}
 
-                    {/* opportunityData.calculated_ammount */}
                     {opportunityData.equity_commitment ? (
                       <MDBox
                         sx={{

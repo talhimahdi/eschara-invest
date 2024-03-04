@@ -31,7 +31,6 @@ export default function All() {
         setOpportunities(opportunitiesData.opportunities);
       } else {
         // router.push("/overview");
-        console.log(opportunitiesData);
       }
     }
     startTransition(async () => {
