@@ -486,7 +486,7 @@ function Project({ params }) {
                           </MDButton>
                         )}
 
-                        {opportunityData?.current_round == 2 && (
+                        {(opportunityData?.current_round == 2 && opportunityData.already_invested) && (
                           <MDButton
                             onClick={setShowSecondRoundAcceptForm}
                             variant="contained"
@@ -512,6 +512,7 @@ function Project({ params }) {
                           sx={{
                             display: "flex",
                             alignItems: "center",
+                            py: 1,
                             px: 2,
                             color:
                               colors.escharaThemePrimary.main + " !important",
@@ -990,7 +991,7 @@ function Project({ params }) {
                       ACCEPT
                     </MDButton>
                   )}
-                  {opportunityData?.current_round == 2 && (
+                  {(opportunityData?.current_round == 2 && opportunityData.already_invested) && (
                     <MDButton
                       onClick={setShowSecondRoundAcceptForm}
                       variant="contained"
