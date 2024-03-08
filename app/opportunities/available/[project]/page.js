@@ -297,7 +297,7 @@ function Project({ params }) {
                     ""
                   )}
 
-                  {opportunityData.investor_parts ? (
+                  {/* {opportunityData.investor_parts ? (
                     <MDBox
                       sx={{
                         display: "flex",
@@ -315,7 +315,7 @@ function Project({ params }) {
                     </MDBox>
                   ) : (
                     ""
-                  )}
+                  )} */}
                   <MDBox
                     sx={{
                       alignItems: "center",
@@ -414,7 +414,7 @@ function Project({ params }) {
                           </Icon>
                           Equity commitment : {opportunityData.equity_commitment}
                         </MDBox>
-                        {opportunityData.investor_parts ? (
+                        {/* {opportunityData.investor_parts ? (
                           <MDBox
                             sx={{
                               display: "flex",
@@ -433,7 +433,7 @@ function Project({ params }) {
                           </MDBox>
                         ) : (
                           ""
-                        )}
+                        )} */}
                       </MDBox>
                     ) : (
                       ""
@@ -464,49 +464,54 @@ function Project({ params }) {
                       </MDBox>
                     ) : (
                       <MDBox sx={{ display: "flex", gap: 2 }}>
-                        {opportunityData?.current_round == 1 && (
-                          <MDButton
-                            onClick={setShowAcceptForm}
-                            variant="contained"
-                            sx={{
-                              color: colors.white.main,
-                              backgroundColor: colors.escharaThemeSecondary.main,
-                              borderRadius: 1,
 
-                              "&:hover": {
-                                backgroundColor: colors.escharaThemeSecondary.main,
-                              },
-                              "&:focus:not(:hover)": {
-                                backgroundColor: colors.escharaThemeSecondary.main,
-                                boxShadow: "none",
-                              },
-                            }}
-                          >
-                            ACCEPT
-                          </MDButton>
-                        )}
-
-                        {(opportunityData?.current_round == 2 && opportunityData.already_invested) && (
-                          <MDButton
-                            onClick={setShowSecondRoundAcceptForm}
-                            variant="contained"
-                            sx={{
-                              color: colors.white.main,
-                              backgroundColor: opportunityData.status.color,
-                              borderRadius: 1,
-
-                              "&:hover": {
+                        {(opportunityData?.current_round == 2 && opportunityData.already_invested) ?
+                          (
+                            <MDButton
+                              onClick={setShowSecondRoundAcceptForm}
+                              disabled={parseFloat(opportunityData?.remaining_amount.replace(/,/g, '')) == 0}
+                              variant="contained"
+                              sx={{
+                                color: colors.white.main,
                                 backgroundColor: opportunityData.status.color,
-                              },
-                              "&:focus:not(:hover)": {
-                                backgroundColor: opportunityData.status.color,
-                                boxShadow: "none",
-                              },
-                            }}
-                          >
-                            Invest more
-                          </MDButton>
-                        )}
+                                borderRadius: 1,
+
+                                "&:hover": {
+                                  backgroundColor: opportunityData.status.color,
+                                },
+                                "&:focus:not(:hover)": {
+                                  backgroundColor: opportunityData.status.color,
+                                  boxShadow: "none",
+                                },
+                              }}
+                            >
+                              Invest more
+                            </MDButton>
+                          )
+                          :
+                          (
+                            <MDButton
+                              onClick={setShowAcceptForm}
+                              variant="contained"
+                              sx={{
+                                color: colors.white.main,
+                                backgroundColor: colors.escharaThemeSecondary.main,
+                                borderRadius: 1,
+
+                                "&:hover": {
+                                  backgroundColor: colors.escharaThemeSecondary.main,
+                                },
+                                "&:focus:not(:hover)": {
+                                  backgroundColor: colors.escharaThemeSecondary.main,
+                                  boxShadow: "none",
+                                },
+                              }}
+                            >
+                              ACCEPT
+                            </MDButton>
+                          )
+                        }
+
 
                         <MDBox
                           sx={{
@@ -604,7 +609,7 @@ function Project({ params }) {
                         <Icon fontSize="small" sx={{ mt: -0.25 }}>
                           person_pin
                         </Icon>
-                        Seats number : {opportunityData.seats_number}
+                        Number of seats : {opportunityData.seats_number}
                       </MDBox>
                     ) : (
                       ""
@@ -700,7 +705,7 @@ function Project({ params }) {
                         <Icon fontSize="small" sx={{ mt: -0.25 }}>
                           person_pin
                         </Icon>
-                        Seats number : {opportunityData.seats_number}
+                        Number of seats : {opportunityData.seats_number}
                       </MDBox>
                     ) : (
                       ""
@@ -967,33 +972,11 @@ function Project({ params }) {
                     justifyContent: "center",
                   }}
                 >
-                  {opportunityData?.current_round == 1 && (
 
-
-                    <MDButton
-                      onClick={setShowAcceptForm}
-                      variant="contained"
-                      sx={{
-                        px: 10,
-                        color: colors.white.main,
-                        backgroundColor: colors.escharaThemeSecondary.main,
-                        borderRadius: 1,
-
-                        "&:hover": {
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                        },
-                        "&:focus:not(:hover)": {
-                          backgroundColor: colors.escharaThemeSecondary.main,
-                          boxShadow: "none",
-                        },
-                      }}
-                    >
-                      ACCEPT
-                    </MDButton>
-                  )}
-                  {(opportunityData?.current_round == 2 && opportunityData.already_invested) && (
+                  {(opportunityData?.current_round == 2 && opportunityData.already_invested) ? (
                     <MDButton
                       onClick={setShowSecondRoundAcceptForm}
+                      disabled={parseFloat(opportunityData?.remaining_amount.replace(/,/g, '')) == 0}
                       variant="contained"
                       sx={{
                         color: colors.white.main,
@@ -1011,7 +994,33 @@ function Project({ params }) {
                     >
                       Invest more
                     </MDButton>
-                  )}
+                  )
+                    :
+                    (
+                      <MDButton
+                        onClick={setShowAcceptForm}
+                        variant="contained"
+                        sx={{
+                          px: 10,
+                          color: colors.white.main,
+                          backgroundColor: colors.escharaThemeSecondary.main,
+                          borderRadius: 1,
+
+                          "&:hover": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                          },
+                          "&:focus:not(:hover)": {
+                            backgroundColor: colors.escharaThemeSecondary.main,
+                            boxShadow: "none",
+                          },
+                        }}
+                      >
+                        ACCEPT
+                      </MDButton>
+                    )
+                  }
+
+
                 </MDBox>
                 <Grid
                   order={{ xs: 1, md: 2 }}

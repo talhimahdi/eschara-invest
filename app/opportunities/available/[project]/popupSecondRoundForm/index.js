@@ -17,7 +17,7 @@ import MDTypography from "../../../../../components/MDTypography";
 import writtenNumber from "written-number";
 import FormField from "../../../../../components/FormField";
 
-const steps = ["Informations", "Invested Amount", "Terms and conditions", "Signature"];
+const steps = ["Invested Amount", "Terms and conditions", "Signature"];
 
 export default function PopupSecondRoundForm({
   isOpen,
@@ -106,7 +106,7 @@ export default function PopupSecondRoundForm({
                   fontWeight="regular"
                   color="secondary"
                   // textAlign="center"
-                  mt={3}
+                  mt={1}
                 >
                   {opportunity.id ? "#" + opportunity.id : ""}
                 </MDTypography>
@@ -127,77 +127,84 @@ export default function PopupSecondRoundForm({
                 </Icon>
                 Expiration date : {opportunity.expiration_date}
               </MDBox>
-              {opportunity.equity_commitment ? (
-                <MDBox
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 1,
-                    fontSize: { xs: 12, md: 16 },
-                    // color: "#ffffff",
-                  }}
-                >
 
-                  <MDBox sx={{ display: "flex", alignItems: "center" }}>
-                    <Icon fontSize="small">
-                      euro
-                    </Icon>
-                    Soft commitment : {
-                      opportunity.investor_parts > 0 ?
-                        <MDBox sx={{ display: "flex", alignItems: "center", ml: 1, gap: 1 }}>
-                          {
-                            parseFloat(parseFloat(opportunity.equity_commitment?.replaceAll(',', '') * opportunity.investor_parts).toFixed(2).replace(/,/g, '')).toLocaleString('en')
-                          }
-                          <MDBox sx={{ fontSize: 12, }}>({opportunity.investor_parts} parts)</MDBox>
-                        </MDBox>
+              <MDBox
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 1,
+                  fontSize: { xs: 12, md: 16 },
+                  // color: "#ffffff",
+                }}
+              >
 
-                        :
-
-                        <MDBox sx={{ fontSize: 12, }}>{opportunity.equity_commitment} (no parts)</MDBox>
-                    }
-                  </MDBox>
-
-
-
+                <MDBox sx={{ display: "flex", alignItems: "center" }}>
+                  <Icon fontSize="small">
+                    euro
+                  </Icon>
+                  Remaining amount : {opportunity?.remaining_amount}
                 </MDBox>
-              ) : (
-                ""
-              )}
+
+
+
+              </MDBox>
+
+              <MDBox
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 1,
+                  fontSize: { xs: 12, md: 16 },
+                  // color: "#ffffff",
+                }}
+              >
+
+                <MDBox sx={{}}>
+                  <MDTypography
+                    fontWeight="bold"
+                    variant="h5"
+                    color={"dark"}
+                    pb={3}
+                    sx={{ fontSize: { xs: 12, md: 16 }, }}
+                  // textAlign="center"
+                  // mx={{ xs: 3, sm: 10 }}
+                  >
+                    The amount that you want to invest
+                  </MDTypography>
+                  <FormField
+                    disabled={parseFloat(opportunity?.remaining_amount.replace(/,/g, '')) == 0}
+                    value={investedAmount}
+                    onChange={(e) => {
+                      if (parseFloat(e.target.value.replace(/,/g, '')) <= parseFloat(opportunity?.remaining_amount.replace(/,/g, ''))) {
+                        setIsError("");
+                        if (/^[0-9.,\b]+$/.test(e.target.value)) {
+                          setInvestedAmount(parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'));
+                        } else {
+                          setInvestedAmount(e.target.value.substring(0, e.target.value.length - 1));
+                        }
+                      }
+                      else {
+                        setIsError("The amount must not be greater than the Remaining amount.");
+                      }
+
+                    }}
+                    type="text"
+                    label="Invested amount €"
+                    placeholder="0.00"
+                    variant="outlined"
+                  />
+                </MDBox>
+
+
+
+              </MDBox>
+
             </Grid>
           </MDBox>
         );
       case 2:
-        return (
-          <MDBox sx={{ width: { xs: "100%", sm: "50%" }, mx: "auto" }}>
-            <MDTypography
-              fontWeight="bold"
-              variant="h5"
-              color={"dark"}
-              pb={5}
-            // textAlign="center"
-            // mx={{ xs: 3, sm: 10 }}
-            >
-              The amount that you want to invest
-            </MDTypography>
-            <FormField
-              value={investedAmount}
-              onChange={(e) => {
-                if (/^[0-9.,\b]+$/.test(e.target.value)) {
-                  setInvestedAmount(parseFloat(e.target.value.replace(/,/g, '')).toLocaleString('en'));
-                } else {
-                  setInvestedAmount(e.target.value.substring(0, e.target.value.length - 1));
-                }
-
-              }}
-              type="text"
-              label="Invested amount"
-              placeholder="0.00"
-              variant="outlined"
-            />
-          </MDBox>
-        );
-      case 3:
         return (
           <MDBox>
             <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
@@ -232,24 +239,25 @@ export default function PopupSecondRoundForm({
                   COMMITMENT CONFIRMATION FOR EACH INDIVIDUAL INVESTMENT
                 </Typography>
                 <Typography variant="p" sx={{ fontSize: 13 }}>
-                  Confirmo mi compromiso vinculante de invertir{" "}
-                  {equity_commitment_number} €{" "}
-                  {
-                    opportunity.investor_parts && <>({opportunity.investor_parts} parts) </>
-                  }
 
-                  ({equity_commitment_words} euros)
-                  en a la Oportunidad de Inversión marcada con el número
-                  ({opportunity.id}) y denominada ({opportunity.title}) (la
-                  “Oportunidad de Inversión”) . <br />
-                  <br />
+                  Hago referencia a la plataforma de inversión denominada Eschara Invest
+                  (la “Plataforma”) y (i) a su comunicación relativa a la Oportunidad de Inversión
+                  marcada con el número {opportunity.id} y denominada {opportunity.title} (la “Oportunidad de Inversión”),
+                  enviada y recibida por el suscrito. Hago referencia también a mi
+                  comunicación de fecha de {new Date().toISOString().slice(0, 10)}, a través de la cual confirmé mi compromiso
+                  vinculante de invertir {investedAmount}€ ({invested_amount_words} euros) en la Oportunidad de Inversión.
+                  <br /><br />
+                  Por este medio manifiesto mi compromiso vinculante de invertir un monto adicional de {investedAmount}€ ({invested_amount_words} euros) o el monto menor
+                  que me sea asignado para la Oportunidad de Inversión.
 
-                  [Desde este momento manifiesto mi compromiso vinculante de
+                  <br /><br />
+
+                  Desde este momento manifiesto mi compromiso vinculante de
                   invertir un monto adicional de {investedAmount} €
                   ({invested_amount_words} euros)
                   en la Oportunidad de Inversión, en caso de que exista
                   disponibilidad después de recibir los compromisos de los demás
-                  posibles inversionistas de la Plataforma.] <br /> <br />
+                  posibles inversionistas de la Plataforma. <br /> <br />
 
                   <Typography
                     variant="p"
@@ -379,7 +387,7 @@ export default function PopupSecondRoundForm({
             </MDBox>
           </MDBox>
         );
-      case 4:
+      case 3:
         return (
           <MDBox>
             <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
@@ -411,14 +419,14 @@ export default function PopupSecondRoundForm({
   const handleNext = async () => {
     setIsError("");
 
-    if (activeStep === 2 && investedAmount < 1) {
+    if (activeStep === 1 && investedAmount < 1) {
       setIsError(
         "Please enter an amount."
       );
 
       return;
     }
-    if (activeStep === 3 && !termsCheck) {
+    if (activeStep === 2 && !termsCheck) {
       checkRef.current.scrollIntoView({ behavior: "smooth" });
       setIsError(
         "Please indicate that you have read and agree to the Terms and Conditions."
@@ -427,7 +435,7 @@ export default function PopupSecondRoundForm({
       return;
     }
 
-    if (activeStep === 4) {
+    if (activeStep === 3) {
       if (
         (sigCanvas?.current === null || sigCanvas?.current?.isEmpty()) &&
         signatureUploadImage?.data == ""
