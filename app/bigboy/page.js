@@ -305,13 +305,12 @@ export default function Bigboy() {
                   >
                     task_alt
                   </Icon>
-                  <Typography sx={{ mt: 2, textAlign: "center", fontSize: 16 }}>
+                  <Typography sx={{ mt: 2, textAlign: "center", fontSize: 20 }}>
                     Thank you for your support.
                   </Typography>
-                  {/* <Typography sx={{ mb: 1, textAlign: "center", fontSize: 16 }}>
-                    The asset manager has been informed and a confirmation email
-                    has been sent to you.
-                  </Typography> */}
+                  <Typography sx={{ mt: 1, textAlign: "center", fontSize: 16 }}>
+                    Thank for your signature. You can now access the app.
+                  </Typography>
                   <MDBox sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                     <MDBox sx={{ flex: "1 1 auto", textAlign: "center" }}>
                       {isError && (
